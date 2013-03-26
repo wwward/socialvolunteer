@@ -7,8 +7,10 @@ CREATE TABLE Organization(id VARCHAR(30), name VARCHAR(60), phone
 VARCHAR(15), location VARCHAR(60), reputation SMALLINT);
 CREATE TABLE Job(id VARCHAR(30), organization_id VARCHAR(30), event_date
 DATE, score_value SMALLINT, committed VARCHAR(30), completed
-VARCHAR(30));
+VARCHAR(30),description VARCHAR(255));
+CREATE TABLE Keyword(keyword VARCHAR(30), reference_id VARCHAR(30));
 -- Two simple indexes to shorten lookup times
 CREATE INDEX Idx_volunteer ON Volunteer (location);
 CREATE INDEX Idx_organization ON Organization (location);
+CREATE INDEX Idx_keyword ON Keyword (keyword);
 

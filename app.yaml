@@ -4,7 +4,7 @@ api_version: 1
 runtime: python 
 
 handlers:
-- url: /
+- url: /browse
   script: socialvolunteer/handler/browse_handler.py
 - url: /org
   script: socialvolunteer/handler/org_handler.py
@@ -12,3 +12,5 @@ handlers:
   script: socialvolunteer/handler/vol_handler.py  
 - url: /login
   script: socialvolunteer/handler/auth_handler.py
+- url: /
+  static_dir: web

@@ -17,6 +17,8 @@ class Organization(object):
         self.db.update(self.CREATE_ORGANIZATION, kw)
         return True;
     
-    
+if __name__ == "__main__":
+    org = Organization()
+    org.create_new(id="1", name="test", phone="test", location="test", description="test")
 
         

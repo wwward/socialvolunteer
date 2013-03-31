@@ -1,0 +1,21 @@
+<html>
+   <head><title>Social Volunteering</title></head>
+   <body>
+   <p>Enter your information!!</p>
+   <p><i>TODO: CHECK DATA FOR CORRECTNESS AND DUPLICATES AND PASSWORD MATCH</i></p>
+   
+   <form action="auth" method="post">
+      Organization Name: <input type="text" name="name" width="50"/></br>
+      Phone: <input type="text" name="phone" width="50"/></br>
+      Location: <input type="text" name="location" width="50"/></br> 
+      Description of mission: <input type="textarea" name="description""/></br> 
+           
+      Password: <input type="password" name="password1"/></br>
+      Password again: <input type="password" name="password2"/></br>
+      <input type="hidden" value="new_organization"/>
+      <input type="submit"/>
+   </form>
+   
+   
+   </body>
+</html>

@@ -1,0 +1,14 @@
+application: socialvolunteernet
+version: 1
+api_version: 1
+runtime: python 
+
+handlers:
+- url: browse*
+  script: groupwork/handler/browse_handler.py
+- url: org*
+  script: groupwork/handler/org_handler.py
+- url: vol*
+  script: groupwork/handler/vol_handler.py  
+- url: *
+  script: groupwork/handler/auth_handler.py

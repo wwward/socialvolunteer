@@ -1,10 +1,7 @@
-'''
-Created on Mar 29, 2013
+from google.appengine.ext import webapp
+import wsgiref.handlers
 
-@author: miria
-'''
-
-class BrowseController(object):
+class BrowseHandler(webapp.RequestHandler):
     '''
     classdocs
     '''
@@ -15,3 +12,9 @@ class BrowseController(object):
         Constructor
         '''
         
+def main():
+    app = webapp.WSGIApplication([('browse', BrowseHandler)], debug=True)
+    wsgiref.handlers.CGIHandler().run(app) 
+    
+if __name__ == "__main__":
+    main()

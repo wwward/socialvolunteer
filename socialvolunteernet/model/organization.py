@@ -2,7 +2,7 @@ from socialvolunteernet.model.database import GoogleCloudSQLStore
 
 class Organization(object):
 
-    def __init__(self, params):
+    def __init__(self):
         self.db = GoogleCloudSQLStore()
     
     CREATE_ORGANIZATION = """
@@ -16,9 +16,6 @@ class Organization(object):
                 return False
         self.db.update(self.CREATE_ORGANIZATION, kw)
         return True;
-    
-if __name__ == "__main__":
-    org = Organization()
-    org.create_new(id="1", name="test", phone="test", location="test", description="test")
+
 
         

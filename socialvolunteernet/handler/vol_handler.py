@@ -15,7 +15,7 @@ class VolunteerHandler(webapp.RequestHandler):
         pass
     
 def main():
-    app = webapp.WSGIApplication(['vol*', VolunteerHandler], debug=True)
+    app = webapp.WSGIApplication([('vol', VolunteerHandler)], debug=True)
     wsgiref.handlers.CGIHandler().run(app) 
     
 if __name__ == "__main__":

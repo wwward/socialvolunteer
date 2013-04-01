@@ -1,10 +1,7 @@
-'''
-Created on Mar 29, 2013
+from google.appengine.ext import webapp
+import wsgiref.handlers
 
-@author: miria
-'''
-
-class AuthenticationController(object):
+class AuthenticationHandler(webapp.RequestHandler):
     '''
     classdocs
     '''
@@ -15,3 +12,9 @@ class AuthenticationController(object):
         Constructor
         '''
         
+def main():
+    app = webapp.WSGIApplication([('login', AuthenticationHandler)], debug=True)
+    wsgiref.handlers.CGIHandler().run(app) 
+    
+if __name__ == "__main__":
+    main()

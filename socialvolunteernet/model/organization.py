@@ -1,4 +1,5 @@
 from socialvolunteernet.model.database import GoogleCloudSQLStore
+import logging 
 
 class Organization(object):
 
@@ -12,7 +13,7 @@ class Organization(object):
     def create_new(self, **kw):
         for key in ('id', 'name', 'phone', 'location', 'description'):
             if not key in kw:
-                print 'Cannot create organization - missing field %s' % key
+                logging.error('Cannot create organization - missing field %s' % key)
                 return False
         self.db.update(self.CREATE_ORGANIZATION, kw)
         return True;

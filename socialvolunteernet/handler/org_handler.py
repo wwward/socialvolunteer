@@ -45,7 +45,10 @@ class OrganizationHandler(webapp.RequestHandler):
         
         org = Organization()
         success = org.create_new(**params)
-        logging.debug("Adding new organization (success=%s) : %s" %(repr(success), repr(params)))
+        if not success:
+            logging.error("Error adding new organization: %s" % repr(params))
+        else:    
+            logging.debug("Adding new organization: %s" % repr(params))
 
         return (success, params)
         

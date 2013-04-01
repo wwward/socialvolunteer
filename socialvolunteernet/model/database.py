@@ -3,7 +3,7 @@ from google.appengine.api import rdbms
 class GoogleCloudSQLStore(object):
 
     def __init__(self):
-        INSTANCE_NAME="groupwerk"
+        INSTANCE_NAME="groupwerk:volunteerdb"
         DATABASE="volunteerdb"
         self._conn = rdbms.connect(instance=INSTANCE_NAME, database=DATABASE)
         

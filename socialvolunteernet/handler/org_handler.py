@@ -4,7 +4,7 @@ from socialvolunteernet.model.organization import Organization
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 import wsgiref.handlers
-
+import time
 
 
 class OrganizationHandler(webapp.RequestHandler):
@@ -29,7 +29,8 @@ class OrganizationHandler(webapp.RequestHandler):
             
     def create_organization(self):
         params = {'error' : False,
-                  'missing': []}
+                  'missing': [],
+                  'id': str(int(time.time()))}
         self.parse_param('name', self.request.get('name'), params)
         self.parse_param('phone', self.request.get('phone'), params)
         self.parse_param('location', self.request.get('location'), params)

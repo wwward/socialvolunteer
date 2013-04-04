@@ -13,3 +13,5 @@ handlers:
   script: socialvolunteernet/handler/vol_handler.py  
 - url: /login
   script: socialvolunteernet/handler/auth_handler.py
+- url: /
+  static_dirs: web

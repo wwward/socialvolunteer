@@ -26,3 +26,33 @@ class Volunteer(object):
     """
     def get_volunteer_by_username(self, username):
         return self.db.select(self.SELECT_BY_USERNAME, {"username": username})
+    
+    def add_friend(self, volunteer_id, friend_volunteer_id):
+        pass
+    
+    def remove_friend(self, volunteer_id, friend_volunteer_id):
+        pass
+    
+    def get_friends(self, volunteer_id):
+        pass
+    
+    def get_score(self, volunteer_id):
+        pass
+    
+    def get_friend_score(self, volunteer_id):
+        pass
+    
+    def get_global_scores(self):
+        pass
+    
+    def get_friend_activity(self, volunteer_id):
+        pass
+    
+    def get_completed_jobs(self, volunteer_id):
+        pass
+    
+    def get_current_jobs(self, volunteer_id):
+        pass
+    
+    def get_future_jobs(self, volunteer_id):
+        pass

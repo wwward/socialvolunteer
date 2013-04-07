@@ -51,6 +51,9 @@ class OrganizationHandler(webapp.RequestHandler):
             logging.debug("Adding new organization: %s" % repr(params))
 
         return (success, params)
+    
+    def get_organization_portal(self):
+        pass
         
     def parse_param(self, name, value, params):
         params[name] = value

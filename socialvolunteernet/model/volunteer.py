@@ -1,11 +1,10 @@
 
 import logging
 
-from google.appengine.ext import db
 from socialvolunteernet.model.database import GoogleCloudSQLStore
 
 
-class Volunteer(db.Model):
+class Volunteer(object):
 
     def __init__(self):
         self.db = GoogleCloudSQLStore()
@@ -20,7 +19,7 @@ class Volunteer(db.Model):
                 logging.error('Cannot create volunteer - missing field %s' % key)
                 return False
         self.db.update(self.CREATE_VOLUNTEER, kw)
-        return True;
+        return True
 
     SELECT_BY_USERNAME = """
         SELECT * FROM Volunteer WHERE username = %(username)s

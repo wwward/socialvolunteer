@@ -50,6 +50,9 @@ class VolunteerHandler(webapp.RequestHandler):
             logging.debug("Adding new volunteer: %s" % repr(params))
 
         return (success, params)
+
+    def get_volunteer_portal(self):
+        pass
         
     def parse_param(self, name, value, params):
         params[name] = value

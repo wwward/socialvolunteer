@@ -67,6 +67,10 @@ class Volunteer(object):
     def get_future_jobs(self, volunteer_id):
         pass
     
+    # Get volunteer information based on a volunteer_id
+    def get_info(self, volunteer_id):
+        pass
+    
     # Edit user details, the modified fields are in the kw dictionary
     def edit_volunteer_data(self, **kw):
         pass

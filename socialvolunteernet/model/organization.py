@@ -38,6 +38,10 @@ class Organization(object):
     def get_completed_jobs(self, organization_id):
         pass
     
+    # Get info about a given organization id
+    def get_info(self, organization_id):
+        pass
+    
     # Delete a listed job
     def delete_job(self, organization_id, job_id):
         pass

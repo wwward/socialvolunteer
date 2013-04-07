@@ -1,6 +1,6 @@
 -- For SQLite3
 -- www3 - Mar 26, 0:20
-CREATE DATABASE IF NOT EXISTS groupwerk;
+CREATE DATABASE IF NOT EXISTS volunteerdb;
 CREATE TABLE Volunteer(id VARCHAR(30), name VARCHAR(60), phone
 VARCHAR(15), location VARCHAR(60), friends VARCHAR(30), total_score
 SMALLINT, reputation SMALLINT, username VARCHAR(30));

@@ -1,7 +1,69 @@
 <html>
-<head></head>
+<head><title>Social Volunteering - Volunteers</title></head>
 <!-- This is the volunteer portal page. It will display:
     volunteer info, score, friend feed, upcoming commitments, 
     friend leaderboard, global leaderboard -->
-<body></body>
+<body>
+<h1>THIS IS A LOGO</h1>
+Welcome, {{ name }} Score = {{ score }}</br>
+<a href="edit_volunteer.html"> Edit your profile</a>
+
+<div name="friends">
+Your friends:
+<table>
+{% for f in friends %}
+   <tr>
+      <td> {{ f["name"] }} </td>
+   </tr>
+{% endfor %}
+</table>
+<a href="friends.html">Manage your friends</a>
+</div>
+
+<div name="fleader">
+Friend leaderboard:
+<table>
+{% for f in friend_leaderboard %}
+   <tr>
+      <td> {{ f["name"] }} </td><td> {{ f["score"] }} </td>
+   </tr>
+{% endfor %}
+</table>
+</div>
+
+<div name="gleader">
+Global leaderboard:
+<table>
+{% for f in global_leaderboard %}
+   <tr>
+      <td> {{ f["name"] }} </td><td> {{ f["score"] }} </td>
+   </tr>
+{% endfor %}
+</table>
+</div>
+
+<div name="upcoming">
+View your upcoming jobs:
+<table>
+{% for f in upcoming_jobs %}
+   <tr>
+      <td> {{ f["name"] }} </td><td> {{ f["date"] }} </td>
+   </tr>
+{% endfor %}
+</table>
+<a href="volunteer_jobs.html">Manage your jobs</a>
+</div>
+
+<div name="feed">
+User feed:
+{% for u in user_feed %}
+   <tr>
+      <td> {{ u["name"] }} </td><td> {{ u["description"] }} </td>
+   </tr>
+{% endfor %}
+</div>
+
+
+
+</body>
 </html>

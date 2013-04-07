@@ -53,7 +53,9 @@ class OrganizationHandler(webapp.RequestHandler):
         return (success, params)
     
     def get_organization_portal(self):
-        pass
+        data = []
+        org = Organization()
+        data["score"] = org.get_score()
         
     def parse_param(self, name, value, params):
         params[name] = value

@@ -51,8 +51,26 @@ class VolunteerHandler(webapp.RequestHandler):
 
         return (success, params)
 
-    def get_volunteer_portal(self):
+    def get_volunteer_portal(self, volunteer_id):
+        vol = Volunteer()
+        
+        data = {}
+        data['friends'] =  vol.get_friends(volunteer_id)
+        data['score'] = vol.get_score(volunteer_id)
+        data['friend_scores'] = vol.get_friend_score(volunteer_id)
+        data['global_scores'] = vol.get_global_scores()
+        data['friend_activity'] = vol.get_friend_activity(volunteer_id)
+        data['current_jobs'] = vol.get_current_jobs(volunteer_id)
+        data['future_jobs'] = vol.get_current_jobs(volunteer_id)
+        
+        return data
+    
+    def get_job_display(self, volunteer_id):
         pass
+    
+    def get_friend_display(self,volunteer_id):
+        pass
+    
         
     def parse_param(self, name, value, params):
         params[name] = value

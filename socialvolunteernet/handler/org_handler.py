@@ -57,6 +57,18 @@ class OrganizationHandler(webapp.RequestHandler):
         org = Organization()
         data["score"] = org.get_score()
         
+        
+    def get_job_display(self):
+        pass
+    
+    def volunteer_complete(self, volunteer_id):
+        pass
+
+    def add_job(self):
+        pass
+    
+    
+        
     def parse_param(self, name, value, params):
         params[name] = value
         if not name:

@@ -14,6 +14,10 @@ class AuthenticationHandler(webapp.RequestHandler):
     def __init__(self, params):
         pass
     
+    def get(self):
+        logging.error("GET METHOD NOT SUPPORTED")
+        raise Exception("GET METHOD NOT SUPPORTED")
+    
     def post(self):
         action = self.request.get('action')
         logging.debug("Received POST request, action="+action)

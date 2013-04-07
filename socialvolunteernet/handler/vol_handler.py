@@ -9,21 +9,22 @@ from socialvolunteernet.model.volunteer import Volunteer
 class VolunteerHandler(webapp.RequestHandler):
         
     def get(self):
-        logging.debug("Forwarding GET request to POST request")
-        self.post()
+        logging.error("GET METHOD NOT SUPPORTED")
+        raise Exception("GET METHOD NOT SUPPORTED")
     
     def post(self):
         action = self.request.get('action')
         logging.debug("Received POST request, action="+action)
         if not action:
             self.response.out.write(str(template.render("web/signup_volunteer.html", {})))
-        if action.lower() == 'new_volunteer':
-            (success, params) = self.create_volunteer()
-            if (success):
-                params['type'] = 'volunteer'
-                self.response.out.write(str(template.render("web/success.html", params)))
-            else: 
-                self.response.out.write(str(template.render("web/signup_volunteer.html", params)))
+        if action.lower() == 'delete_jobs':
+            pass
+        elif action.lower() == 'delete_friends':
+            pass
+        elif action.lower() == 'edit_volunteer':
+            pass
+        elif action.lower() == 'portal':
+            pass
                 
 
     def get_volunteer_portal(self, volunteer_id):

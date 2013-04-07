@@ -1,5 +1,21 @@
 <html>
 <head><title>Social Volunteering</title></head>
 <!-- This is a confirmation page that the account was created -->
-<body>SUCCESS! Your {{ type }} account for {{ name }} was created</body>
+<body>SUCCESS! Your {{ type }} account for {{ name }} was created!<br>
+
+{% if type == "organization" %}
+<form action="org" method="post">
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="View your homepage" />
+</form>
+{% elif type == "volunteer" %}
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="View your homepage" />
+</form>
+{% endif %}
+
+</body>
 </html>

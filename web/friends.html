@@ -1,5 +1,24 @@
 <html>
 <head></head>
 <!-- Friend management page for a volunteer -->
-<body></body>
+<body>
+
+Your friends:
+
+<form action="volunteer" method="get">
+<table>
+{% for f in friends %}
+<tr>
+	<td><input type="checkbox" name="friend_id" value="{{ f['volunteer_ID'] }}" /></td>
+	<td>{{ f["name"] }}</td>
+</tr>
+{% endfor %}
+
+</table>
+<input type="hidden" name="action" value="delete_friends" />
+<input type="submit" value="Delete Selected Friends" />
+</form>
+
+
+</body>
 </html>

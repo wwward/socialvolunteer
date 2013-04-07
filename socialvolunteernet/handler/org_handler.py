@@ -14,17 +14,20 @@ class OrganizationHandler(webapp.RequestHandler):
         logging.debug("Received POST request, action="+action)
         if not action:
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
-        if action.lower() == 'new_organization':
-            (success, params) = self.create_organization()
-            if (success):
-                params['type'] = 'organization'
-                self.response.out.write(str(template.render("web/success.html", params)))
-            else: 
-                self.response.out.write(str(template.render("web/signup_organization.html", params)))
+        if action.lower() == "complete_volunteers":
+            pass
+        elif action.lower() == "delete_jobs":
+            pass
+        elif action.lower() == "cancel_volunteer":
+            pass
+        elif action.lower() == "new_job":
+            pass
+        elif action.lower() == "edit_job":
+            pass
                 
     def get(self):
-        logging.debug("Forwarding GET request to POST request")
-        self.post()
+        logging.error("GET METHOD NOT SUPPORTED")
+        raise Exception("GET METHOD NOT SUPPORTED")
             
 
     

@@ -4,5 +4,70 @@
     organization info, number of jobs completed, a summary of pending completions
     currently posted jobs, and upcoming committments -->
 
-<body></body>
+<body>
+<h3>Jobs to review:</h3>
+<table>
+<form action="org" method="post">
+{% for j in current_commitments %}
+<tr>
+<td><input type="checkbox" name="completed" value="{{ j['job_id'] }},{{ j['volunteer_id'] }}" /></td>
+<td>{{ j["volunteer_name"] }}</td><td>{{ j["job_name"]</td><td>{{ j["job_date"] }}</td>
+</tr>
+<!--  TODO: Maybe there is a separate job page - commitments.html -->
+
+{% endfor %}
+</table>
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="complete_volunteers" />
+<input type="submit" value="Mark the selected commitments as complete" />
+</form>
+
+<h3>Currently posted jobs</h3>
+<form>
+<table>	
+{% for j in current_jobs %}
+<tr>
+<td><input type="checkbox" name="job_id" value="{{ j['job_id'] }}" /></td>
+<td>{{ j["volunteer_name"] }}</td><td>{{ j["name"]</td><td>{{ j["date"] }}</td><td><a href="edit_job.html">Edit...</a></td>
+</tr>
+
+{% endfor %}
+</table>
+
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="delete_job" />
+<input type="submit" value="Delete selected jobs" />
+
+</form>
+<a href="create_job.html">Create new job</a>
+
+<h3>Upcoming commitments</h3>
+<form>
+<table>	
+{% for j in upcoming_commitments %}
+<tr>
+<td><input type="checkbox" name="volunteer_id" value="{{ j['volunteer_id'] }}" /></td>
+<td>{{ j["username"] }}</td><td>{{ j["name"]</td><td>{{ j["location"] }}</td>
+</tr>
+
+{% endfor %}
+</table>
+
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="cancel_volunteer" />
+<input type="submit" value="Cancel selected volunteers" />
+
+</form>
+
+
+<h3>Completed jobs</h3>
+<table>	
+{% for j in completed_jobs %}
+<tr>
+<td>{{ j["job_id"] }}</td><td>{{ j["name"]</td><td>{{ j["date"] }}</td>{{ j["description"] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
 </html>

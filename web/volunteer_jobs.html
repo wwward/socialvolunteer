@@ -2,5 +2,44 @@
 <head></head>
 <!-- This is the volunteer jobs view. It allows them to view past, present and future jobs 
  as well as uncommit to a future job -->
-<body></body>
+<body>
+
+<div name="upcoming_jobs">
+Upcoming jobs:
+<form action="volunteer" method="post">
+<table>
+{% for p in upcoming_jobs %}
+<tr>
+	<td><input type="checkbox" name="cancel_job" value="{{ job_id }}" /></td><td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+</tr>
+{% endfor %}
+</table>
+<input type="hidden" name="action" value="delete_jobs" />
+<input type="submit" value="Delete selected jobs" />
+</form>
+</div>
+
+<div name="current_jobs">
+Current jobs:
+<table>
+{% for p in current_jobs %}
+<tr>
+	<td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+<div name="past_jobs">
+Past jobs:
+<table>
+{% for p in past_jobs %}
+<tr>
+	<td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
+
+</body>
 </html>

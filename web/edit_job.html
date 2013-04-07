@@ -1,0 +1,33 @@
+<html>
+<head></head>
+<!-- This page is used to edit an existing job -->
+<body>
+
+Editing volunteer information for {{ job_id }}
+<form action="org" method="post">
+<input type="hidden" name="job_id" value="{{ job_id }}" />
+<input type="hidden" name="organization_id" value="{{ organization_id }}"/>
+
+<input type="hidden" name="action" value="edit_job" />
+
+
+   <table>
+      <tr>
+      	<td>Title: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
+      <tr>
+      	<td>Time: </td><td><input type="text" name="time" value="{{ time }}"  width="50"/></td></tr>
+      <tr>
+      	<td>Date: </td><td><input type="text" name="date" value="{{ date }}" width="50"/></td></tr>  
+      </table>     
+      <tr>
+      	<td>Description: </td><td><input type="textarea" name="description" value="{{ description }}" width="50"/></td></tr>  
+      </table>
+      </br></br>
+
+
+      <input type="submit" value="Edit job"/>
+</form>
+
+
+</body>
+</html>

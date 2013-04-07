@@ -78,29 +78,54 @@ class Volunteer(object):
         pass
     
     # Returns a list of jobs that I have completed
+    GET_COMPLETED_JOBS = """
+        SELECT Job.description FROM Job,Job_volunteer 
+        WHERE Job.id = Job_volunteer.job_id
+        AND Job_volunteer.volunteer_id = %(volunteer_id)s
+        AND Job_volunteer.completed = 1
+    """
     def get_completed_jobs(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_COMPLETED_JOBS, {"volunteer_id": volunteer_id})
     
     # Returns a list of jobs that are in progress (e.g. I have been checked in but not checked out)
+    # www3 - To be implemented
     def get_current_jobs(self, volunteer_id):
         pass
     
     # Returns a list of the jobs that I have signed up for but not started
+    GET_COMMITTED_JOBS = """
+        SELECT Job.description FROM Job,Job_volunteer 
+        WHERE Job.id = Job_volunteer.job_id
+        AND Job_volunteer.volunteer_id = %(volunteer_id)s
+        AND Job_volunteer.committed = 1
+        AND Job_volunteer.completed = 0
+    """
     def get_future_jobs(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_COMMITTED_JOBS, {"volunteer_id": volunteer_id})
     
     # Get volunteer information based on a volunteer_id
+    GET_INFO = """
+        SELECT * FROM Volunteer WHERE id = %(volunteer_id)s
+    """
     def get_info(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_INFO, {"volunteer_id": volunteer_id})
     
     # Edit user details, the modified fields are in the kw dictionary
+    # www3 - to be implemented
     def edit_volunteer_data(self, **kw):
         pass
     
     # Sign up for a new job
+    ADD_JOB = """
+        INSERT INTO Job_volunteer VALUES (%(job_id)s,%(volunteer_id)s,0,0);
+    """
     def add_job(self, volunteer_id, job_id):
-        pass
+        return self.db.select(self.ADD_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})
     
     # Delete a job. Note that you cannot delete things that you have been checked in or completed
+    DELETE_JOB = """
+        DELETE FROM Job_volunteer WHERE volunteer_id = %(volunteer_id)s
+        AND completed = 0
+    """
     def delete_job(self, volunteer_id, job_id):
-        pass
+        return self.db.select(self.DELETE_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})

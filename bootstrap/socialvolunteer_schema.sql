@@ -10,7 +10,7 @@ DATE, event_time TIME, event_duration_minutes SMALLINT, score_value SMALLINT, de
 CREATE TABLE Keyword(keyword VARCHAR(30), reference_id VARCHAR(30));
 CREATE TABLE Friends(id VARCHAR(30), friend_id VARCHAR(30));
 CREATE TABLE Score(id VARCHAR(30), job_id VARCHAR(30), score SMALLINT);
-CREATE TABLE Job_volunteer(job_id VARCHAR(30), volunteer_id VARCHAR(30), committed SMALLINT, completed SMALLINT);
+CREATE TABLE Job_volunteer(job_id VARCHAR(30), volunteer_id VARCHAR(30), committed SMALLINT, completed SMALLINT, checkedin SMALLINT, checkedout SMALLINT);
 -- Two simple indexes to shorten lookup times
 CREATE INDEX Idx_volunteer ON Volunteer (location);
 CREATE INDEX Idx_organization ON Organization (location);

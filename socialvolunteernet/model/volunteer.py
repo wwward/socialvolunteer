@@ -88,9 +88,13 @@ class Volunteer(object):
         return self.db.select(self.GET_COMPLETED_JOBS, {"volunteer_id": volunteer_id})
     
     # Returns a list of jobs that are in progress (e.g. I have been checked in but not checked out)
-    # www3 - To be implemented
+    GET_CURRENT_JOBS = """
+        SELECT Job.description FROM Job_volunteer, Job 
+        WHERE Job_volunteer.job_id = Job.id AND Job_volunteer.checkedin = 1 
+        AND Job_volunteer.checkedout != 1 AND Job_volunteer.volunteer_id = 1
+    """
     def get_current_jobs(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_CURRENT_JOBS, {"volunteer_id": volunteer_id})
     
     # Returns a list of the jobs that I have signed up for but not started
     GET_COMMITTED_JOBS = """
@@ -125,7 +129,7 @@ class Volunteer(object):
     # Delete a job. Note that you cannot delete things that you have been checked in or completed
     DELETE_JOB = """
         DELETE FROM Job_volunteer WHERE volunteer_id = %(volunteer_id)s
-        AND completed = 0
+        AND completed = 0 AND checkedin = 0
     """
     def delete_job(self, volunteer_id, job_id):
         return self.db.select(self.DELETE_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})

@@ -6,63 +6,81 @@
 <body>
 <h1>THIS IS A LOGO</h1>
 Welcome, {{ name }} Score = {{ score }}</br>
-<a href="edit_volunteer.html"> Edit your profile</a>
+<form action="volunteer" method="post" >
+<input type="hidden" name="action" value="edit_volunteer" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Edit your profile" />
+</form>
 
 <div name="friends">
-Your friends:
+<h3>Your friends:</h3>
 <table>
+<tr><td>Username</td><td>Name</td></tr>
 {% for f in friends %}
    <tr>
-      <td> {{ f["name"] }} </td>
+      <td> {{ f.username  }} </td><td> {{ f.name }} </td>
    </tr>
 {% endfor %}
 </table>
-<a href="friends.html">Manage your friends</a>
+<form action="volunteer" method="post" >
+<input type="hidden" name="action" value="edit_friends" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Edit your friends" />
+</form>
 </div>
 
 <div name="fleader">
-Friend leaderboard:
+<h3>Friend leaderboard:</h3>
 <table>
-{% for f in friend_leaderboard %}
+<tr><td>Username</td><td>Name</td><td>Score</td></tr>
+{% for f in friend_scores %}
    <tr>
-      <td> {{ f["name"] }} </td><td> {{ f["score"] }} </td>
+      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
    </tr>
 {% endfor %}
 </table>
 </div>
 
 <div name="gleader">
-Global leaderboard:
+<h3>Global leaderboard:</h3>
 <table>
-{% for f in global_leaderboard %}
+<tr><td>Username</td><td>Name</td><td>Score</td></tr>
+{% for f in global_scores %}
    <tr>
-      <td> {{ f["name"] }} </td><td> {{ f["score"] }} </td>
+      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
    </tr>
 {% endfor %}
 </table>
 </div>
 
 <div name="upcoming">
-View your upcoming jobs:
+<h3>View your upcoming jobs:</h3>	
 <table>
-{% for f in upcoming_jobs %}
+<tr><td>Job ID</td><td>Title</td><td>Date</td></tr>
+{% for f in future_jobs %}
    <tr>
-      <td> {{ f["name"] }} </td><td> {{ f["date"] }} </td>
+      <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.date }} </td>
    </tr>
 {% endfor %}
 </table>
-<a href="volunteer_jobs.html">Manage your jobs</a>
+<form action="volunteer" method="post" >
+<input type="hidden" name="action" value="edit_jobs" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Manage your jobs" />
+</form>
 </div>
 
 <div name="feed">
-User feed:
-{% for u in user_feed %}
+<h3>Friend Activity:</h3>
+<table>
+<tr><td>Username</td><td>Title</td><td>Job ID</td></tr>
+{% for u in friend_activity %}
    <tr>
-      <td> {{ u["name"] }} </td><td> {{ u["description"] }} </td>
+      <td> {{ u.username }} </td><td> {{ u.title }} </td><td> {{ u.job_id }} </td>
    </tr>
 {% endfor %}
+</table>
 </div>
-
 
 
 </body>

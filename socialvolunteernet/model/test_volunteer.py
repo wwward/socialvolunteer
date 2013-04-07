@@ -46,22 +46,25 @@ class Volunteer(object):
     # Returns the top activity across the site
     # www3 - what constitutes activity?
     def get_friend_activity(self, volunteer_id):
-        return [] # Not sure what this will look like ATM
+        return [
+                {"username": "Bob", "job_id": "1243", "title": "This is job 1"},
+                {"username": "Alice", "job_id": "4", "title": "This is job 2"},
+                ] # Not sure what this will look like ATM
     
     # Returns a list of jobs that I have completed
     def get_completed_jobs(self, volunteer_id):
-        return [{"job_id": "2342", "description": "hell if i know"}, 
-                {"job_id": "3", "decription": "dunno"}]
+        return [{"job_id": "2342", "description": "hell if i know", "date": "yesterday"}, 
+                {"job_id": "3", "description": "dunno", "date": "a week ago"}]
     
     # Returns a list of jobs that are in progress (e.g. I have been checked in but not checked out)
     def get_current_jobs(self, volunteer_id):
-        return [{"job_id": "222", "description": "right now"}, 
-                {"job_id": "333", "decription": "current"}]
+        return [{"job_id": "222", "description": "right now", "date": "today", "title": "Job 1"}, 
+                {"job_id": "333", "description": "current", "date": "today", "title": "Job 2"}]
     
     # Returns a list of the jobs that I have signed up for but not started
     def get_future_jobs(self, volunteer_id):
-        return [{"job_id": "999", "description": "future time"}, 
-                {"job_id": "777", "decription": "laters"}]
+        return [{"job_id": "999", "description": "future time", "date": "a week from now", "title": "Job 1"}, 
+                {"job_id": "777", "description": "laters",  "date": "next tuesday", "title": "Job 1"}]
     
     # Get volunteer information based on a volunteer_id
     def get_info(self, volunteer_id):
@@ -79,5 +82,5 @@ class Volunteer(object):
     
     # Delete a job. Note that you cannot delete things that you have been checked in or completed
     def delete_job(self, volunteer_id, job_id):
-        logging.debug("Delted job %s to %s " % (job_id, volunteer_id))
+        logging.debug("Deleted job %s to %s " % (job_id, volunteer_id))
         return True

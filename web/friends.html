@@ -3,14 +3,15 @@
 <!-- Friend management page for a volunteer -->
 <body>
 
-Your friends:
+<h3>Your friends:</h3>
 
 <form action="volunteer" method="get">
 <table>
+<tr><td></td><td>Username</td><td>Name</td></tr>
 {% for f in friends %}
 <tr>
-	<td><input type="checkbox" name="friend_id" value="{{ f['volunteer_ID'] }}" /></td>
-	<td>{{ f["name"] }}</td>
+	<td><input type="checkbox" name="friend_id" value="{{ f.volunteer_ID }}" /></td>
+	<td>{{ f.username }}</td><td>{{ f.name }}</td>
 </tr>
 {% endfor %}
 

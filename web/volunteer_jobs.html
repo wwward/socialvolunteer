@@ -5,12 +5,13 @@
 <body>
 
 <div name="upcoming_jobs">
-Upcoming jobs:
+<h3>Upcoming jobs:</h3>
 <form action="volunteer" method="post">
 <table>
+<tr><td></td><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in upcoming_jobs %}
 <tr>
-	<td><input type="checkbox" name="cancel_job" value="{{ job_id }}" /></td><td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+	<td><input type="checkbox" name="cancel_job" value="{{ p.job_id }}" /></td><td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
 </tr>
 {% endfor %}
 </table>
@@ -20,22 +21,25 @@ Upcoming jobs:
 </div>
 
 <div name="current_jobs">
-Current jobs:
+<h3>Current jobs:</h3>
 <table>
+<tr><td>Job ID</td><td>Description</td><td>Date</td></tr>
+
 {% for p in current_jobs %}
 <tr>
-	<td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
 </tr>
 {% endfor %}
 </table>
 </div>
 
 <div name="past_jobs">
-Past jobs:
+<h3>Past jobs:</h3>
 <table>
+<tr><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in past_jobs %}
 <tr>
-	<td>{{ p["job_name"] }}</td><td>{{ p["job_date"] }}</td>
+	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
 </tr>
 {% endfor %}
 </table>

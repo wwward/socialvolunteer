@@ -13,5 +13,7 @@ handlers:
   script: socialvolunteernet/handler/vol_handler.py  
 - url: /login
   script: socialvolunteernet/handler/auth_handler.py
-- url: /
-  static_dir: web
+- url: /test
+  mime_type: text/html
+  static_files: web/testing.html
+  upload: web/testing.html

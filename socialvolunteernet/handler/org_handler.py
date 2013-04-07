@@ -4,7 +4,6 @@ from socialvolunteernet.model.organization import Organization
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
 import wsgiref.handlers
-import time
 
 
 class OrganizationHandler(webapp.RequestHandler):
@@ -27,30 +26,7 @@ class OrganizationHandler(webapp.RequestHandler):
         logging.debug("Forwarding GET request to POST request")
         self.post()
             
-    def create_organization(self):
-        params = {'error' : False,
-                  'missing': [],
-                  'id': str(int(time.time()))}
-        self.parse_param('name', self.request.get('name'), params)
-        self.parse_param('phone', self.request.get('phone'), params)
-        self.parse_param('location', self.request.get('location'), params)
-        self.parse_param('description', self.request.get('description'), params)
-        
-        ## This is junk
-        #password = self.request.get('password1')
-        
-        if params['error']:
-            logging.debug("Could not add new organization: the following fields were missing: "+repr(params['missing']))
-            return (False, params)
-        
-        org = Organization()
-        success = org.create_new(**params)
-        if not success:
-            logging.error("Error adding new organization: %s" % repr(params))
-        else:    
-            logging.debug("Adding new organization: %s" % repr(params))
 
-        return (success, params)
     
     def get_organization_portal(self):
         data = []

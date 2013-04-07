@@ -28,30 +28,52 @@ class Volunteer(object):
         return self.db.select(self.SELECT_BY_USERNAME, {"username": username})
     
     # Adds a friend to the current volunteer
+    ADD_FRIEND = """
+        INSERT INTO Friends VALUES (%(volunteer_id)s, %(friend_volunteer_id)s)
+    """
     def add_friend(self, volunteer_id, friend_volunteer_id):
-        pass
+        return self.db.select(self.ADD_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
     
     # Removes a friend from the current volunteer
+    REMOVE_FRIEND = """ 
+        DELETE FROM Friends WHERE id = %(volunteer_id)s AND friend_id = %(friend_volunteer_id)s
+    """
     def remove_friend(self, volunteer_id, friend_volunteer_id):
-        pass
+        return self.db.select(self.REMOVE_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
     
     # Returns a list of friend data (all friend data, not just the id)
+    GET_FRIENDS = """
+        SELECT * FROM Friends, Volunteer WHERE id = %(volunteer_id)s
+    """
     def get_friends(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_FRIENDS, {"volunteer_id": volunteer_id})
     
     # Returns my score
+    GET_SCORE = """
+        SELECT SUM(score) FROM Score WHERE id = %(volunteer_id)s
+    """
     def get_score(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_SCORE, {"volunteer_id": volunteer_id})
     
     # Returns a list of the scores of all of my friends
+    GET_FRIEND_SCORE = """
+        SELECT SUM(score) FROM Score WHERE id IN (SELECT Friend_id FROM Friends WHERE id = %(volunteer_id)s) GROUP BY id;
+    """ 
     def get_friend_score(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_FRIEND_SCORE, {"volunteer_id": volunteer_id})
     
-    # Returns a list of scores of the top users
+    # Returns a list of scores of the top 10 users
+    GET_GLOBAL_SCORES = """
+        select Volunteer.username,SUM(Score.score) AS Total_Score from Volunteer,Score 
+        WHERE Volunteer.id = Score.id 
+        GROUP BY Volunteer.username 
+        ORDER BY Total_Score DESC LIMIT 10
+    """
     def get_global_scores(self):
-        pass
+        return self.db.select(self.GET_GLOBAL_SCORES)
     
     # Returns the top activity across the site
+    # www3 - what constitutes activity?
     def get_friend_activity(self, volunteer_id):
         pass
     

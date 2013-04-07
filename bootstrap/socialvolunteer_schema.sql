@@ -9,8 +9,12 @@ CREATE TABLE Job(id VARCHAR(30), organization_id VARCHAR(30), event_date
 DATE, event_time SMALLINT, event_day_of_week SMALLINT, score_value SMALLINT, committed VARCHAR(30), completed
 VARCHAR(30), description VARCHAR(255), category VARCHAR(255));
 CREATE TABLE Keyword(keyword VARCHAR(30), reference_id VARCHAR(30));
+CREATE TABLE Friends(id VARCHAR(30), friend_id VARCHAR(30));
+CREATE TABLE Score(id VARCHAR(30), job_id VARCHAR(30), score SMALLINT);
 -- Two simple indexes to shorten lookup times
 CREATE INDEX Idx_volunteer ON Volunteer (location);
 CREATE INDEX Idx_organization ON Organization (location);
 CREATE INDEX Idx_keyword ON Keyword (keyword);
+CREATE INDEX Idx_friends ON Friends (id);
+CREATE INDEX Idx_score ON Score (id);
 

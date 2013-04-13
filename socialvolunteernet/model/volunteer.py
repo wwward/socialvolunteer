@@ -115,9 +115,13 @@ class Volunteer(object):
         return self.db.select(self.GET_INFO, {"volunteer_id": volunteer_id})
     
     # Edit user details, the modified fields are in the kw dictionary
-    # www3 - to be implemented
+    EDIT_VOLUNTEER_DATA = """
+        UPDATE Volunteer
+        SET name = %(name)s, phone = s(phone)%, location = s(location)%
+        WHERE id = %(volunteer_id)s
+    """
     def edit_volunteer_data(self, **kw):
-        pass
+        return self.db.update(self.EDIT_VOLUNTEER_DATA, kw)
     
     # Sign up for a new job
     ADD_JOB = """

@@ -1,14 +1,18 @@
 <html>
-<head></head>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!-- This is the volunteer jobs view. It allows them to view past, present and future jobs 
  as well as uncommit to a future job -->
 <body>
+<div id="header"><div id="header_img"></div></div>
 
+<div class="center_content">
 <div name="upcoming_jobs">
 <h3>Upcoming jobs:</h3>
 <form action="volunteer" method="post">
 <table>
-<tr><td></td><td>Job ID</td><td>Description</td><td>Date</td></tr>
+<tr class="column_header"><td></td><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in upcoming_jobs %}
 <tr>
 	<td><input type="checkbox" name="cancel_job" value="{{ p.job_id }}" /></td><td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
@@ -17,14 +21,14 @@
 </table>
 <input type="hidden" name="action" value="delete_jobs" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Delete selected jobs" />
+<input type="submit" value="Delete selected jobs" class="button"  />
 </form>
 </div>
 
 <div name="current_jobs">
 <h3>Current jobs:</h3>
 <table>
-<tr><td>Job ID</td><td>Description</td><td>Date</td></tr>
+<tr class="column_header"><td>Job ID</td><td>Description</td><td>Date</td></tr>
 
 {% for p in current_jobs %}
 <tr>
@@ -37,7 +41,7 @@
 <div name="past_jobs">
 <h3>Past jobs:</h3>
 <table>
-<tr><td>Job ID</td><td>Description</td><td>Date</td></tr>
+<tr class="column_header"><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in past_jobs %}
 <tr>
 	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
@@ -49,7 +53,8 @@
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="portal" />
-<input type="submit" value="Return to previous page" />
+<input type="submit" value="Return to previous page" class="button"  />
 </form>
+</div>
 </body>
 </html>

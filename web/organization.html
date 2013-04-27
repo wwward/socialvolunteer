@@ -1,38 +1,53 @@
 <html>
-<head></head>
+<head>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!--  This is the organization portal view. It will display:
     organization info, number of jobs completed, a summary of pending completions
     currently posted jobs, and upcoming committments -->
 
 <body>
-<h1>THIS IS A LOGO</h1>
-Welcome, {{ name }}</br>
-<h3>Jobs to review:</h3>
-<table border="1">
-<tr><td></td><td>Name</td><td>Job</td><td>Date</td></tr>
+<div id="header"><div id="header_img"></div></div>
+</br>
+Welcome, <b>{{ name }}</b></br></br>
+<form action="org" method="post" >
+<input type="hidden" name="action" value="edit_organization" />
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="submit" value="Edit your profile" class="button" />
+</form>
+<div class="center_content">
+<h3>Jobs to review</h3>
+<table>
+<tr class="column_header"><td></td><td>Name</td><td>Job</td><td>Date</td></tr>
 <form action="org" method="post">
 {% for j in current_commitments %}
 <tr>
 <td><input type="checkbox" name="completed" value="{{ j.job_id }},{{ j.volunteer_id }}" /></td>
 <td>{{ j.volunteer_name }}</td><td>{{ j.job_name }}</td><td>{{ j.job_date }}</td>
 </tr>
-<!--  TODO: Maybe there is a separate job page - commitments.html -->
 
 {% endfor %}
 </table>
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="complete_volunteers" />
-<input type="submit" value="Mark the selected commitments as complete" />
+<input type="submit" value="Mark the selected commitments as complete" class="button" />
 </form>
 
 <h3>Currently posted jobs</h3>
 <form action="org" method="post">
-<table border="1">
-<tr><td></td><td>Name</td><td>Description</td><td>Date</td><td></td></tr>	
+<table>
+<tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td><td></td></tr>	
 {% for j in current_jobs %}
 <tr>
 <td><input type="checkbox" name="job_id" value="{{ j.job_id }}" /></td>
-<td>{{ j.name }}</td><td>{{ j.description }}</td><td>{{ j.date }}</td><td><a href="edit_job.html">Edit...</a></td>
+<td>{{ j.job_id }}</td><td>{{ j.name }}</td><td>{{ j.description }}</td><td>{{ j.date }}</td>
+<td><form action="org" method="post" >
+<input type="hidden" name="action" value="edit_job" />
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="job_id" value="{{ j.job_id }}" />
+<input type="submit" value="Edit..." class="button" />
+</form></td>
 </tr>
 
 {% endfor %}
@@ -40,18 +55,19 @@ Welcome, {{ name }}</br>
 
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="delete_job" />
-<input type="submit" value="Delete selected jobs" />
+<input type="submit" value="Delete selected jobs" class="button" />
 
 </form>
+<br/><br/>
 <form action="org" method="post" >
 <input type="hidden" name="action" value="new_job" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="submit" value="Create new job" />
+<input type="submit" value="Create new job" class="button" />
 </form>
 <h3>Upcoming commitments</h3>
 <form action="org" method="post">
-<table border="1">
-<tr><td></td><td>Volunteer Name</td><td>Job ID</td><td>Date</td><td>Location</td></tr>		
+<table>
+<tr class="column_header"><td></td><td>Volunteer Name</td><td>Job ID</td><td>Date</td><td>Location</td></tr>		
 {% for j in upcoming_commitments %}
 <tr>
 <td><input type="checkbox" name="volunteer_id" value="{{ j.volunteer_id }},{{ j.job_id }}" /></td>
@@ -63,14 +79,14 @@ Welcome, {{ name }}</br>
 
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="cancel_volunteer" />
-<input type="submit" value="Cancel selected volunteers" />
+<input type="submit" value="Cancel selected volunteers" class="button" />
 
 </form>
 
 
 <h3>Completed jobs</h3>
-<table border="1">	
-<tr><td>Job ID</td><td>Name</td><td>Date</td><td>Location</td></tr>		
+<table>	
+<tr class="column_header"><td>Job ID</td><td>Name</td><td>Date</td><td>Location</td></tr>		
 
 {% for j in completed_jobs %}
 <tr>
@@ -78,6 +94,8 @@ Welcome, {{ name }}</br>
 </tr>
 {% endfor %}
 </table>
+
+</div>
 
 </body>
 </html>

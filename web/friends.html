@@ -1,13 +1,17 @@
 <html>
-<head></head>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!-- Friend management page for a volunteer -->
 <body>
+<div id="header"><div id="header_img"></div></div>
+
 
 <h3>Your friends:</h3>
-
+<div class="center_content">
 <form action="volunteer" method="post">
 <table>
-<tr><td></td><td>Username</td><td>Name</td></tr>
+<tr class="column_header"><td></td><td>Username</td><td>Name</td></tr>
 {% for f in friends %}
 <tr>
 	<td><input type="checkbox" name="friend_id" value="{{ f.volunteer_ID }}" /></td>
@@ -18,15 +22,15 @@
 </table>
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="delete_friends" />
-<input type="submit" value="Delete Selected Friends" />
+<input type="submit" value="Delete Selected Friends"  class="button" />
 </form>
 
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="portal" />
-<input type="submit" value="Return to previous page" />
+<input type="submit" value="Return to previous page" class="button"  />
 </form>
-
+</div>
 
 </body>
 </html>

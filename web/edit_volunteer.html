@@ -1,37 +1,40 @@
-<html>
-<head></head>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!--  This is the page used to edit volunteer information -->
 <body>
-Editing volunteer information for {{ username }}
+<div id="header"><div id="header_img"></div></div>
+</br></br>
+Editing volunteer information for <b>{{ name }}</b>
+<div class="center_content">
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="edit_volunteer" />
 
-
-   <table>
+</br></br>
+   <table width="80%">
       <tr>
-      	<td>Name: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
+      	<td width="15%" class="column_header">Name: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
       <tr>
-      	<td>Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  width="50"/></td></tr>
+      	<td class="column_header">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  width="50"/></td></tr>
       <tr>
-      	<td>Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr>  
+      	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr>  
       </table>     
       </br></br>
-      <table>
+      <table width="80%">
       
-      <tr><td>Old Password: </td><td><input type="password" name="old_password"/></td></tr>
-      <tr><td>New Password: </td><td><input type="password" name="new_password1"/></td></tr>
-      <tr><td>New Password again: </td><td><input type="password" name="new_password2"/></td></tr>
+      <tr><td width="15%" class="column_header">Old Password: </td><td><input type="password" name="old_password"/></td></tr>
+      <tr><td class="column_header">New Password: </td><td><input type="password" name="new_password1"/></td></tr>
+      <tr><td class="column_header">New Password again: </td><td><input type="password" name="new_password2"/></td></tr>
       </table></br></br>
 
-<input type="submit" value="Save changes" />
+<input type="submit" value="Save changes" class="button"  />
 </form>
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="portal" />
-<input type="submit" value="Return to previous page" />
+<input type="submit" value="Return to previous page" class="button"  />
 </form>
-
+</div>
 
 </body>
-</html>

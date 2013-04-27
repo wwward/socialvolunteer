@@ -1,7 +1,11 @@
 <html>
-   <head><title>Social Volunteering - New Organization</title></head>
+   <head><title>Social Volunteering - New Organization</title>
+   <link rel="stylesheet" type="text/css" href="css/main.css">
+   </head>
    <!--  This is the signup page for a new organization -->
    <body>
+   <div id="header"><div id="header_img"></div></div>
+   
    <p>Enter your organization information:</p>
    <p style="color:green"><i>TODO: CHECK DATA FOR CORRECTNESS AND DUPLICATES AND PASSWORD MATCH</i></p>
    <p style="color:green"><i>TODO: AUTOGENERATE IDS FOR ORGANIZATIONS</i></p>
@@ -43,7 +47,7 @@
       <tr><td>Password again: </td><td><input type="password" name="password2"/></td></tr>
       </table></br></br>
       <input type="hidden" name="action" value="new_organization"/>
-      <input type="submit" value="Submit"/>
+      <input type="submit" value="Submit" class="button" />
    </form>
    
    

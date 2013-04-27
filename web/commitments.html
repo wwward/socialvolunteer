@@ -1,9 +1,12 @@
-<html>
-<head></head>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!-- This is the organization commitments page. It allows them
     to view upcoming and past commitments, as well as view and modify 
     volunteers currently in process. -->
-<body></body>
+<body>
+<div id="header"><div id="header_img"></div></div>
+
 <form action="org" method="post">
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="cancel_volunteer" />
@@ -16,7 +19,7 @@
 {% endfor %}
 
 </table>
-<input type="submit" value="Cancel volunteers" />
+<input type="submit" value="Cancel volunteers" class="button" />
 </form>
 
-</html>
+</body>

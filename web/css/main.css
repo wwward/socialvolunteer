@@ -1,0 +1,48 @@
+body
+{
+background-color:#E5EAA4;
+font-family:"Verdana";
+font-size:15px;
+}
+
+h3
+{
+	color:#66245B;
+}
+b {
+	color:#66245B;
+}
+table {
+	width: 100%;
+}
+
+.column_header {
+	background-color:#616382;
+	color: #A8C4A2;
+	text-align: center;
+
+}
+#header {
+	width:100%;
+	background-color:#A8C4A2;	
+}
+#header_img {
+	background-image: url(http://placekitten.com/800/100); width:800px; height:100px;
+	margin-left: auto;
+	margin-right: auto;
+	width:800px;
+	height:100px;
+}
+.button {
+    border: 0px;
+    background: #69A5A4;
+}
+.button:hover {
+    border: 0px;
+    background: #A8C4A2;
+}
+.center_content {
+	margin-left: auto;
+	margin-right: auto;
+	width:80%;
+}

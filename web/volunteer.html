@@ -1,21 +1,30 @@
-<html>
-<head><title>Social Volunteering - Volunteers</title></head>
+<head><title>Social Volunteering - Volunteers</title>
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!-- This is the volunteer portal page. It will display:
     volunteer info, score, friend feed, upcoming commitments, 
     friend leaderboard, global leaderboard -->
 <body>
-<h1>THIS IS A LOGO</h1>
-Welcome, {{ name }} Score = {{ score }}</br>
+<div id="header"><div id="header_img"></div></div>
+
+<table width="100%">
+<tr class="column_header"><td width="20%" valign="top">Welcome, <b>{{ name }}</b>
+</br></br>
 <form action="volunteer" method="post" >
 <input type="hidden" name="action" value="edit_volunteer" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Edit your profile" />
+<input type="submit" value="Edit your profile" class="button"  />
 </form>
 
+</td><td></td><td align="right" valign="top">Score = {{ score }}</td></tr>
+<tr><td valign="top">
+
+
 <div name="friends">
-<h3>Your friends:</h3>
+<h3>Your friends</h3>
 <table>
-<tr><td>Username</td><td>Name</td></tr>
+<tr class="column_header"><td>Username&nbsp;</td><td>Name</td></tr>
 {% for f in friends %}
    <tr>
       <td> {{ f.username  }} </td><td> {{ f.name }} </td>
@@ -25,38 +34,14 @@ Welcome, {{ name }} Score = {{ score }}</br>
 <form action="volunteer" method="post" >
 <input type="hidden" name="action" value="edit_friends" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Edit your friends" />
+<input type="submit" value="Edit your friends" class="button"  />
 </form>
 </div>
 
-<div name="fleader">
-<h3>Friend leaderboard:</h3>
-<table>
-<tr><td>Username</td><td>Name</td><td>Score</td></tr>
-{% for f in friend_scores %}
-   <tr>
-      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
-   </tr>
-{% endfor %}
-</table>
-</div>
-
-<div name="gleader">
-<h3>Global leaderboard:</h3>
-<table>
-<tr><td>Username</td><td>Name</td><td>Score</td></tr>
-{% for f in global_scores %}
-   <tr>
-      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
-   </tr>
-{% endfor %}
-</table>
-</div>
-
 <div name="upcoming">
-<h3>View your upcoming jobs:</h3>	
+<h3>Upcoming jobs</h3>	
 <table>
-<tr><td>Job ID</td><td>Title</td><td>Date</td></tr>
+<tr class="column_header"><td>Job ID</td><td>Title</td><td>Date</td></tr>
 {% for f in future_jobs %}
    <tr>
       <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.date }} </td>
@@ -66,14 +51,18 @@ Welcome, {{ name }} Score = {{ score }}</br>
 <form action="volunteer" method="post" >
 <input type="hidden" name="action" value="edit_jobs" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Manage your jobs" />
+<input type="submit" value="Manage your jobs" class="button"  />
 </form>
 </div>
 
+</td><td width="60%" valign="top">
+
+<!--  MOAR THINGS HERE -->
+
 <div name="feed">
-<h3>Friend Activity:</h3>
-<table>
-<tr><td>Username</td><td>Title</td><td>Job ID</td></tr>
+<h3>Friend Activity</h3>
+<table width="100%">
+<tr class="column_header"><td width="20%">Username&nbsp;</td><td width="60%">Title</td><td width="20%">Job ID</td></tr>
 {% for u in friend_activity %}
    <tr>
       <td> {{ u.username }} </td><td> {{ u.title }} </td><td> {{ u.job_id }} </td>
@@ -82,6 +71,31 @@ Welcome, {{ name }} Score = {{ score }}</br>
 </table>
 </div>
 
+</td><td width="20%" valign="top">
+<div name="fleader">
+<h3>Friend leaderboard</h3>
+<table>
+<tr class="column_header"><td>Username</td><td>Name</td><td>Score</td></tr>
+{% for f in friend_scores %}
+   <tr>
+      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
+   </tr>
+{% endfor %}
+</table>
+</div>
+
+<div name="gleader">
+<h3>Global leaderboard</h3>
+<table>
+<tr class="column_header"><td>Username&nbsp;</td><td>Name</td><td>Score</td></tr>
+{% for f in global_scores %}
+   <tr>
+      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
+   </tr>
+{% endfor %}
+</table>
+</div>
+</td></tr></table>
+
 
 </body>
-</html>

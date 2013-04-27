@@ -1,8 +1,12 @@
 <html>
-<head></head>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
 <!-- This page is used to create a new job -->
 <body>
+<div id="header"><div id="header_img"></div></div>
 
+<div class="center_content">
    <p>Enter the job details:</p>
 
    <p style="color:red"> {% if error|default:False %}
@@ -10,30 +14,30 @@
        {%  endif %}
    </p>
    <form action="org" method="post">
-   <table>
+   <table width="80%">
       <tr><td>
       {% if missing and "name" in missing %} 
          <div style="color:red">The field "name" is required</div>
       {% endif %} 
-      </td><td>
+      </td><td class="column_header" width="15%">
       Title: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
       <tr><td>
       {% if missing and "time" in missing %} 
          <div style="color:red">The field "time" is required</div>
       {% endif %} 
-      </td><td>
+      </td><td class="column_header">
       Time: </td><td><input type="text" name="description" value="{{ time }}"  width="50"/></td></tr>
       <tr><td>
       {% if missing and "date" in missing %} 
          <div style="color:red">The field "date" is required</div>
       {% endif %} 
-      </td><td>
+      </td><td class="column_header">
       Date: </td><td><input type="text" name="date" value="{{ date }}" width="50"/></td></tr> 
       <tr><td>
       {% if missing and "description" in missing %} 
          <div style="color:red">The field "description" is required</div>
       {% endif %} 
-      </td><td>
+      </td><td class="column_header">
       Description: </td><td> <input type="textarea" value="{{ description }}" name="description""/></td></tr> 
       </table>     
       </br></br>
@@ -41,9 +45,14 @@
       <input type="hidden" name="action" value="submit_job"/>
       <input type="hidden" name="organization_id" value="{{ organization_id }}"/>
       
-      <input type="submit" value="Create job"/>
+      <input type="submit" value="Create job" class="button" />
    </form>
 
-
+<form action="org" method="post">
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="Return to previous page" class="button" />
+</form>
+</div>
 </body>
 </html>

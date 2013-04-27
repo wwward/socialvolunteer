@@ -26,6 +26,11 @@ Editing volunteer information for {{ username }}
 
 <input type="submit" value="Save changes" />
 </form>
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="Return to previous page" />
+</form>
 
 
 </body>

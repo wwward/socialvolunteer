@@ -5,13 +5,16 @@
     currently posted jobs, and upcoming committments -->
 
 <body>
+<h1>THIS IS A LOGO</h1>
+Welcome, {{ name }}</br>
 <h3>Jobs to review:</h3>
-<table>
+<table border="1">
+<tr><td></td><td>Name</td><td>Job</td><td>Date</td></tr>
 <form action="org" method="post">
 {% for j in current_commitments %}
 <tr>
-<td><input type="checkbox" name="completed" value="{{ j['job_id'] }},{{ j['volunteer_id'] }}" /></td>
-<td>{{ j["volunteer_name"] }}</td><td>{{ j["job_name"]</td><td>{{ j["job_date"] }}</td>
+<td><input type="checkbox" name="completed" value="{{ j.job_id }},{{ j.volunteer_id }}" /></td>
+<td>{{ j.volunteer_name }}</td><td>{{ j.job_name }}</td><td>{{ j.job_date }}</td>
 </tr>
 <!--  TODO: Maybe there is a separate job page - commitments.html -->
 
@@ -23,12 +26,13 @@
 </form>
 
 <h3>Currently posted jobs</h3>
-<form>
-<table>	
+<form action="org" method="post">
+<table border="1">
+<tr><td></td><td>Name</td><td>Description</td><td>Date</td><td></td></tr>	
 {% for j in current_jobs %}
 <tr>
-<td><input type="checkbox" name="job_id" value="{{ j['job_id'] }}" /></td>
-<td>{{ j["volunteer_name"] }}</td><td>{{ j["name"]</td><td>{{ j["date"] }}</td><td><a href="edit_job.html">Edit...</a></td>
+<td><input type="checkbox" name="job_id" value="{{ j.job_id }}" /></td>
+<td>{{ j.name }}</td><td>{{ j.description }}</td><td>{{ j.date }}</td><td><a href="edit_job.html">Edit...</a></td>
 </tr>
 
 {% endfor %}
@@ -39,15 +43,19 @@
 <input type="submit" value="Delete selected jobs" />
 
 </form>
-<a href="create_job.html">Create new job</a>
-
+<form action="org" method="post" >
+<input type="hidden" name="action" value="new_job" />
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="submit" value="Create new job" />
+</form>
 <h3>Upcoming commitments</h3>
-<form>
-<table>	
+<form action="org" method="post">
+<table border="1">
+<tr><td></td><td>Volunteer Name</td><td>Job ID</td><td>Date</td><td>Location</td></tr>		
 {% for j in upcoming_commitments %}
 <tr>
-<td><input type="checkbox" name="volunteer_id" value="{{ j['volunteer_id'] }}" /></td>
-<td>{{ j["username"] }}</td><td>{{ j["name"]</td><td>{{ j["location"] }}</td>
+<td><input type="checkbox" name="volunteer_id" value="{{ j.volunteer_id }},{{ j.job_id }}" /></td>
+<td>{{ j.volunteer_name }}</td><td>{{ j.job_id }}</td><td>{{ j.date }}</td><td>{{ j.location }}</td>
 </tr>
 
 {% endfor %}
@@ -61,10 +69,12 @@
 
 
 <h3>Completed jobs</h3>
-<table>	
+<table border="1">	
+<tr><td>Job ID</td><td>Name</td><td>Date</td><td>Location</td></tr>		
+
 {% for j in completed_jobs %}
 <tr>
-<td>{{ j["job_id"] }}</td><td>{{ j["name"]</td><td>{{ j["date"] }}</td>{{ j["description"] }}</td>
+<td>{{ j.job_id }}</td><td>{{ j.volunteer_name }}</td><td>{{ j.date }}</td><td>{{ j.location }}</td>
 </tr>
 {% endfor %}
 </table>

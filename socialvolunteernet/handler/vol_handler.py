@@ -25,7 +25,9 @@ class VolunteerHandler(webapp.RequestHandler):
             raise Exception("Unknown volunteer_id")   
             
         if action.lower() == 'delete_jobs':
-            pass
+            # delete the job
+            data = self.get_job_display(volunteer_id)
+            self.response.out.write(str(template.render("web/volunteer_jobs.html", data)))
         elif action.lower() == 'edit_jobs':
             data = self.get_job_display(volunteer_id)
             self.response.out.write(str(template.render("web/volunteer_jobs.html", data)))
@@ -33,7 +35,10 @@ class VolunteerHandler(webapp.RequestHandler):
             data = self.get_friend_display(volunteer_id)            
             self.response.out.write(str(template.render("web/friends.html", data)))
         elif action.lower() == 'delete_friends':
-            pass
+            friend_id = self.request.get('friend_id')
+            #self.delete_friend(volunteer_id, friend_id)
+            data = self.get_friend_display(volunteer_id)            
+            self.response.out.write(str(template.render("web/friends.html", data)))
         elif action.lower() == 'edit_volunteer':
             data = self.get_volunteer_info(volunteer_id)
             self.response.out.write(str(template.render("web/edit_volunteer.html", data)))
@@ -42,8 +47,6 @@ class VolunteerHandler(webapp.RequestHandler):
             data['volunteer_id'] = volunteer_id
             self.response.out.write(str(template.render("web/volunteer.html", data)))
         
-                
-
     def get_volunteer_portal(self, volunteer_id):
         vol = Volunteer()
         

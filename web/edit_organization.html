@@ -2,4 +2,32 @@
 <head></head>
 <!--  This is the page used to edit organization information -->
 <body></body>
+
+Editing organization information for {{ name }}
+<form action="org" method="post">
+<input type="hidden" name="organization_id" value="{{ organization_id }}" />
+<input type="hidden" name="action" value="edit_organization" />
+
+
+   <table>
+      <tr>
+      	<td>Name: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
+      <tr>
+      	<td>Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  width="50"/></td></tr>
+      <tr>
+      	<td>Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr>  
+      <tr>
+      	<td>Description: </td><td><input type="textarea" name="description" value="{{ description }}" width="50"/></td></tr> 
+      </table>     
+      </br></br>
+      <table>
+      
+      <tr><td>Old Password: </td><td><input type="password" name="old_password"/></td></tr>
+      <tr><td>New Password: </td><td><input type="password" name="new_password1"/></td></tr>
+      <tr><td>New Password again: </td><td><input type="password" name="new_password2"/></td></tr>
+      </table></br></br>
+
+<input type="submit" value="Save changes" />
+</form>
+
 </html>

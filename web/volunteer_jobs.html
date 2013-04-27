@@ -16,6 +16,7 @@
 {% endfor %}
 </table>
 <input type="hidden" name="action" value="delete_jobs" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="submit" value="Delete selected jobs" />
 </form>
 </div>
@@ -45,5 +46,10 @@
 </table>
 </div>
 
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="Return to previous page" />
+</form>
 </body>
 </html>

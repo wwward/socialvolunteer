@@ -10,7 +10,7 @@ Editing organization information for <b>{{ name }}</b>
 <div class="center_content">
 <form action="org" method="post">
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="hidden" name="action" value="edit_organization" />
+<input type="hidden" name="action" value="submit_edit_organization" />
 
 </br></br>
    <table width="80%">
@@ -25,13 +25,6 @@ Editing organization information for <b>{{ name }}</b>
       </table>     
       </br></br>
       
-      <table width="80%">
-      
-      <tr><td width="15%" class="column_header">Old Password: </td><td><input type="password" name="old_password"/></td></tr>
-      <tr><td class="column_header">New Password: </td><td><input type="password" name="new_password1"/></td></tr>
-      <tr><td class="column_header">New Password again: </td><td><input type="password" name="new_password2"/></td></tr>
-      </table></br></br>
-
 <input type="submit" value="Save changes" class="button"  />
 </form>
 

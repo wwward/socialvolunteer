@@ -6,8 +6,40 @@
 <body>
 <div id="header"><div id="header_img"></div></div>
 
+<h3>Find new friends</h3>
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="search_friends" />
+<td width="15%" class="column_header">Search for friends </td><td><input type="text" name="search_friend" value="{{ search_friend }}" width="50"/></td></tr>
+<input type="submit" value="Go!" class="button" />
+</form>
 
-<h3>Your friends:</h3>
+{% if no_results %}
+   No results matched your search.
+{% endif %}
+
+{% if friend_results %}
+<<form action="volunteer" method="post">
+<table>
+<tr class="column_header"><td></td><td>Username</td><td>Name</td><td>Location</td></tr>
+
+{% for r in friend_results %}
+<tr>
+    <td><input type="checkbox" name="friend_id" value="{{ r.friend_id }}" /></td>
+    <td>{{ r.username }}</td><td>{{ r.name }}</td><td>{{ r.location }}</td>
+</tr>
+{% endfor %}
+
+</table>
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="add_friends" />
+<input type="submit" value="Add selected friends" class="button" />
+</form>
+{% endif %}
+
+
+
+<h3>Your friends</h3>
 <div class="center_content">
 <form action="volunteer" method="post">
 <table>

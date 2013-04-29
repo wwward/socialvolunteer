@@ -40,7 +40,7 @@ Welcome, <b>{{ name }}</b></br></br>
 <tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td><td></td></tr>	
 {% for j in current_jobs %}
 <tr>
-<td><input type="checkbox" name="job_id" value="{{ j.job_id }}" /></td>
+<td><input type="checkbox" class="job_id" value="{{ j.job_id }}" /></td>
 <td>{{ j.job_id }}</td><td>{{ j.name }}</td><td>{{ j.description }}</td><td>{{ j.date }}</td>
 <td><form action="org" method="post" >
 <input type="hidden" name="action" value="edit_job" />
@@ -54,7 +54,9 @@ Welcome, <b>{{ name }}</b></br></br>
 </table>
 
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="hidden" name="action" value="delete_job" />
+<input type="hidden" name="action" value="edit_job" />
+<input type="hidden" name="kind" value="delete" />
+
 <input type="submit" value="Delete selected jobs" class="button" />
 
 </form>
@@ -70,7 +72,7 @@ Welcome, <b>{{ name }}</b></br></br>
 <tr class="column_header"><td></td><td>Volunteer Name</td><td>Job ID</td><td>Date</td><td>Location</td></tr>		
 {% for j in upcoming_commitments %}
 <tr>
-<td><input type="checkbox" name="volunteer_id" value="{{ j.volunteer_id }},{{ j.job_id }}" /></td>
+<td><input type="checkbox" name="volunteer" value="{{ j.volunteer_id }},{{ j.job_id }}" /></td>
 <td>{{ j.volunteer_name }}</td><td>{{ j.job_id }}</td><td>{{ j.date }}</td><td>{{ j.location }}</td>
 </tr>
 

@@ -33,7 +33,7 @@ class Organization(object):
     
     # Get info about a given organization id
     def get_info(self, organization_id):
-        return {"name": "my org", "description": "blah blah blah"}
+        return {"name": "my org", "description": "blah blah blah", "organization_id": "1234", "location":"Texas", "phone": "12345"}
     
     # Delete a listed job
     def delete_job(self, organization_id, job_id):

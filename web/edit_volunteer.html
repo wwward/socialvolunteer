@@ -9,7 +9,7 @@ Editing volunteer information for <b>{{ name }}</b>
 <div class="center_content">
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="hidden" name="action" value="edit_volunteer" />
+<input type="hidden" name="action" value="submit_edit_volunteer" />
 
 </br></br>
    <table width="80%">
@@ -21,12 +21,7 @@ Editing volunteer information for <b>{{ name }}</b>
       	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr>  
       </table>     
       </br></br>
-      <table width="80%">
-      
-      <tr><td width="15%" class="column_header">Old Password: </td><td><input type="password" name="old_password"/></td></tr>
-      <tr><td class="column_header">New Password: </td><td><input type="password" name="new_password1"/></td></tr>
-      <tr><td class="column_header">New Password again: </td><td><input type="password" name="new_password2"/></td></tr>
-      </table></br></br>
+
 
 <input type="submit" value="Save changes" class="button"  />
 </form>

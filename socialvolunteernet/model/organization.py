@@ -62,6 +62,7 @@ class Organization(object):
     
     # Returns all jobs that are completed and reviewed
     # Completed + Reviewed status = 5
+    # Inactive status = 6
     GET_COMPLETED_JOBS = """
         select * from groupwerk.Job 
         where organization_id = %(organization_id)s and status = 5

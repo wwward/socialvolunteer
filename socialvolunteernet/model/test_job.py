@@ -27,7 +27,7 @@ class Job(object):
                 {"volunteer_id": "2", "name": "Kitteh", "location": "Joisey"}]
     
     # Returns a list of volunteers who have completed the job
-    def get_completed_voluteers(self, job_id):
+    def get_completed_volunteers(self, job_id):
         return [{"volunteer_id": "1", "name": "Mr. Done", "location": "Doneville"}, 
                 {"volunteer_id": "2", "name": "Donna", "location": "Done City"}]
     

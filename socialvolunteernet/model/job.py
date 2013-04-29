@@ -22,7 +22,7 @@ class Job(object):
         pass
     
     # Returns a list of volunteers who have completed the job
-    def get_completed_voluteers(self, job_id):
+    def get_completed_volunteers(self, job_id):
         pass
     
     # Return info about a given job id

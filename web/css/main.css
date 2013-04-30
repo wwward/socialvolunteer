@@ -14,12 +14,14 @@ b {
 }
 table {
 	width: 100%;
+	border: 0px;
 }
 
 .column_header {
 	background-color:#616382;
 	color: #A8C4A2;
 	text-align: center;
+	margin: 0px;
 
 }
 #header {
@@ -45,4 +47,10 @@ table {
 	margin-left: auto;
 	margin-right: auto;
 	width:80%;
+}
+.error_text {
+	color: red;
+}
+.success_text {
+	color: green;
 }

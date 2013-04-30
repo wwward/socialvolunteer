@@ -64,7 +64,7 @@ class Job(object):
         WHERE id=%(job_id)s
     """
     def add_volunteer(self, job_id, volunteer_id):
-        pass
+        self.db.update(self.ADD_VOLUNTEER, job_id, volunteer_id)
     
     # Move a volunteer status from committed to completed
     VOLUNTEER_COMPLETED = """
@@ -80,4 +80,4 @@ class Job(object):
         WHERE job_id=%(job_id)s AND volunteer_id=%(volunteer_id)s
     """
     def delete_volunteer(self, job_id, volunteer_id):
-        pass
+        self.db.update(self.DELETE_VOLUNTEER, job_id, volunteer_id)

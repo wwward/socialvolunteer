@@ -3,8 +3,8 @@ from google.appengine.api import rdbms
 class GoogleCloudSQLStore(object):
 
     def __init__(self):
-        INSTANCE_NAME="groupwerk:volunteerdb"
-        DATABASE="volunteerdb"
+        INSTANCE_NAME="groupwerk:groupwerk"
+        DATABASE="groupwerk"
         self._conn = rdbms.connect(instance=INSTANCE_NAME, database=DATABASE)
         
     def select(self, sql, params=None):

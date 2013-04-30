@@ -112,10 +112,14 @@ class OrganizationHandler(webapp.RequestHandler):
         response["current_commitments"] = self.org.get_unreviewed_jobs(organization_id)
         response["current_jobs"] = self.org.get_current_jobs(organization_id)
         response["upcoming_commitments"] = self.org.get_committed_jobs(organization_id)
+<<<<<<< HEAD
         response["completed_jobs"] = self.org.get_completed_jobs(organization_id)   
         response['organization_id'] = organization_id
 
         logging.info(repr(response)) 
+=======
+        response["completed_jobs"] = self.org.get_completed_jobs(organization_id)    
+>>>>>>> Fix for index error
         return response
         
     def get_info(self, organization_id):

@@ -1,7 +1,7 @@
 import logging
 
-from socialvolunteernet.model.test_organization import Organization
-from socialvolunteernet.model.test_job import Job
+from socialvolunteernet.model.organization import Organization
+from socialvolunteernet.model.job import Job
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp

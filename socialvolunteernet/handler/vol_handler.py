@@ -4,7 +4,7 @@ import wsgiref.handlers
 import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-from socialvolunteernet.model.test_volunteer import Volunteer
+from socialvolunteernet.model.volunteer import Volunteer
 
 class VolunteerHandler(webapp.RequestHandler):
         

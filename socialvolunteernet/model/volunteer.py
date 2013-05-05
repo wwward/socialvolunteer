@@ -43,7 +43,7 @@ class Volunteer(object):
     
     # Returns a list of friend data (all friend data, not just the id)
     GET_FRIENDS = """
-        SELECT * FROM Friends, Volunteer WHERE Volunteer.id = %(volunteer_id)s
+        SELECT * FROM Friends WHERE Friends.id = %(volunteer_id)s
     """
     def get_friends(self, volunteer_id):
         return self.db.select(self.GET_FRIENDS, {"volunteer_id": volunteer_id})

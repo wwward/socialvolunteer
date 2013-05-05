@@ -3,6 +3,8 @@ import wsgiref.handlers
 
 import logging
 
+from socialvolunteernet.model.job import Job
+
 class BrowseHandler(webapp.RequestHandler):
     '''
     classdocs

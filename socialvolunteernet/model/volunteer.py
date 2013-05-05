@@ -43,7 +43,7 @@ class Volunteer(object):
     
     # Returns a list of friend data (all friend data, not just the id)
     GET_FRIENDS = """
-        SELECT * FROM Friends WHERE Friends.id = %(volunteer_id)s
+        SELECT Volunteer.*  FROM Friends, Volunteer WHERE Friends.friend_id = Volunteer.id AND Friends.id = %(volunteer_id)s
     """
     def get_friends(self, volunteer_id):
         return self.db.select(self.GET_FRIENDS, {"volunteer_id": volunteer_id})
@@ -89,7 +89,7 @@ class Volunteer(object):
     
     # Returns a list of jobs that are in progress (e.g. I have been checked in but not checked out)
     GET_CURRENT_JOBS = """
-        SELECT Job.description FROM Job_volunteer, Job 
+        SELECT * FROM Job_volunteer, Job 
         WHERE Job_volunteer.job_id = Job.id AND Job_volunteer.checkedin = 1 
         AND Job_volunteer.checkedout != 1 AND Job_volunteer.volunteer_id = 1
     """
@@ -98,7 +98,7 @@ class Volunteer(object):
     
     # Returns a list of the jobs that I have signed up for but not started
     GET_COMMITTED_JOBS = """
-        SELECT Job.description FROM Job,Job_volunteer 
+        SELECT * FROM Job,Job_volunteer 
         WHERE Job.id = Job_volunteer.job_id
         AND Job_volunteer.volunteer_id = %(volunteer_id)s
         AND Job_volunteer.committed = 1

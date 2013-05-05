@@ -81,7 +81,7 @@ class VolunteerHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/volunteer.html", data)))
         
     def get_volunteer_portal(self, volunteer_id):    
-        data = self.vol.get_info(volunteer_id)
+        data = self.vol.get_info(volunteer_id)[0]
         data['friends'] =  self.vol.get_friends(volunteer_id)
         data['score'] = self.vol.get_score(volunteer_id)
         data['friend_scores'] = self.vol.get_friend_score(volunteer_id)
@@ -89,10 +89,11 @@ class VolunteerHandler(webapp.RequestHandler):
         data['friend_activity'] = self.vol.get_friend_activity(volunteer_id)
         data['current_jobs'] = self.vol.get_current_jobs(volunteer_id)
         data['future_jobs'] = self.vol.get_current_jobs(volunteer_id)
+        logging.info(repr(data))
         return data
     
     def get_volunteer_info(self, volunteer_id):
-        return self.vol.get_info(volunteer_id)
+        return self.vol.get_info(volunteer_id)[0]
         
     def edit_volunteer(self, volunteer_id, name, phone, location):
         missing = []

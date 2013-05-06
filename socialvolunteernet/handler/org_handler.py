@@ -107,15 +107,16 @@ class OrganizationHandler(webapp.RequestHandler):
         return missing 
     
     def get_organization_portal(self, organization_id):
-        response = self.org.get_info(organization_id)
+        response = self.org.get_info(organization_id)[0]
         response["current_commitments"] = self.org.get_unreviewed_jobs(organization_id)
         response["current_jobs"] = self.org.get_current_jobs(organization_id)
-        response["upcoming_commitments"] = self.org.get_committed_volunteers(organization_id)
-        response["completed_jobs"] = self.org.get_completed_jobs(organization_id)    
+        response["upcoming_commitments"] = self.org.get_committed_jobs(organization_id)
+        response["completed_jobs"] = self.org.get_completed_jobs(organization_id)   
+        logging.info(repr(response)) 
         return response
         
     def get_info(self, organization_id):
-        return self.org.get_info(organization_id)
+        return self.org.get_info(organization_id)[0]
         
     def get_job_display(self, job_id):
         return self.job.get_info(job_id)

@@ -15,7 +15,7 @@
 <tr class="column_header"><td></td><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in upcoming_jobs %}
 <tr>
-	<td><input type="checkbox" name="cancel_job" value="{{ p.job_id }}" /></td><td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
+	<td><input type="checkbox" name="cancel_job" value="{{ p.job_id }}" /></td><td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.event_date }}, {{ p.event_time}} </td>
 </tr>
 {% endfor %}
 </table>
@@ -32,7 +32,7 @@
 
 {% for p in current_jobs %}
 <tr>
-	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
+	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.event_date }}, {{ p.event_time}} </td>
 </tr>
 {% endfor %}
 </table>
@@ -44,7 +44,7 @@
 <tr class="column_header"><td>Job ID</td><td>Description</td><td>Date</td></tr>
 {% for p in past_jobs %}
 <tr>
-	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.date }}</td>
+	<td>{{ p.job_id }}</td><td>{{ p.description }}</td><td>{{ p.event_date }}, {{ p.event_time}} </td>
 </tr>
 {% endfor %}
 </table>

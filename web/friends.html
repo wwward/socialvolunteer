@@ -43,11 +43,11 @@
 <div class="center_content">
 <form action="volunteer" method="post">
 <table>
-<tr class="column_header"><td></td><td>Username</td><td>Name</td></tr>
+<tr class="column_header"><td></td><td>Username</td><td>Name</td><td>Location</td></tr>
 {% for f in friends %}
 <tr>
-	<td><input type="checkbox" name="friend_id" value="{{ f.volunteer_ID }}" /></td>
-	<td>{{ f.username }}</td><td>{{ f.name }}</td>
+	<td><input type="checkbox" name="friend_id" value="{{ f.id }}" /></td>
+	<td>{{ f.username }}</td><td>{{ f.name }}</td><td>{{ f.location }}</td>
 </tr>
 {% endfor %}
 

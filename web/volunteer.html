@@ -44,7 +44,7 @@
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Date</td></tr>
 {% for f in future_jobs %}
    <tr>
-      <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.date }} </td>
+      <td> {{ f.job_id }} </td><td> {{ f.description }} </td><td> {{ f.event_date }} </td>
    </tr>
 {% endfor %}
 </table>

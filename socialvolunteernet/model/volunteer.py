@@ -32,14 +32,14 @@ class Volunteer(object):
         INSERT INTO Friends VALUES (%(volunteer_id)s, %(friend_volunteer_id)s)
     """
     def add_friend(self, volunteer_id, friend_volunteer_id):
-        return self.db.select(self.ADD_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
+        return self.db.update(self.ADD_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
     
     # Removes a friend from the current volunteer
     REMOVE_FRIEND = """ 
         DELETE FROM Friends WHERE id = %(volunteer_id)s AND friend_id = %(friend_volunteer_id)s
     """
     def remove_friend(self, volunteer_id, friend_volunteer_id):
-        return self.db.select(self.REMOVE_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
+        return self.db.update(self.REMOVE_FRIEND, {"volunteer_id": volunteer_id, "friend_volunteer_id": friend_volunteer_id})
     
     # Returns a list of friend data (all friend data, not just the id)
     GET_FRIENDS = """
@@ -136,4 +136,4 @@ class Volunteer(object):
         AND completed = 0 AND checkedin = 0
     """
     def delete_job(self, volunteer_id, job_id):
-        return self.db.select(self.DELETE_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})
+        return self.db.update(self.DELETE_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})

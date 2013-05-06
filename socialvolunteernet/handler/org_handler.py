@@ -64,7 +64,7 @@ class OrganizationHandler(webapp.RequestHandler):
             description = self.request.get('description')
             time = self.request.get('time')
             location = self.request.get('location')
-            missing = self.edit_job(job_id, sname, description, time, location)
+            missing = self.edit_job(job_id, name, description, time, location)
             if missing:
                 self.response.out.write(str(template.render("web/edit_job.html", {"organization_id": org_id, "missing": missing})))
             else:

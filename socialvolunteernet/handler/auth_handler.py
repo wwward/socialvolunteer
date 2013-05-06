@@ -12,6 +12,7 @@ import time
 class AuthenticationHandler(webapp.RequestHandler):
 
     def __init__(self, params):
+        logging.info("auth_handler init")
         pass
     
     def get(self):
@@ -98,7 +99,7 @@ class AuthenticationHandler(webapp.RequestHandler):
 
         
 def main():
-    app = webapp.WSGIApplication([('login', AuthenticationHandler)], debug=True)
+    app = webapp.WSGIApplication([('/login', AuthenticationHandler)], debug=True)
     wsgiref.handlers.CGIHandler().run(app) 
     
 if __name__ == "__main__":

@@ -1,15 +1,4 @@
+# updated by wwward on May 5
+# ignore compilation products and OS files
 *.pyc
-bootstrap/.DS_Store
-.DS_Store
-
-*.pyc
-
-*.pyc
-
-*.pyc
-
-*.pyc
-
-socialvolunteernet/__init__.pyc
-
-*.pyc
+*.DS_Store

@@ -11,3 +11,5 @@ bootstrap/.DS_Store
 *.pyc
 
 socialvolunteernet/__init__.pyc
+
+*.pyc

@@ -39,6 +39,7 @@ class VolunteerHandler(webapp.RequestHandler):
             data = self.get_friend_display(volunteer_id)            
             self.response.out.write(str(template.render("web/friends.html", data)))
         elif action.lower() == 'delete_friends':
+            logging.info("DELETE FRIENDS...")
             friend_ids = self.request.get_all('friend_id')
             self.delete_friends(volunteer_id, friend_ids)
             data = self.get_friend_display(volunteer_id)            
@@ -88,7 +89,7 @@ class VolunteerHandler(webapp.RequestHandler):
         data['global_scores'] = self.vol.get_global_scores()
         data['friend_activity'] = self.vol.get_friend_activity(volunteer_id)
         data['current_jobs'] = self.vol.get_current_jobs(volunteer_id)
-        data['future_jobs'] = self.vol.get_current_jobs(volunteer_id)
+        data['future_jobs'] = self.vol.get_future_jobs(volunteer_id)
         logging.info(repr(data))
         return data
     
@@ -128,6 +129,7 @@ class VolunteerHandler(webapp.RequestHandler):
         return results
                  
     def delete_friends(self, volunteer_id, friend_ids):
+        logging.info("About to delete ids "+repr(friend_ids))
         for friend_id in friend_ids:
             if friend_id:
                 self.vol.remove_friend(volunteer_id, friend_id)
@@ -145,6 +147,7 @@ class VolunteerHandler(webapp.RequestHandler):
         data = {}
         data["volunteer_id"] = volunteer_id
         data["friends"] = self.vol.get_friends(volunteer_id)
+        logging.info(repr(data))
         return data
     
     def parse_param(self, name, value, params):

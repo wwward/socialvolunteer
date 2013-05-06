@@ -64,7 +64,8 @@ class OrganizationHandler(webapp.RequestHandler):
             description = self.request.get('description')
             time = self.request.get('time')
             location = self.request.get('location')
-            missing = self.edit_job(job_id, name, description, time, location)
+            date = self.request.get('date')
+            missing = self.edit_job(job_id, name, description, time, location, date)
             if missing:
                 self.response.out.write(str(template.render("web/edit_job.html", {"organization_id": org_id, "missing": missing})))
             else:
@@ -133,7 +134,7 @@ class OrganizationHandler(webapp.RequestHandler):
             pieces = volunteer.split(",")
             if len(pieces) == 2:
                 self.job.delete_volunteer(pieces[0], pieces[1])
-                logging.info("DELETED VOLUNTEER volunteer_id:"+volunteer_id+" job_id:"+job_id)
+                logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):
         for job_id in job_ids:
@@ -157,7 +158,7 @@ class OrganizationHandler(webapp.RequestHandler):
             logging.info("CREATE JOB "+name+" "+description+" "+time+" "+location+" "+date)
         return missing        
     
-    def edit_job(self, job_id, name, description, time, location):
+    def edit_job(self, job_id, name, description, time, location, date):
         missing = []
         if not name:
             missing.append("name")

@@ -11,7 +11,7 @@ class Volunteer(object):
     
     CREATE_VOLUNTEER = """
         INSERT INTO Volunteer VALUES 
-        (%(id)s, %(name)s, %(phone)s, %(location)s, '', 0, 0, %(username)s )
+        (%(name)s, %(email)s, %(phone)s, %(location)s, '', 0, 0, %(username)s )
     """
     def create_new(self, **kw):
         for key in ('id', 'name', 'phone', 'location', 'username'):
@@ -22,10 +22,10 @@ class Volunteer(object):
         return True
 
     SELECT_BY_USERNAME = """
-        SELECT * FROM Volunteer WHERE username = %(username)s
+        SELECT * FROM Volunteer WHERE username = %(username)s and id <> %(id)s
     """
-    def get_volunteer_by_username(self, username):
-        return self.db.select(self.SELECT_BY_USERNAME, {"username": username})
+    def get_volunteer_by_username(self, username, volunteer_id):
+        return self.db.select(self.SELECT_BY_USERNAME, {"username": username, "id": volunteer_id})
     
     # Adds a friend to the current volunteer
     ADD_FRIEND = """
@@ -50,14 +50,14 @@ class Volunteer(object):
     
     # Returns my score
     GET_SCORE = """
-        SELECT SUM(score) FROM Score WHERE id = %(volunteer_id)s
+        SELECT SUM(score) as score FROM Score WHERE id = %(volunteer_id)s
     """
     def get_score(self, volunteer_id):
         return self.db.select(self.GET_SCORE, {"volunteer_id": volunteer_id})
     
     # Returns a list of the scores of all of my friends
     GET_FRIEND_SCORE = """
-        SELECT SUM(score) FROM Score WHERE id IN (SELECT Friend_id FROM Friends WHERE id = %(volunteer_id)s) GROUP BY id;
+        SELECT SUM(score) as score, Volunteer.* FROM Score, Volunteer WHERE Score.id IN (SELECT Friend_id FROM Friends WHERE Friends.id = %(volunteer_id)s) AND Score.id = Volunteer.id GROUP BY Score.id ORDER BY score DESC;
     """ 
     def get_friend_score(self, volunteer_id):
         return self.db.select(self.GET_FRIEND_SCORE, {"volunteer_id": volunteer_id})
@@ -79,7 +79,7 @@ class Volunteer(object):
     
     # Returns a list of jobs that I have completed
     GET_COMPLETED_JOBS = """
-        SELECT Job.description FROM Job,Job_volunteer 
+        SELECT * FROM Job,Job_volunteer 
         WHERE Job.id = Job_volunteer.job_id
         AND Job_volunteer.volunteer_id = %(volunteer_id)s
         AND Job_volunteer.completed = 1
@@ -91,7 +91,7 @@ class Volunteer(object):
     GET_CURRENT_JOBS = """
         SELECT * FROM Job_volunteer, Job 
         WHERE Job_volunteer.job_id = Job.id AND Job_volunteer.checkedin = 1 
-        AND Job_volunteer.checkedout != 1 AND Job_volunteer.volunteer_id = 1
+        AND Job_volunteer.checkedout != 1 AND Job_volunteer.volunteer_id = %(volunteer_id)s
     """
     def get_current_jobs(self, volunteer_id):
         return self.db.select(self.GET_CURRENT_JOBS, {"volunteer_id": volunteer_id})
@@ -102,6 +102,7 @@ class Volunteer(object):
         WHERE Job.id = Job_volunteer.job_id
         AND Job_volunteer.volunteer_id = %(volunteer_id)s
         AND Job_volunteer.committed = 1
+        AND Job_volunteer.checkedin = 0
         AND Job_volunteer.completed = 0
     """
     def get_future_jobs(self, volunteer_id):
@@ -117,7 +118,8 @@ class Volunteer(object):
     # Edit user details, the modified fields are in the kw dictionary
     EDIT_VOLUNTEER_DATA = """
         UPDATE Volunteer
-        SET name = %(name)s, phone = s(phone)%, location = s(location)%
+        SET name = %(name)s, phone = %(phone)s, location = %(location)s,
+        email = %(email)s
         WHERE id = %(volunteer_id)s
     """
     def edit_volunteer_data(self, **kw):

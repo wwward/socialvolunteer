@@ -22,11 +22,12 @@ class VolunteerHandler(webapp.RequestHandler):
         if not action:
             self.response.out.write(str(template.render("web/signup_volunteer.html", {})))
             
-        volunteer_id = self.request.get('volunteer_id')
-        if not volunteer_id:
+
+        if not self.request.get('volunteer_id'):
             logging.error("Unknown volunteer_id! Cannot proceed!")
             raise Exception("Unknown volunteer_id")   
-            
+        
+        volunteer_id = int(self.request.get('volunteer_id'))
         if action.lower() == 'delete_jobs':
             job_ids = self.request.get_all('cancel_job')
             self.cancel_jobs(volunteer_id, job_ids)
@@ -40,7 +41,7 @@ class VolunteerHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/friends.html", data)))
         elif action.lower() == 'delete_friends':
             logging.info("DELETE FRIENDS...")
-            friend_ids = self.request.get_all('friend_id')
+            friend_ids = [int(i) for i in self.request.get_all('friend_id')]
             self.delete_friends(volunteer_id, friend_ids)
             data = self.get_friend_display(volunteer_id)            
             self.response.out.write(str(template.render("web/friends.html", data)))
@@ -49,30 +50,36 @@ class VolunteerHandler(webapp.RequestHandler):
             results = None
             if query:
                 results = self.search_friends(volunteer_id, query)
+            else:
+                logging.info("No query term! Can't search!")
             data = self.get_friend_display(volunteer_id) 
 
             if query and not results:
                 data["no_results"] = True
             else:
                 data["search_results"] = results
-            logging.info(repr(data))          
+            logging.info("Friend result! "+repr(data))          
             self.response.out.write(str(template.render("web/friends.html", data)))   
         elif action.lower() == 'add_friends':
-            friend_ids = self.request.get_all('friend_id')
+            friend_ids = [int(i) for i in self.request.get_all('friend_id')]
             self.add_friends(volunteer_id, friend_ids)
             data = self.get_friend_display(volunteer_id)            
             self.response.out.write(str(template.render("web/friends.html", data)))
             
         elif action.lower() == 'edit_volunteer':
             data = self.get_volunteer_info(volunteer_id)
+            data['volunteer_id'] = volunteer_id
             self.response.out.write(str(template.render("web/edit_volunteer.html", data)))
         elif action.lower() == 'submit_edit_volunteer':
             #TODO: Verify the information
             name = self.request.get('name')
             phone = self.request.get('phone')
             location = self.request.get('location')
-            missing = self.edit_volunteer(volunteer_id, name, phone, location)
+            email = self.request.get('email')
+
+            missing = self.edit_volunteer(volunteer_id, name, phone, location, email)
             data = self.get_volunteer_info(volunteer_id)
+            data['volunteer_id'] = volunteer_id
             if missing:
                 data['missing'] = missing
             self.response.out.write(str(template.render("web/edit_volunteer.html", data)))
@@ -83,8 +90,9 @@ class VolunteerHandler(webapp.RequestHandler):
         
     def get_volunteer_portal(self, volunteer_id):    
         data = self.vol.get_info(volunteer_id)[0]
+        logging.info(repr(data))
         data['friends'] =  self.vol.get_friends(volunteer_id)
-        data['score'] = self.vol.get_score(volunteer_id)
+        data['score'] = self.vol.get_score(volunteer_id)[0]['score']
         data['friend_scores'] = self.vol.get_friend_score(volunteer_id)
         data['global_scores'] = self.vol.get_global_scores()
         data['friend_activity'] = self.vol.get_friend_activity(volunteer_id)
@@ -96,7 +104,7 @@ class VolunteerHandler(webapp.RequestHandler):
     def get_volunteer_info(self, volunteer_id):
         return self.vol.get_info(volunteer_id)[0]
         
-    def edit_volunteer(self, volunteer_id, name, phone, location):
+    def edit_volunteer(self, volunteer_id, name, phone, location, email):
         missing = []
         if not name:
             missing.append("name")
@@ -104,28 +112,29 @@ class VolunteerHandler(webapp.RequestHandler):
             missing.append("phone")
         if not location:
             missing.append("location")
+        if not email:
+            missing.append("email")
         if not missing:
-            self.vol.edit_volunteer_data(volunteer_id=volunteer_id, name=name, phone=phone, location=location)
-            logging.info("EDIT VOLUNTEER "+volunteer_id+" "+name+" "+phone+" "+location)
+            self.vol.edit_volunteer_data(volunteer_id=volunteer_id, name=name, phone=phone, location=location, email=email)
+            logging.info("EDIT VOLUNTEER "+str(volunteer_id)+" "+name+" "+phone+" "+location+" "+email)
         return missing 
         
     def cancel_jobs(self, volunteer_id, job_ids):
         for job_id in job_ids:
             if job_id: 
                 self.vol.delete_job(volunteer_id, job_id)
-                logging.info("DELETED JOBS "+volunteer_id+" "+job_id)
+                logging.info("DELETED JOBS "+str(volunteer_id)+" "+str(job_id))
                 
     def add_friends(self, volunteer_id, friend_ids):
+        friends = [i['id'] for i in self.get_friend_display(volunteer_id)['friends']]
         for friend_id in friend_ids:
-            if friend_id:
+            if friend_id and friend_id not in friends:
                 self.vol.add_friend(volunteer_id, friend_id)
-                logging.info("ADDED FRIEND "+volunteer_id+" "+friend_id)
+                logging.info("ADDED FRIEND "+str(volunteer_id)+" "+str(friend_id))
 
     def search_friends(self, volunteer_id, query):
-        results = []
-        #TODO: we need a friend search
-        #results =self.vol.find_friends(volunteer_id, query)
-        logging.info("TODO: SEARCH FRIENDS "+volunteer_id+" "+query+" num results: "+str(len(results)))
+        results =self.vol.get_volunteer_by_username(query, volunteer_id)
+        logging.info("SEARCH FRIENDS "+repr(volunteer_id)+" "+query+" num results: "+str(len(results)))
         return results
                  
     def delete_friends(self, volunteer_id, friend_ids):
@@ -133,7 +142,7 @@ class VolunteerHandler(webapp.RequestHandler):
         for friend_id in friend_ids:
             if friend_id:
                 self.vol.remove_friend(volunteer_id, friend_id)
-                logging.info("DELETED FRIEND "+volunteer_id+" "+friend_id)
+                logging.info("DELETED FRIEND "+str(volunteer_id)+" "+str(friend_id))
 
     def get_job_display(self, volunteer_id):
         data = {}

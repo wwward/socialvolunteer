@@ -5,7 +5,7 @@
 <body>
 <div id="header"><div id="header_img"></div></div>
 </br></br>
-Editing volunteer information for <b>{{ name }}</b>
+Editing volunteer information for <b>{{ username }}</b>
 <div class="center_content">
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
@@ -17,6 +17,8 @@ Editing volunteer information for <b>{{ name }}</b>
       	<td width="15%" class="column_header">Name: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
       <tr>
       	<td class="column_header">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  width="50"/></td></tr>
+      <tr>
+      	<td class="column_header">Email: </td><td><input type="text" name="email" value="{{ email }}"  width="50"/></td></tr>
       <tr>
       	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr>  
       </table>     

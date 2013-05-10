@@ -8,11 +8,12 @@ class Job(object):
         
     # Creates a new job row in the database
     CREATE_NEW = """
-        INSERT INTO Job VALUES (id=%(id)s, organization_id=%(organization_id)s, 
+        INSERT INTO Job VALUES (organization_id=%(organization_id)s, 
                        event_date=%(event_date)s, event_time=%(event_time)s,
                        event_duration_minutes=%(event_duration_minutes)s,
                        score_value=%(score_value)s, description=%(description)s,
-                       category=%(category)s, status=%(status)s)
+                       title=%(title)s,category=%(category)s, status=%(status)s,
+                       location=%(location)s)
     """
     def create_new(self, **kw):
         self.db.update(self.CREATE_NEW, kw)
@@ -20,11 +21,12 @@ class Job(object):
     # Allows modification of information about the job
     # Edit a listed job. Modified fields are in the kw dictionary
     EDIT_JOB = """
-        UPDATE Job SET id=%(id)s, organization_id=%(organization_id)s, 
+        UPDATE Job SET organization_id=%(organization_id)s, 
                        event_date=%(event_date)s, event_time=%(event_time)s,
                        event_duration_minutes=%(event_duration_minutes)s,
                        score_value=%(score_value)s, description=%(description)s,
-                       category=%(category)s, status=%(status)s 
+                       category=%(category)s, status=%(status)s, title=%(title)s,
+                       location=%(location)s
                        WHERE id=%(job_id)s AND organization_id=%(organization_id)s
     """
     def edit_job(self, organization_id, job_id, **kw):
@@ -71,8 +73,14 @@ class Job(object):
         UPDATE Job_volunteer SET completed=1 WHERE volunteer_id=%(volunteer_id)s
         AND job_id=%(job_id)s
     """
+    UPDATE_SCORE = """
+        INSERT INTO Score VALUES (id=%(volunteer_id)s, job_id=%(job_id)s, score=%(score)s)
+    """
     def volunteer_completed(self, job_id, volunteer_id):
         self.db.update(self.VOLUNTEER_COMPLETED, job_id)
+        job_info = self.get_info(job_id)
+        self.db.update(self.UPDATE_SCORE, volunteer_id, job_id, job_info[0]["score_value"])
+        
     
     # Remove the volunteer from the job
     DELETE_VOLUNTEER = """

@@ -16,7 +16,7 @@ class OrganizationHandler(webapp.RequestHandler):
     def post(self):
         actions = self.request.get_all('action')
         action = actions[-1]
-        org_id = self.request.get('organization_id')
+        org_id = int(self.request.get('organization_id'))
         logging.info("Received POST request, action="+repr(actions)+" chose="+action)
         if not action:
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
@@ -54,12 +54,12 @@ class OrganizationHandler(webapp.RequestHandler):
                 self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "edit_job":
             # TODO: More weirdness.... this is actually doing a delete.
-            job_id = self.request.get('job_id')
+            job_id = int(self.request.get('job_id'))
             job_data = self.get_job_display(job_id)
             self.response.out.write(str(template.render("web/edit_job.html", job_data)))
         elif action.lower() == "edit_submit_job":
             #TODO: Add error checking to the edit portal
-            job_id = self.request.get('job_id')
+            job_id = int(self.request.get('job_id'))
             name = self.request.get('name')
             description = self.request.get('description')
             time = self.request.get('time')
@@ -113,6 +113,8 @@ class OrganizationHandler(webapp.RequestHandler):
         response["current_jobs"] = self.org.get_current_jobs(organization_id)
         response["upcoming_commitments"] = self.org.get_committed_jobs(organization_id)
         response["completed_jobs"] = self.org.get_completed_jobs(organization_id)   
+        response['organization_id'] = organization_id
+
         logging.info(repr(response)) 
         return response
         
@@ -126,19 +128,19 @@ class OrganizationHandler(webapp.RequestHandler):
         for completed in completed_list:
             completed = completed.split(',')                
             if len(completed) == 2:
-                self.job.volunteer_completed(completed[0], completed[1])
+                self.job.volunteer_completed(int(completed[0]), int(completed[1]))
                 logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])
         
     def cancel_volunteer(self, volunteers):
         for volunteer in volunteers:
             pieces = volunteer.split(",")
             if len(pieces) == 2:
-                self.job.delete_volunteer(pieces[0], pieces[1])
+                self.job.delete_volunteer(int(pieces[0]), int(pieces[1]))
                 logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):
         for job_id in job_ids:
-            self.org.delete_job(organization_id, job_id)
+            self.org.delete_job(int(organization_id), int(job_id))
             logging.info("DELELTED JOB organization_id:"+organization_id+" job_id:"+job_id)
 
     def add_job(self, name, description, time, location, date):

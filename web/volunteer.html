@@ -17,7 +17,7 @@
 <input type="submit" value="Edit your profile" class="button"  />
 </form>
 
-</td><td></td><td align="right" valign="top">Score = {{ total_score }}</td></tr>
+</td><td></td><td align="right" valign="top">Score = {{ score }}</td></tr>
 <tr><td valign="top">
 
 
@@ -44,7 +44,7 @@
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Date</td></tr>
 {% for f in future_jobs %}
    <tr>
-      <td> {{ f.job_id }} </td><td> {{ f.description }} </td><td> {{ f.event_date }} </td>
+      <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.event_date }} </td>
    </tr>
 {% endfor %}
 </table>
@@ -87,10 +87,10 @@
 <div name="gleader">
 <h3>Global leaderboard</h3>
 <table>
-<tr class="column_header"><td>Username&nbsp;</td><td>Name</td><td>Score</td></tr>
+<tr class="column_header"><td>Username&nbsp;</td><td>Score</td></tr>
 {% for f in global_scores %}
    <tr>
-      <td> {{ f.username }} </td><td> {{ f.name }} </td><td> {{ f.score }} </td>
+      <td> {{ f.username }} </td><td> {{ f.Total_Score }} </td>
    </tr>
 {% endfor %}
 </table>

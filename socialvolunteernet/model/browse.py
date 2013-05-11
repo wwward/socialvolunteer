@@ -1,5 +1,4 @@
 from socialvolunteernet.model.database import GoogleCloudSQLStore
-import logging 
 
 
 class Browse(object):
@@ -9,14 +8,18 @@ class Browse(object):
         
     #search a job from database by selecting the keyword
     SEARCH_BY_KEYWORD = """
-        SELECT job by key word
+        SELECT Job.*
+        FROM Job
+        WHERE Job.keyword = %(keyword)s
     """    
-    def search_by_keyword(self, key_word):
-        return self.db.select(self.SEARCH_BY_KEYWORD, key_word)
+    def search_by_keyword(self, keyword):
+        return self.db.select(self.SEARCH_BY_KEYWORD, keyword)
     
     #search a job from database by selecting the category
     SEARCH_BY_CATEGORY = """
-        SELECT job by category
+        SELECT Job.*
+        FROM Job
+        WHERE Job.category = %(category)s
     """
     def search_by_category(self, category):
         return self.db.select(self.SEARCH_BY_CATEGORY, category)

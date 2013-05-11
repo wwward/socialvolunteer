@@ -18,6 +18,7 @@ i {
 table {
 	width: 100%;
 	border: 0px;
+	border-spacing: 0px;
 }
 
 .column_header {

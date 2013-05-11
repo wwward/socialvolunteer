@@ -127,7 +127,7 @@ class Volunteer(object):
     
     # Sign up for a new job
     ADD_JOB = """
-        INSERT INTO Job_volunteer VALUES (%(job_id)s,%(volunteer_id)s,0,0);
+        INSERT INTO Job_volunteer VALUES (%(job_id)s,%(volunteer_id)s,0,0, NOW());
     """
     def add_job(self, volunteer_id, job_id):
         return self.db.select(self.ADD_JOB, {"volunteer_id": volunteer_id, "job_id": job_id})

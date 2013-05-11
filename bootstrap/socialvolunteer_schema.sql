@@ -26,6 +26,7 @@ CREATE  TABLE IF NOT EXISTS `groupwerk`.`Job` (
   `event_date` DATE NULL DEFAULT NULL ,
   `event_time` TIME NULL DEFAULT NULL ,
   `event_duration_minutes` SMALLINT(6) NULL DEFAULT NULL ,
+  `difficulty` SMALLINT DEFAULT 0,  
   `score_value` SMALLINT(6) NULL DEFAULT NULL ,
   `title` VARCHAR(100) NULL DEFAULT NULL ,
   `description` TEXT NULL DEFAULT NULL ,
@@ -47,7 +48,9 @@ CREATE  TABLE IF NOT EXISTS `groupwerk`.`Job_volunteer` (
   `committed` SMALLINT(6) NULL DEFAULT NULL ,
   `completed` SMALLINT(6) NULL DEFAULT NULL ,
   `checkedin` SMALLINT(6) NULL DEFAULT NULL ,
-  `checkedout` SMALLINT(6) NULL DEFAULT NULL )
+  `checkedout` SMALLINT(6) NULL DEFAULT NULL,
+  `modified` DATETIME NULL DEFAULT NULL  
+  )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 

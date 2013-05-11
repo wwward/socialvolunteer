@@ -62,7 +62,7 @@ class Job(object):
     
     # Add a volunteer to the committed volunteers
     ADD_VOLUNTEER = """
-        INSERT INTO Job_volunteer VALUES (volunteer_id=%(volunteer_id)s)
+        INSERT INTO Job_volunteer VALUES (volunteer_id=%(volunteer_id)s, modified=NOW())
         WHERE id=%(job_id)s
     """
     def add_volunteer(self, job_id, volunteer_id):
@@ -70,7 +70,7 @@ class Job(object):
     
     # Move a volunteer status from committed to completed
     VOLUNTEER_COMPLETED = """
-        UPDATE Job_volunteer SET completed=1 WHERE volunteer_id=%(volunteer_id)s
+        UPDATE Job_volunteer SET completed=1, modified=NOW()  WHERE volunteer_id=%(volunteer_id)s
         AND job_id=%(job_id)s
     """
     UPDATE_SCORE = """

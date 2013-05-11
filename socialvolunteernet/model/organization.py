@@ -101,7 +101,7 @@ class Organization(object):
     
     # Edit a listed job. Modified fields are in the kw dictionary
     EDIT_JOB = """
-        UPDATE Job SET id=%(id)s, organization_id=%(organization_id)s, 
+        UPDATE Job SET  organization_id=%(organization_id)s, 
                        event_date=%(event_date)s, event_time=%(event_time)s,
                        event_duration_minutes=%(event_duration_minutes)s,
                        score_value=%(score_value)s, description=%(description)s,

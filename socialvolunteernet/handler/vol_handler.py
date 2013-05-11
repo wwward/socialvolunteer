@@ -98,7 +98,7 @@ class VolunteerHandler(webapp.RequestHandler):
         data['friend_activity'] = self.vol.get_friend_activity(volunteer_id)
         data['current_jobs'] = self.vol.get_current_jobs(volunteer_id)
         data['future_jobs'] = self.vol.get_future_jobs(volunteer_id)
-        logging.info(repr(data))
+        logging.info(repr(data['friend_activity']))
         return data
     
     def get_volunteer_info(self, volunteer_id):

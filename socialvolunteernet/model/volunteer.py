@@ -73,9 +73,16 @@ class Volunteer(object):
         return self.db.select(self.GET_GLOBAL_SCORES)
     
     # Returns the top activity across the site
-    # www3 - what constitutes activity?
+    GET_FRIEND_ACTIVITY = """
+    SELECT Job_volunteer.*, Job.*, Volunteer.* FROM Job_volunteer, Job, Volunteer
+    WHERE Job_Volunteer.volunteer_id IN (SELECT Friend_id FROM Friends WHERE Friends.id = %(volunteer_id)s)
+    AND Job_Volunteer.volunteer_id = Volunteer.id
+    AND Job_Volunteer.job_id = Job.id
+    ORDER BY Job_Volunteer.modified DESC
+    """
     def get_friend_activity(self, volunteer_id):
-        pass
+        return self.db.select(self.GET_FRIEND_ACTIVITY, {"volunteer_id": volunteer_id})
+
     
     # Returns a list of jobs that I have completed
     GET_COMPLETED_JOBS = """

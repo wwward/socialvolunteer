@@ -1,4 +1,5 @@
 from socialvolunteernet.model.database import GoogleCloudSQLStore
+import logging 
 
 
 class Job(object):
@@ -44,21 +45,22 @@ class Job(object):
         SELECT volunteer_id FROM Job_volunteer WHERE committed=1 AND job_id=%(job_id)s
     """
     def get_committed_volunteers(self, job_id):
-        self.db.update(self.GET_COMMITTED_VOLUNTEERS, job_id)
+        return self.db.select(self.GET_COMMITTED_VOLUNTEERS, job_id)
     
     # Returns a list of volunteers who have completed the job
     GET_COMPLETED_VOLUNTEERS = """
         SELECT volunteer_id FROM Job_volunteer WHERE completed=1 AND job_id=%(job_id)s
     """
     def get_completed_volunteers(self, job_id):
-        self.db.update(self.GET_COMPLETED_VOLUNTEERS, job_id)
+        return self.db.select(self.GET_COMPLETED_VOLUNTEERS, job_id)
     
     # Return info about a given job id
     GET_INFO = """
        SELECT * FROM Job WHERE id=%(job_id)s
     """
     def get_info(self, job_id):
-        self.db.update(self.GET_INFO, job_id)
+        logging.info("Getting job info for "+repr(job_id))
+        return self.db.select(self.GET_INFO, {'job_id': job_id})
     
     # Add a volunteer to the committed volunteers
     ADD_VOLUNTEER = """
@@ -77,9 +79,11 @@ class Job(object):
         INSERT INTO Score VALUES (id=%(volunteer_id)s, job_id=%(job_id)s, score=%(score)s)
     """
     def volunteer_completed(self, job_id, volunteer_id):
-        self.db.update(self.VOLUNTEER_COMPLETED, job_id)
+        self.db.update(self.VOLUNTEER_COMPLETED, {'job_id':job_id, 'volunteer_id':volunteer_id})
+        logging.info('marked completed')
         job_info = self.get_info(job_id)
-        self.db.update(self.UPDATE_SCORE, volunteer_id, job_id, job_info[0]["score_value"])
+        logging.info('info: '+repr(job_info))
+        self.db.update(self.UPDATE_SCORE, {'job_id':job_id, 'volunteer_id':volunteer_id, 'score':job_info[0]["score_value"]})
         
     
     # Remove the volunteer from the job

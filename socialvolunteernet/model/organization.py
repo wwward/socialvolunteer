@@ -54,7 +54,8 @@ class Organization(object):
     # Returns all jobs that users have completed but have yet to be reviewed
     # Status 4 = reviewed
     GET_UNREVIEWED_JOBS = """
-        select Job.title, Job.id, Job.event_date, Job.event_time, Job.location, Volunteer.name, Volunteer.username 
+        select Job.title, Job.id, Job.event_date, Job.event_time, Job.location, Volunteer.name, Volunteer.username, 
+        Volunteer.id as volunteer_id
         from Job,Volunteer,Job_volunteer 
         WHERE Job.id = Job_volunteer.job_id 
         AND Job_volunteer.volunteer_id = Volunteer.id
@@ -93,10 +94,10 @@ class Organization(object):
     # Delete a listed job
     DELETE_JOB = """
         delete from Job where organization_id = %(organization_id)s 
-        AND job_id = %(job_id)s
+        AND id = %(job_id)s
     """
     def delete_job(self, organization_id, job_id):
-        return self.db.select(self.DELETE_JOB,
+        return self.db.update(self.DELETE_JOB,
                               {"organization_id": organization_id, "job_id": job_id})
     
     # Edit a listed job. Modified fields are in the kw dictionary
@@ -125,8 +126,8 @@ class Organization(object):
     # Edit organization
     EDIT_ORGANIZATION = """
         UPDATE Organization SET name=%(name)s, email=%(email)s, phone=%(phone)s, location=%(location)s,
-                                reputation=%(reputation)s, description=%(description)s
+                                 description=%(description)s
                                 WHERE id=%(organization_id)s
     """
-    def edit_organization_data(self, organization_id, **kw):
+    def edit_organization_data(self, **kw):
         self.db.update(self.EDIT_ORGANIZATION, kw)

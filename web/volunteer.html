@@ -62,11 +62,13 @@
 <div name="feed">
 <h3>Friend Activity</h3>
 <table width="100%">
-<tr class="column_header"><td width="20%">Username&nbsp;</td><td width="60%">Title</td><td width="20%">Job ID</td></tr>
+<tr class="column_header"><td colspan="2">Friend Activity</td></tr>
 {% for u in friend_activity %}
-   <tr>
-      <td> {{ u.username }} </td><td> {{ u.title }} </td><td> {{ u.job_id }} </td>
-   </tr>
+   <tr><td> <b>{{ u.username }}</b> just 
+{% if u.checkedin == 0 %} signed up for {% else %} {% if u.completed == 0 %} started {% else %} completed {% endif %} {% endif %}
+   
+    the job <b>{{ u.title }}</b>! </td><td></td></tr>
+   <tr><td></td><td><i>{{ u.modified }}</i> </td></tr>
 {% endfor %}
 </table>
 </div>

@@ -22,6 +22,7 @@ class OrganizationHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
             
         if action.lower() == "complete_volunteers":
+            logging.info("Complete: "+repr(self.request.get_all('completed')))
             self.volunteer_complete(self.request.get_all('completed'))
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
@@ -56,6 +57,7 @@ class OrganizationHandler(webapp.RequestHandler):
             # TODO: More weirdness.... this is actually doing a delete.
             job_id = int(self.request.get('job_id'))
             job_data = self.get_job_display(job_id)
+            data['organization_id'] = org_id
             self.response.out.write(str(template.render("web/edit_job.html", job_data)))
         elif action.lower() == "edit_submit_job":
             #TODO: Add error checking to the edit portal
@@ -73,14 +75,17 @@ class OrganizationHandler(webapp.RequestHandler):
                 self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "edit_organization":
             data = self.get_info(org_id)
+            data['organization_id'] = org_id
             self.response.out.write(str(template.render("web/edit_organization.html", data)))
         elif action.lower() == "submit_edit_organization":
             name = self.request.get('name')
             description = self.request.get('description')
             phone = self.request.get('phone')
+            email = self.request.get('email')
             location = self.request.get('location')
-            self.edit_organization(org_id, name, description, phone, location)
+            self.edit_organization(org_id, name, description, phone, location, email)
             data = self.get_info(org_id)
+            data['organization_id'] = org_id
             self.response.out.write(str(template.render("web/edit_organization.html", data)))
 
         elif action.lower() == "portal":
@@ -92,7 +97,7 @@ class OrganizationHandler(webapp.RequestHandler):
         logging.error("GET METHOD NOT SUPPORTED")
         raise Exception("GET METHOD NOT SUPPORTED")
             
-    def edit_organization(self, org_id, name, description, phone, location):
+    def edit_organization(self, org_id, name, description, phone, location, email):
         missing = []
         if not name:
             missing.append("name")
@@ -102,20 +107,23 @@ class OrganizationHandler(webapp.RequestHandler):
             missing.append("phone")
         if not location:
             missing.append("location")
+        if not email:
+            missing.append("email")
         if not missing:
-            self.org.edit_organization_data(org_id, name=name, location=location, description=description)
-            logging.info("EDIT ORGANIZATION "+name+" "+description+" "+org_id+" "+location)
-        return missing 
+            self.org.edit_organization_data(organization_id=org_id, name=name, location=location, description=description, email=email, phone=phone)
+            logging.info("EDIT ORGANIZATION "+name+" "+description+" "+str(org_id)+" "+location+" "+email)
+        return missing  
     
     def get_organization_portal(self, organization_id):
         response = self.org.get_info(organization_id)[0]
+        response['organization_id'] = organization_id
         response["current_commitments"] = self.org.get_unreviewed_jobs(organization_id)
         response["current_jobs"] = self.org.get_current_jobs(organization_id)
         response["upcoming_commitments"] = self.org.get_committed_jobs(organization_id)
         response["completed_jobs"] = self.org.get_completed_jobs(organization_id)   
         response['organization_id'] = organization_id
 
-        logging.info(repr(response)) 
+        logging.info(repr(response["current_commitments"])) 
 
         return response
         
@@ -129,6 +137,8 @@ class OrganizationHandler(webapp.RequestHandler):
         for completed in completed_list:
             completed = completed.split(',')                
             if len(completed) == 2:
+                logging.info("about to process job_id:"+completed[0]+" volunteer_id:"+completed[1])
+
                 self.job.volunteer_completed(int(completed[0]), int(completed[1]))
                 logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])
         
@@ -140,9 +150,13 @@ class OrganizationHandler(webapp.RequestHandler):
                 logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):
+        logging.info('job'+repr(job_ids))
+
         for job_id in job_ids:
-            self.org.delete_job(int(organization_id), int(job_id))
-            logging.info("DELELTED JOB organization_id:"+organization_id+" job_id:"+job_id)
+            logging.info('job'+repr(job_id))
+            if len(job_id) > 0:
+                self.org.delete_job(organization_id, int(job_id))
+                logging.info("DELELTED JOB organization_id:"+repr(organization_id)+" job_id:"+repr(job_id))
 
     def add_job(self, name, description, time, location, date):
         missing = []

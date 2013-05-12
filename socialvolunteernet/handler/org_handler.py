@@ -57,29 +57,46 @@ class OrganizationHandler(webapp.RequestHandler):
                 self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == 'modify_job' and self.request.get('kind') == 'edit':
             # TODO: More weirdness.... this is actually doing a delete.
-            job_ids = [int(i) for i in self.request.get_all('job_id')]
-            logging.info("EDIT JOB: "+repr(job_ids))
+            job_ids = [int(i) for i in self.request.get_all('selected_jobs')]
 
-            #job_data = self.get_job_display(job_id)[0]
-            #job_data['organization_id'] = org_id
-            
-            #self.response.out.write(str(template.render("web/edit_job.html", job_data)))
-            portal = self.get_organization_portal(org_id)
-            self.response.out.write(str(template.render("web/organization.html", portal)))
+            if not job_ids:
+                logging.info("EDIT JOB: (no job ids)")
+                portal = self.get_organization_portal(org_id)
+                self.response.out.write(str(template.render("web/organization.html", portal)))
+            else:   
+                logging.info("EDIT JOB: "+repr(job_ids))
+
+                job_data = {'jobs' : self.get_job_display(job_ids)}
+                job_data['organization_id'] = org_id
+                job_data['job_ids'] = job_ids
+                self.response.out.write(str(template.render("web/edit_job.html", job_data)))
+
         elif action.lower() == "edit_submit_job":
             #TODO: Add error checking to the edit portal
+            job_ids = [int(i) for i in self.request.get('job_ids').split(',')]
             job_id = int(self.request.get('job_id'))
-            name = self.request.get('name')
+            org_id = int(self.request.get('organization_id'))
+
+            title = self.request.get('title')
             description = self.request.get('description')
             time = self.request.get('time')
             location = self.request.get('location')
             date = self.request.get('date')
-            missing = self.edit_job(job_id, name, description, time, location, date)
+            duration = self.request.get('duration')
+            difficulty = self.request.get('difficulty')
+            category = self.request.get('category')
+            keywords = self.request.get('keywords')
+
+            missing = self.edit_job(job_id=job_id, description=description, time=time, location=location, 
+                                    date=date, title=title, duration=duration, difficulty=difficulty, 
+                                    category=category, keywords=keywords)
             if missing:
                 self.response.out.write(str(template.render("web/edit_job.html", {"organization_id": org_id, "missing": missing})))
             else:
-                portal = self.get_organization_portal(org_id)
-                self.response.out.write(str(template.render("web/organization.html", portal)))
+                job_data = {'jobs' : self.get_job_display(job_ids)}
+                job_data['organization_id'] = org_id
+                job_data['job_ids'] = job_ids
+                self.response.out.write(str(template.render("web/edit_job.html", job_data)))
         elif action.lower() == "edit_organization":
             data = self.get_info(org_id)
             data['organization_id'] = org_id
@@ -129,16 +146,16 @@ class OrganizationHandler(webapp.RequestHandler):
         response["upcoming_commitments"] = self.org.get_committed_jobs(organization_id)
         response["completed_jobs"] = self.org.get_completed_jobs(organization_id)   
         response['organization_id'] = organization_id
-
-        logging.info(repr(response["current_commitments"])) 
-
         return response
         
     def get_info(self, organization_id):
         return self.org.get_info(organization_id)[0]
         
-    def get_job_display(self, job_id):
-        return self.job.get_info(job_id)
+    def get_job_display(self, job_ids):
+        jobs = []
+        for job_id in job_ids:
+            jobs.append(self.job.get_info(job_id)[0])
+        return jobs
     
     def volunteer_complete(self, completed_list):
         for completed in completed_list:
@@ -165,39 +182,31 @@ class OrganizationHandler(webapp.RequestHandler):
                 self.org.delete_job(organization_id, int(job_id))
                 logging.info("DELELTED JOB organization_id:"+repr(organization_id)+" job_id:"+repr(job_id))
 
-    def add_job(self, name, description, time, location, date):
-        missing = []
-        if not name:
-            missing.append("name")
-        if not description:
-            missing.append("description")
-        if not time:
-            missing.append("time")
-        if not location:
-            missing.append("location")
-        if not date:
-            missing.append("date")
+    def add_job(self, **kw):
+        missing = self.check_job_values(kw)
         if not missing:
-            self.job.create_new(name=name, time=time, location=location, description=description, date=date)
-            logging.info("CREATE JOB "+name+" "+description+" "+time+" "+location+" "+date)
+            kw['score'] = self.calculate_score(kw['duration'], kw['difficulty'])
+            self.job.create_new(**kw)
+            logging.info("CREATE JOB "+kw['title'])
         return missing        
     
-    def edit_job(self, job_id, name, description, time, location, date):
-        missing = []
-        if not name:
-            missing.append("name")
-        if not description:
-            missing.append("description")
-        if not time:
-            missing.append("time")
-        if not location:
-            missing.append("location")
-        if not date:
-            missing.append("date")
+    def edit_job(self, **kw):
+        missing = self.check_job_values(kw)
         if not missing:
-            self.job.edit_job(job_id=job_id, name=name, time=time, location=location, description=description, date=date)
-            logging.info("EDIT JOB "+name+" "+description+" "+time+" "+location+" "+date)
+            kw['score'] = self.calculate_score(kw['duration'], kw['difficulty'])
+            self.job.edit_job(**kw)
+            logging.info("EDIT JOB "+kw['title'])
         return missing 
+    
+    def calculate_score(self, duration, difficulty):
+        return int(duration) * int(difficulty)
+    
+    def check_job_values(self, params) :
+        missing = []
+        for param in ("description", "time", "location", "date", "title", "duration", "difficulty", "category", "keywords"):
+            if not param in params:   
+                missing.append(param)
+        return missing
     
         
     def parse_param(self, name, value, params):

@@ -48,7 +48,7 @@ Welcome, <b>{{ name }}</b></br></br>
 <tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td></tr>	
 {% for j in current_jobs %}
 <tr>
-<td><input type="checkbox" class="job_id" value="{{ j.id }}" /></td>
+<td><input type="checkbox" class="selected_jobs" name="selected_jobs" value="{{ j.id }}" /></td>
 <td>{{ j.id }}</td><td>{{ j.title }}</td><td>{{ j.description }}</td><td>{{ j.event_date }}, {{ j.event_time }}</td>
 </tr>
 
@@ -62,7 +62,6 @@ Welcome, <b>{{ name }}</b></br></br>
 <input type="submit" name="delete" value="Delete selected jobs" onclick="return buttonClick(this)" class="button" />
 <input type="submit" name="edit" value="Edit selected jobs" onclick="return buttonClick(this)"  class="button" />
 </form>
-<br/>
 <form action="org" method="post" >
 <input type="hidden" name="action" value="new_job" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />

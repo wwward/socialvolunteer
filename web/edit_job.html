@@ -5,32 +5,51 @@
 <body>
 <div id="header"><div id="header_img"></div></div>
 </br>
-Editing volunteer information for <b>{{ job_id }}</b>
+<h3>Job edit</h3>
 </br></br>
 <div class="center_content">
+{% for j in jobs %}
 <form action="org" method="post">
-<input type="hidden" name="job_id" value="{{ job_id }}" />
+Job <b>{{ j.id }}</b>
+<input type="hidden" name="job_id" value="{{ j.id }}" />
+<input type="hidden" name="job_ids" value="{{ job_ids|join:','}}" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}"/>
 
 <input type="hidden" name="action" value="edit_submit_job" />
 
-
    <table width="100%">
       <tr>
-      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
+      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="name" value="{{ j.title }}" size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ time }}"  width="50"/></td></tr>
+      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ date }}" width="50"/></td></tr>  
+      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date }}" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Description: </td><td><input type="textarea" name="description" value="{{ description }}" width="50"/></td></tr>  
+      	<td class="column_header">Duration (minutes): </td><td><input type="text" name="duration" value="{{ j.event_duration_minutes }}" size="100"/></td></tr>  
+      <tr>
+      	<td class="column_header">Difficulty: </td><td>
+      	<select name="difficulty">
+			<option value="1" {% if j.difficulty == 1 %} selected {% endif %}>Easy</option>
+			<option value="2" {% if j.difficulty == 2 %} selected {% endif %}>Average</option>
+			<option value="3" {% if j.difficulty == 3 %} selected {% endif %}>Difficult</option>
+		</select>
+
+      <tr>
+      	<td class="column_header">Location: </td><td><input type="text" name="date" value="{{ j.location }}" size="100"/></td></tr>  
+      <tr>
+      	<td class="column_header">Category: </td><td><input type="text" name="date" value="{{ j.category }}" size="100"/></td></tr>  
+      <tr>
+      	<td class="column_header">Keywords: </td><td><input type="text" name="date" value="{{ j.keywords|join:',' }}" size="100"/></td></tr>  
+
+      <tr>
+      	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="87">{{ j.description }}</textarea></td></tr>  
       </table>
-      </br></br>
+<br>
 
 
-      <input type="submit" value="Edit job" class="button" />
+      <input type="submit" value="Save" class="button" />
 </form>
-
+{% endfor %}
 <form action="org" method="post">
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="portal" />

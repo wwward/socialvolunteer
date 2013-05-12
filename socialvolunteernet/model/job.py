@@ -10,29 +10,49 @@ class Job(object):
     # Creates a new job row in the database
     CREATE_NEW = """
         INSERT INTO Job VALUES (organization_id=%(organization_id)s, 
-                       event_date=%(event_date)s, event_time=%(event_time)s,
-                       event_duration_minutes=%(event_duration_minutes)s,
-                       score_value=%(score_value)s, description=%(description)s,
+                       event_date=%(date)s, event_time=%(time)s,
+                       duration=%(duration)s,
+                       score_value=%(scores, description=%(description)s,
                        title=%(title)s,category=%(category)s, status=%(status)s,
                        location=%(location)s)
     """
+    INSERT_KEYWORD = """
+        INSERT INTO Keyword VALUES (keyword=%(keyword)s, resource_id=%(resource_id)s)
+    """
     def create_new(self, **kw):
-        self.db.update(self.CREATE_NEW, kw)
+        job_id = self.db.select(self.CREATE_NEW, kw)
+        if kw['keywords']:
+            for keyword in kw['keywords']:
+                self.db.update(self.INSERT_KEYWORD, {'keyword': keyword, 'job_id': job_id})    
     
     # Allows modification of information about the job
     # Edit a listed job. Modified fields are in the kw dictionary
     EDIT_JOB = """
-        UPDATE Job SET organization_id=%(organization_id)s, 
-                       event_date=%(event_date)s, event_time=%(event_time)s,
-                       event_duration_minutes=%(event_duration_minutes)s,
-                       score_value=%(score_value)s, description=%(description)s,
+        UPDATE Job SET 
+                       event_date=%(date)s, event_time=%(time)s,
+                       event_duration_minutes=%(duration)s,
+                       score_value=%(score)s, description=%(description)s,
                        category=%(category)s, status=%(status)s, title=%(title)s,
-                       location=%(location)s
+                       location=%(location)s, difficulty=%(difficulty)s
                        WHERE id=%(job_id)s AND organization_id=%(organization_id)s
     """
-    def edit_job(self, organization_id, job_id, **kw):
+    DELETE_KEYWORD = """
+        DELETE FROM Keyword where keyword = %(keyword)s AND job_id = %(job_id)s
+    """
+    def edit_job(self, **kw):
+        job_id = kw['job_id']
         self.db.update(self.EDIT_JOB, kw)
-    
+        keywords = set(kw['keywords'])
+        cur_keywords = set(self.GET_KEYWORDS({'job_id': job_id})[0]['keywords'])
+        new_kws = keywords - cur_keywords
+        old_kws = cur_keywords - keywords
+        if new_kws:
+            for keyword in new_kws:
+                self.db.update(self.INSERT_KEYWORD, {'keyword': keyword, 'job_id': job_id})
+        if old_kws:
+            for keyword in old_kws:
+                self.db.update(self.DELETE_KEYWORD, {'keyword': keyword, 'job_id': job_id})                
+                
     # Removes the job, or marks it inactive so that we can still return details about it
     DELETE_JOB = """
         UPDATE Job SET status=6 WHERE job_id=%(job_id)s
@@ -58,9 +78,15 @@ class Job(object):
     GET_INFO = """
        SELECT * FROM Job WHERE id=%(job_id)s
     """
+    GET_KEYWORDS = """ 
+       SELECT DISTINCT keyword FROM Keyword WHERE reference_id=%(job_id)s
+    """
     def get_info(self, job_id):
         logging.info("Getting job info for "+repr(job_id))
-        return self.db.select(self.GET_INFO, {'job_id': job_id})
+        info = self.db.select(self.GET_INFO, {'job_id': job_id})
+        word_list = self.db.select(self.GET_KEYWORDS, {'job_id': job_id})
+        info[0]['keywords'] = [k['keyword'] for k in word_list]
+        return info
     
     # Add a volunteer to the committed volunteers
     ADD_VOLUNTEER = """

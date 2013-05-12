@@ -17,7 +17,7 @@ class OrganizationHandler(webapp.RequestHandler):
         actions = self.request.get_all('action')
         action = actions[-1]
         org_id = int(self.request.get('organization_id'))
-        logging.info("Received POST request, action="+repr(actions)+" chose="+action)
+        logging.info("Received POST request, action="+repr(actions)+" chose="+action+" kind="+self.request.get('kind'))
         if not action:
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
             
@@ -26,12 +26,14 @@ class OrganizationHandler(webapp.RequestHandler):
             self.volunteer_complete(self.request.get_all('completed'))
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
-        elif action.lower() == "edit_job" and self.request.get('kind') == 'delete':   
+        elif action.lower() == 'modify_job' and self.request.get('kind') == 'delete':   
             # Some weird nested forms issue I don't feel like looking at.
             # TODO: Perhaps we need to use named forms.
             # TODO: Something funky is going on here. Too many ids are being deleted
+            logging.info("DELETE JOB: "+repr(self.request.get_all('job_id')))
             self.delete_job(self.request.get_all('job_id'), org_id)
             portal = self.get_organization_portal(org_id)
+
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "cancel_volunteer":
             #TODO: The checkbox issue
@@ -53,12 +55,17 @@ class OrganizationHandler(webapp.RequestHandler):
             else:
                 portal = self.get_organization_portal(org_id)
                 self.response.out.write(str(template.render("web/organization.html", portal)))
-        elif action.lower() == "edit_job":
+        elif action.lower() == 'modify_job' and self.request.get('kind') == 'edit':
             # TODO: More weirdness.... this is actually doing a delete.
-            job_id = int(self.request.get('job_id'))
-            job_data = self.get_job_display(job_id)
-            data['organization_id'] = org_id
-            self.response.out.write(str(template.render("web/edit_job.html", job_data)))
+            job_ids = [int(i) for i in self.request.get_all('job_id')]
+            logging.info("EDIT JOB: "+repr(job_ids))
+
+            #job_data = self.get_job_display(job_id)[0]
+            #job_data['organization_id'] = org_id
+            
+            #self.response.out.write(str(template.render("web/edit_job.html", job_data)))
+            portal = self.get_organization_portal(org_id)
+            self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "edit_submit_job":
             #TODO: Add error checking to the edit portal
             job_id = int(self.request.get('job_id'))

@@ -3,7 +3,7 @@ from socialvolunteernet.model.database import GoogleCloudSQLStore
 
 class Browse(object):
 
-    def __init__(self, params):
+    def __init__(self):
         self.db = GoogleCloudSQLStore()
         
     #search a job from database by selecting the keyword

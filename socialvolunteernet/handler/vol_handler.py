@@ -5,39 +5,27 @@ import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 from socialvolunteernet.model.volunteer import Volunteer
-from google.appengine.api import users
 
 class VolunteerHandler(webapp.RequestHandler):
+        
     vol = Volunteer()    
     
     # Implemented by the parent class, but we don't want to support it....    
-#     def get(self):
-#         logging.error("GET METHOD NOT SUPPORTED")
-#         raise Exception("GET METHOD NOT SUPPORTED")
-
-    # Need GET to support AUTH apparently - www3 - DEBUG
     def get(self):
-        user = users.get_current_user()
-        if user:
-            greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>)" %
-                        (user.nickname(), users.create_logout_url("/")))
-        else:
-            greeting = ("<a href=\"%s\">Sign in or register</a>." %
-                        users.create_login_url("/"))
-
-        self.response.out.write("<html><body>%s</body></html>" % greeting)
+        logging.error("GET METHOD NOT SUPPORTED")
+        raise Exception("GET METHOD NOT SUPPORTED")
     
     def post(self):
-        user = users.get_current_user()
         action = self.request.get('action')
         logging.debug("Received POST request, action="+action)
         
         if not action:
             self.response.out.write(str(template.render("web/signup_volunteer.html", {})))
+            
 
-        if not self.request.get(user.user_id()):
+        if not self.request.get('volunteer_id'):
             logging.error("Unknown volunteer_id! Cannot proceed!")
-            raise Exception("Unknown volunteer_id = " + user.user_id())   
+            raise Exception("Unknown volunteer_id")   
         
         volunteer_id = int(self.request.get('volunteer_id'))
         if action.lower() == 'delete_jobs':

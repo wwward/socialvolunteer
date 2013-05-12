@@ -16,8 +16,17 @@ class AuthenticationHandler(webapp.RequestHandler):
     def get(self):
         user = users.get_current_user()
         if user:
-            greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>)" %
-                        (user.nickname(), users.create_logout_url("http://www.williamward.com")))
+            greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) or <form action=\"org\" method=\"post\">\
+                        <input type=\"hidden\" name=\"action\" value=\"edit_organization\" />\
+                        <input type=\"hidden\" name=\"organization_id\" value=\"5000\" />\
+                        <input type=\"submit\" value=\"Edit your profile\" class=\"button\" />\
+                        </form> or <a href=\"/org\">Organization Portal</a>\
+                        <form action=\"volunteer\" method=\"post\">\
+                        <input type=\"hidden\" name=\"action\" value=\"portal\" />\
+                        <input type=\"hidden\" name=\"volunteer_id\" value=\"%s\" />\
+                        <input type=\"Submit\" value=\"View volunteer portal\" class=\"button\" />\
+                        </form>" % 
+                        (user.nickname(), users.create_logout_url("/login"), user.user_id()))
         else:
             greeting = ("<a href=\"%s\">Sign in or register</a>." %
                         users.create_login_url("/test"))

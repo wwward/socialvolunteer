@@ -6,19 +6,24 @@ from socialvolunteernet.model.organization import Organization
 from socialvolunteernet.model.volunteer import Volunteer
 
 from google.appengine.ext.webapp import template
+from google.appengine.api import users
 
 import time
 
 class AuthenticationHandler(webapp.RequestHandler):
-
-    def __init__(self, params):
-        logging.info("auth_handler init")
-        pass
     
+    # Need GET to support AUTH apparently - www3 - DEBUG
     def get(self):
-        logging.error("GET METHOD NOT SUPPORTED")
-        raise Exception("GET METHOD NOT SUPPORTED")
-    
+        user = users.get_current_user()
+        if user:
+            greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>)" %
+                        (user.nickname(), users.create_logout_url("http://www.williamward.com")))
+        else:
+            greeting = ("<a href=\"%s\">Sign in or register</a>." %
+                        users.create_login_url("/test"))
+
+        self.response.out.write("<html><body>%s</body></html>" % greeting)
+  
     def post(self):
         action = self.request.get('action')
         logging.debug("Received POST request, action="+action)

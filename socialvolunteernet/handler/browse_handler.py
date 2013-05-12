@@ -58,7 +58,7 @@ class BrowseHandler(webapp.RequestHandler):
             params['missing'].append(name)
         
 def main():
-    app = webapp.WSGIApplication([('browse', BrowseHandler)], debug=True)
+    app = webapp.WSGIApplication([('/browse', BrowseHandler)], debug=True)
     wsgiref.handlers.CGIHandler().run(app) 
     
 if __name__ == "__main__":

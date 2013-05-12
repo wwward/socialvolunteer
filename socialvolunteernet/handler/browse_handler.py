@@ -15,11 +15,6 @@ class BrowseHandler(webapp.RequestHandler):
     '''
     
     brw = Browse()
-
-    def __init__(self, params):
-        '''
-        Constructor
-        '''
         
     def get(self):
         logging.error("GET METHOD NOT SUPPORTED")
@@ -45,8 +40,6 @@ class BrowseHandler(webapp.RequestHandler):
             results['volunteer_id'] = volunteer_id
             self.response.out.write(str(template.render("web/search.html", results)))
 
-
-    
     def search_by_keyword(self, keyword):
         # TODO : Do something if there is no keyword... perhaps forward back to the volunteer handler?
         results = self.brw.search_by_keyword(keyword)

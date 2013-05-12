@@ -18,6 +18,18 @@
 <input type="Submit" value="View organization portal" class="button" />
 </form>
 
+<form action="browse" method="post">
+<input type="hidden" name="action" value="category" />
+<input type="text" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Browse by category" class="button" /> 
+</form>
+
+<form action="browse" method="post">
+<input type="text" name="keyword" />
+<input type="hidden" name="action" value="keyword" />
+<input type="text" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Search by keyword" class="button" /> 
+</form>
 
 </body>
 </html>

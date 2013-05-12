@@ -1,4 +1,5 @@
 from socialvolunteernet.model.database import GoogleCloudSQLStore
+import logging 
 
 
 class Browse(object):

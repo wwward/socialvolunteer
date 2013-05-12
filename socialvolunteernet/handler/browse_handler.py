@@ -25,21 +25,36 @@ class BrowseHandler(webapp.RequestHandler):
         logging.error("GET METHOD NOT SUPPORTED")
         raise Exception("GET METHOD NOT SUPPORTED")
     
+    def post(self):
+        action = self.request.get('action')
+        logging.debug("Received POST request, action="+action)
+
+        volunteer_id = int(self.request.get('volunteer_id'))
+        if action.lower() == 'category':
+            category = self.request.get('category')
+            if not category:
+                data = {'volunteer_id': volunteer_id}
+                self.response.out.write(str(template.render("web/show_categories.html", data)))
+            else:
+                results = self.search_by_category(category)
+                results['volunteer_id'] = volunteer_id
+                self.response.out.write(str(template.render("web/browse.html", results)))
+        elif action.lower() == 'keyword':
+            keyword = self.request.get('keyword')
+            results = self.search_by_keyword(keyword)
+            results['volunteer_id'] = volunteer_id
+            self.response.out.write(str(template.render("web/search.html", results)))
+
+
+    
     def search_by_keyword(self, keyword):
-        missing = []
-        if not keyword:
-            missing.append("keyword")
-        if not missing:
-            self.brw.search_by_keyword(keyword)
-        return missing
+        # TODO : Do something if there is no keyword... perhaps forward back to the volunteer handler?
+        results = self.brw.search_by_keyword(keyword)
+        return results
     
     def search_by_category(self, category):
-        missing = []
-        if not category:
-            missing.append("category")
-        if not missing:
-            self.brw.search_by_category(category)
-        return missing
+        results = self.brw.search_by_category(category)
+        return results
     
     def parse_param(self, name, value, params):
         params[name] = value

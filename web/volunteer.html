@@ -18,6 +18,19 @@
 </form>
 
 </td><td></td><td align="right" valign="top">Score = {{ score }}</td></tr>
+<tr><td></td><td>
+<form action="browse" method="post">
+<input type="text" name="keyword" />
+<input type="hidden" name="action" value="keyword" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Search by keyword" class="button" /> 
+</form>
+<form action="browse" method="post">
+<input type="hidden" name="action" value="category" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" value="Browse by category" class="button" /> 
+</form>
+   </td><td></td></tr>
 <tr><td valign="top">
 
 

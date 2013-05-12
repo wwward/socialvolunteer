@@ -9,8 +9,8 @@ class Browse(object):
     #search a job from database by selecting the keyword
     SEARCH_BY_KEYWORD = """
         SELECT Job.*
-        FROM Job
-        WHERE Job.keyword = %(keyword)s
+        FROM Job, Keyword
+        WHERE Job.id = Keyword.reference_id AND Job.keyword = %(keyword)s
     """    
     def search_by_keyword(self, keyword):
         return self.db.select(self.SEARCH_BY_KEYWORD, keyword)

@@ -2,6 +2,14 @@
 <head>
 
 <link rel="stylesheet" type="text/css" href="css/main.css">
+
+<script language="javascript" type="text/javascript">
+
+function buttonClick(theButton){
+    document.getElementById('kind').value = theButton.name;
+    return true;
+}
+</script>
 </head>
 <!--  This is the organization portal view. It will display:
     organization info, number of jobs completed, a summary of pending completions
@@ -37,30 +45,24 @@ Welcome, <b>{{ name }}</b></br></br>
 <h3>Currently posted jobs</h3>
 <form action="org" method="post">
 <table>
-<tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td><td></td></tr>	
+<tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td></tr>	
 {% for j in current_jobs %}
 <tr>
 <td><input type="checkbox" class="job_id" value="{{ j.id }}" /></td>
 <td>{{ j.id }}</td><td>{{ j.title }}</td><td>{{ j.description }}</td><td>{{ j.event_date }}, {{ j.event_time }}</td>
-<td><form action="org" method="post" >
-<input type="hidden" name="action" value="edit_job" />
-<input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="hidden" name="job_id" value="{{ j.id }}" />
-<input type="submit" value="Edit..." class="button" />
-</form></td>
 </tr>
 
 {% endfor %}
 </table>
 
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="hidden" name="action" value="edit_job" />
-<input type="hidden" name="kind" value="delete" />
+<input type="hidden" name="action" value="modify_job" />
+<input type="hidden" name="kind" id="kind" value="" />
 
-<input type="submit" value="Delete selected jobs" class="button" />
-
+<input type="submit" name="delete" value="Delete selected jobs" onclick="return buttonClick(this)" class="button" />
+<input type="submit" name="edit" value="Edit selected jobs" onclick="return buttonClick(this)"  class="button" />
 </form>
-<br/><br/>
+<br/>
 <form action="org" method="post" >
 <input type="hidden" name="action" value="new_job" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />

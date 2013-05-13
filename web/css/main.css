@@ -59,7 +59,7 @@ td {
 	left:0px;
 }
 #header_img {
-	background-image: url(http://placekitten.com/800/100); width:800px; height:100px;
+	background-image: url("../img/header.png"); ; width:800px; height:100px;
 	margin-top:0;
 	margin-left: auto;
 	margin-right: auto;

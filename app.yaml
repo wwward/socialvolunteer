@@ -17,5 +17,7 @@ handlers:
   mime_type: text/html
   static_files: web/testing.html
   upload: web/testing.html
--   url: /css  #your css folder
+-   url: /css  
     static_dir: web/css 
+-   url: /img
+    static_dir: web/img 

@@ -7,14 +7,12 @@ class Job(object):
     def __init__(self, params):
         self.db = GoogleCloudSQLStore()
         
-    # Creates a new job row in the database
+    # Creates a new job row in the database, corrected May 12 - www3
     CREATE_NEW = """
-        INSERT INTO Job VALUES (organization_id=%(organization_id)s, 
-                       event_date=%(date)s, event_time=%(time)s,
-                       duration=%(duration)s,
-                       score_value=%(scores, description=%(description)s,
-                       title=%(title)s,category=%(category)s, status=%(status)s,
-                       location=%(location)s)
+        INSERT INTO Job (organization_id, event_date, event_time, duration,
+        score_value, description, title, category, status, location) VALUES
+        (%(organization_id)s, %(date)s, %(time)s, %(duration)s, %(scores)s, 
+        %(description)s, %(title)s, %(category)s, %(status)s, %(location)s)
     """
     INSERT_KEYWORD = """
         INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, %(job_id)s)        
@@ -93,9 +91,10 @@ class Job(object):
         info[0]['keywords'] = [k['keyword'] for k in word_list]
         return info
     
-    # Add a volunteer to the committed volunteers
+    # Add a volunteer to the committed volunteers, corrected May 12 - www3
     ADD_VOLUNTEER = """
-        INSERT INTO Job_volunteer VALUES (volunteer_id=%(volunteer_id)s, modified=NOW())
+        INSERT INTO Job_volunteer (volunteer_id, modified) 
+        VALUES (%(volunteer_id)s, NOW())
         WHERE id=%(job_id)s
     """
     def add_volunteer(self, job_id, volunteer_id):
@@ -106,17 +105,18 @@ class Job(object):
         UPDATE Job_volunteer SET completed=1, modified=NOW()  WHERE volunteer_id=%(volunteer_id)s
         AND job_id=%(job_id)s
     """
+    # Corrected May 12 - www3
     UPDATE_SCORE = """
-        INSERT INTO Score VALUES (id=%(volunteer_id)s, job_id=%(job_id)s, score=%(score)s)
-    """
+        INSERT INTO Score (id, job_id, score)
+        VALUES (%(volunteer_id)s, %(job_id)s, %(score)s)
+    """   
     def volunteer_completed(self, job_id, volunteer_id):
         self.db.update(self.VOLUNTEER_COMPLETED, {'job_id':job_id, 'volunteer_id':volunteer_id})
         logging.info('marked completed')
         job_info = self.get_info(job_id)
         logging.info('info: '+repr(job_info))
         self.db.update(self.UPDATE_SCORE, {'job_id':job_id, 'volunteer_id':volunteer_id, 'score':job_info[0]["score_value"]})
-        
-    
+          
     # Remove the volunteer from the job
     DELETE_VOLUNTEER = """
         DELETE FROM Job_volunteer

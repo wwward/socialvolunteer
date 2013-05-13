@@ -112,13 +112,14 @@ class Organization(object):
     def edit_job(self, organization_id, job_id, **kw):
         self.db.update(self.EDIT_JOB, kw)
     
-    # Add a new job. The fields are in the kw dict
+    # Add a new job. The fields are in the kw dict - corrected May 12 - www3
     ADD_JOB = """
-       INSERT INTO Job VALUES (organization_id=%(organization_id)s, 
-                       event_date=%(event_date)s, event_time=%(event_time)s,
-                       event_duration_minutes=%(event_duration_minutes)s, title=%(title)s
-                       score_value=%(score_value)s, description=%(description)s, location=%(location)s
-                       category=%(category)s, status=%(status)s)
+       INSERT INTO Job (organization_id, event_date, event_time, 
+       event_duration_minutes, title, score_value, description,
+       location, category, status)
+       VALUES (%(organization_id)s, %(event_date)s, %(event_time)s,
+               %(event_duration_minutes)s, %(title)s, %(score_value)s,
+               %(description)s, %(location)s, %(category)s, %(status)s)
     """
     def add_job(self, **kw):
         self.db.update(self.ADD_JOB, kw)

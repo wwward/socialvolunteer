@@ -13,10 +13,12 @@ function buttonClick(theButton){
     volunteer info, score, friend feed, upcoming commitments, 
     friend leaderboard, global leaderboard -->
 <body>
-<div id="header"><div id="header_img"></div></div>
 
+<div id="header"><div id="header_img"></div></div>
+<div class="container">
+<div class="banner">
 <table width="100%">
-<tr class="column_header"><td width="20%" valign="top">Welcome, <b>{{ name }}</b>
+<tr class="column_header"><td width="20%" style="text-align: center;"><br>Welcome, <b>{{ name }}</b>
 </br></br>
 <form action="volunteer" method="post" >
 <input type="hidden" name="action" value="edit_volunteer" />
@@ -24,8 +26,12 @@ function buttonClick(theButton){
 <input type="submit" value="Edit your profile" class="button"  />
 </form>
 
-</td><td></td><td align="right" valign="top">Score = {{ score }}</td></tr>
-<tr><td></td><td>
+</td><td></td><td width="20%" style="text-align: center;">Score = <b>{{ score }}</b>&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+</div>
+<div class="center_content">
+<table width="100%">
+<tr><td width="25%"></td><td width="50%" style="text-align: center;">
 <form action="browse" method="post">
 <input type="text" name="keyword" size="50" />
 <input type="hidden" name="action" value="search" />
@@ -34,8 +40,8 @@ function buttonClick(theButton){
 <input type="submit" name="keyword" onclick="buttonClick(this)" value="Search by keyword" class="button" /> 
 <input type="submit" name="category" onclick="buttonClick(this)" value="Browse by category" class="button" /> 
 </form>
-   </td><td></td></tr>
-<tr><td valign="top">
+   </td><td width="25%"></td></tr>
+<tr><td valign="top" width="25%">
 
 
 <div name="friends">
@@ -67,7 +73,7 @@ function buttonClick(theButton){
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Date</td></tr>
 {% for f in future_jobs %}
    <tr>
-      <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.event_date }} </td>
+      <td> {{ f.job_id }} </td><td> {{ f.title }} </td><td> {{ f.event_date|date:'Y-m-d' }} </td>
    </tr>
 {% endfor %}
 </table>
@@ -81,7 +87,7 @@ function buttonClick(theButton){
 {% endif %}
 </div>
 
-</td><td width="60%" valign="top">
+</td><td width="50%" valign="top">
 
 <!--  MOAR THINGS HERE -->
 
@@ -103,7 +109,7 @@ function buttonClick(theButton){
 {% endif %}
 </div>
 
-</td><td width="20%" valign="top">
+</td><td width="25%" valign="top">
 <div name="fleader">
 <h3>Friend leaderboard</h3>
 {% if friend_scores %} 
@@ -133,5 +139,5 @@ function buttonClick(theButton){
 </div>
 </td></tr></table>
 
-
+</div></div>
 </body>

@@ -4,15 +4,15 @@
 <!-- This page is used to edit an existing job -->
 <body>
 <div id="header"><div id="header_img"></div></div>
-</br>
+<div class="container">
+<div class="banner">&nbsp;</div>
+<div class="center_content" >
 
-</br></br>
-<div class="center_content">
 <h3>Job edit</h3>
 
 {% for j in jobs %}
 <form action="org" method="post">
-Job <b>{{ j.id }}</b>
+Job <b>{{ j.id }}</b> <br><br>
 <input type="hidden" name="job_id" value="{{ j.id }}" />
 <input type="hidden" name="status" value="{{ j.status }}" />
 <input type="hidden" name="job_ids" value="{{ job_ids|join:','}}" />
@@ -20,17 +20,17 @@ Job <b>{{ j.id }}</b>
 
 <input type="hidden" name="action" value="edit_submit_job" />
 
-   <table width="100%">
+   <table>
       <tr>
-      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="title" value="{{ j.title }}" size="100"/></td></tr>
+      	<td width="25%" class="label">Title: </td><td width="75%"><input type="text" name="title" value="{{ j.title }}" size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="100"/></td></tr>
+      	<td class="label">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date|date:'Y-m-d' }}" size="100"/></td></tr>  
+      	<td class="label">Date: </td><td><input type="text" name="date" value="{{ j.event_date|date:'Y-m-d' }}" size="50"/></td></tr>  
       <tr>
-      	<td class="column_header">Duration (minutes): </td><td><input type="text" name="duration" value="{{ j.event_duration_minutes }}" size="100"/></td></tr>  
+      	<td class="label">Duration (minutes): </td><td><input type="text" name="duration" value="{{ j.event_duration_minutes }}" size="50"/></td></tr>  
       <tr>
-      	<td class="column_header">Difficulty: </td><td>
+      	<td class="label">Difficulty: </td><td>
       	<select name="difficulty">
 			<option value="1" {% if j.difficulty == 1 %} selected {% endif %}>Easy</option>
 			<option value="2" {% if j.difficulty == 2 %} selected {% endif %}>Average</option>
@@ -38,14 +38,14 @@ Job <b>{{ j.id }}</b>
 		</select>
 
       <tr>
-      	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ j.location }}" size="100"/></td></tr>  
+      	<td class="label">Location: </td><td><input type="text" name="location" value="{{ j.location }}" size="50"/></td></tr>  
       <tr>
-      	<td class="column_header">Category: </td><td><input type="text" name="category" value="{{ j.category }}" size="100"/></td></tr>  
+      	<td class="label">Category: </td><td><input type="text" name="category" value="{{ j.category }}" size="50"/></td></tr>  
       <tr>
-      	<td class="column_header">Keywords: </td><td><input type="text" name="keywords" value="{{ j.keywords|join:',' }}" size="100"/></td></tr>  
+      	<td class="label">Keywords: </td><td><input type="text" name="keywords" value="{{ j.keywords|join:',' }}" size="50"/></td></tr>  
 
       <tr>
-      	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="87">{{ j.description }}</textarea></td></tr>  
+      	<td class="label">Description: </td><td><textarea rows="5" name="description" cols="44">{{ j.description }}</textarea></td></tr>  
       </table>
 <br>
 
@@ -59,5 +59,5 @@ Job <b>{{ j.id }}</b>
 <input type="submit" value="Return to previous page" class="button"  />
 </form>
 </div>
-
+</div>
 </body>

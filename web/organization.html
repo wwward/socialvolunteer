@@ -17,13 +17,17 @@ function buttonClick(theButton){
 
 <body>
 <div id="header"><div id="header_img"></div></div>
-</br>
-Welcome, <b>{{ name }}</b></br></br>
+<div class="container">
+<div class="banner">
+<table><tr class="column_header" ><td width="20%" style="padding-top:8px;padding-bottom:8px;">
+Welcome, <b>{{ name }}</b><br><br>
 <form action="org" method="post" >
 <input type="hidden" name="action" value="edit_organization" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="submit" value="Edit your profile" class="button" />
 </form>
+</td><td width="80%">&nbsp;</td></tr></table>
+</div>
 <div class="center_content">
 <h3>Jobs to review</h3>
 {% if current_commitments %}
@@ -114,6 +118,6 @@ Welcome, <b>{{ name }}</b></br></br>
 <i>You have no completed jobs</i>
 {% endif %} 
 </div>
-
+</div>
 </body>
 </html>

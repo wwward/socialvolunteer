@@ -4,26 +4,27 @@
 <!--  This is the page used to edit organization information -->
 <body>
 <div id="header"><div id="header_img"></div></div>
+<div class="container">
+<div class="banner">&nbsp;</div>
+<br>
 
-</br></br>
-Editing organization information for <b>{{ name }}</b>
 <div class="center_content">
+Editing organization information for <b>{{ name }}</b><br><br>
 <form action="org" method="post">
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="hidden" name="action" value="submit_edit_organization" />
 
-</br></br>
    <table width="80%">
       <tr>
-      	<td width="15%" class="column_header">Name: </td><td><input type="text" name="name" value="{{ name }}" size="50"/></td></tr>
+      	<td width="15%" class="label">Name: </td><td><input type="text" name="name" value="{{ name }}" size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  size="50"/></td></tr>
+      	<td class="label">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ location }}" size="50"/></td></tr>  
+      	<td class="label">Location: </td><td><input type="text" name="location" value="{{ location }}" size="50"/></td></tr>  
       <tr>
-        <td class="column_header">Email: </td><td><input type="text" name="email" value="{{ email }}" size="50"/></td></tr> 
+        <td class="label">Email: </td><td><input type="text" name="email" value="{{ email }}" size="50"/></td></tr> 
       <tr>
-      	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="50">{{ description }}</textarea></td></tr> 
+      	<td class="label">Description: </td><td><textarea rows="5" name="description" cols="46">{{ description }}</textarea></td></tr> 
 
       </table>     
       </br></br>
@@ -37,5 +38,6 @@ Editing organization information for <b>{{ name }}</b>
 <input type="submit" value="Return to previous page" class="button"  />
 </form>
 
+</div>
 </div>
 </body>

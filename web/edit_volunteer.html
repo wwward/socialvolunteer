@@ -4,23 +4,24 @@
 <!--  This is the page used to edit volunteer information -->
 <body>
 <div id="header"><div id="header_img"></div></div>
-</br></br>
-Editing volunteer information for <b>{{ username }}</b>
+<div class="container">
+<div class="banner">&nbsp;</div>
 <div class="center_content">
+<br>Editing volunteer information for <b>{{ username }}</b>
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="submit_edit_volunteer" />
 
 </br></br>
-   <table width="80%">
+   <table width="100%">
       <tr>
-      	<td width="15%" class="column_header">Name: </td><td><input type="text" name="name" value="{{ name }}" size="50"/></td></tr>
+      	<td width="15%" class="label">Name: </td><td><input type="text" name="name" value="{{ name }}" size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  size="50"/></td></tr>
+      	<td class="label">Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Email: </td><td><input type="text" name="email" value="{{ email }}"  size="50"/></td></tr>
+      	<td class="label">Email: </td><td><input type="text" name="email" value="{{ email }}"  size="50"/></td></tr>
       <tr>
-      	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ location }}" size="50"/></td></tr>  
+      	<td class="label">Location: </td><td><input type="text" name="location" value="{{ location }}" size="50"/></td></tr>  
       </table>     
       </br></br>
 
@@ -33,5 +34,5 @@ Editing volunteer information for <b>{{ username }}</b>
 <input type="submit" value="Return to previous page" class="button"  />
 </form>
 </div>
-
+</div>
 </body>

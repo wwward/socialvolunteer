@@ -37,8 +37,8 @@ class OrganizationHandler(webapp.RequestHandler):
 
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "cancel_volunteer":
-            #TODO: The checkbox issue
-            self.cancel_volunteer(self.request.get_all('volunteers'))
+            volunteers = self.request.get_all('volunteer')
+            self.cancel_volunteer(volunteers)
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "new_job":
@@ -178,10 +178,11 @@ class OrganizationHandler(webapp.RequestHandler):
                 logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])
         
     def cancel_volunteer(self, volunteers):
+        logging.info("Cancelteer: "+repr(volunteers))
         for volunteer in volunteers:
             pieces = volunteer.split(",")
             if len(pieces) == 2:
-                self.job.delete_volunteer(int(pieces[0]), int(pieces[1]))
+                self.job.delete_volunteer(int(pieces[1]), int(pieces[0]))
                 logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):

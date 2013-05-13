@@ -1,5 +1,11 @@
 <head><title>Social Volunteering - Volunteers</title>
+<script language="javascript" type="text/javascript">
 
+function buttonClick(theButton){
+    document.getElementById('kind').value = theButton.name;
+    return true;
+}
+</script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <!-- This is the volunteer portal page. It will display:
@@ -21,14 +27,11 @@
 <tr><td></td><td>
 <form action="browse" method="post">
 <input type="text" name="keyword" />
-<input type="hidden" name="action" value="keyword" />
+<input type="hidden" name="action" value="search" />
+<input type="hidden" name="kind" value="" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Search by keyword" class="button" /> 
-</form>
-<form action="browse" method="post">
-<input type="hidden" name="action" value="category" />
-<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" value="Browse by category" class="button" /> 
+<input type="submit" name="keyword" value="Search by keyword" class="button" /> 
+<input type="submit" name="category" value="Browse by category" class="button" /> 
 </form>
    </td><td></td></tr>
 <tr><td valign="top">

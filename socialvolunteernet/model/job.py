@@ -123,4 +123,4 @@ class Job(object):
         WHERE job_id=%(job_id)s AND volunteer_id=%(volunteer_id)s
     """
     def delete_volunteer(self, job_id, volunteer_id):
-        self.db.update(self.DELETE_VOLUNTEER, job_id, volunteer_id)
+        self.db.update(self.DELETE_VOLUNTEER, {'job_id': job_id, 'volunteer_id':volunteer_id})

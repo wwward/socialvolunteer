@@ -16,13 +16,13 @@
    <form action="org" method="post">
    <table width="80">
       <tr>
-      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="name" value="{{ j.title }}" size="100"/></td></tr>
+      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="name" value="" size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="100"/></td></tr>
+      	<td class="column_header">Time: </td><td><input type="text" name="time" placeholder="HH:MM:SS" value=""  size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date }}" size="100"/></td></tr>  
+      	<td class="column_header">Date: </td><td><input type="text" name="date" placeholder="YYYY-MM-DDDD" value="" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Duration (minutes): </td><td><input type="text" name="duration" value="{{ j.event_duration_minutes }}" size="100"/></td></tr>  
+      	<td class="column_header">Duration (minutes): </td><td><input type="text" name="duration" value="" size="100"/></td></tr>  
       <tr>
       	<td class="column_header">Difficulty: </td><td>
       	<select name="difficulty">
@@ -32,14 +32,14 @@
 		</select>
 
       <tr>
-      	<td class="column_header">Location: </td><td><input type="text" name="date" value="{{ j.location }}" size="100"/></td></tr>  
+      	<td class="column_header">Location: </td><td><input type="text" name="location" value="" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Category: </td><td><input type="text" name="date" value="{{ j.category }}" size="100"/></td></tr>  
+      	<td class="column_header">Category: </td><td><input type="text" name="category" value="" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Keywords: </td><td><input type="text" name="date" value="{{ j.keywords|join:',' }}" size="100"/></td></tr>  
+      	<td class="column_header">Keywords: </td><td><input type="text" placeholder="keyword1,keyword2" name="keywords" value="" size="100"/></td></tr>  
 
       <tr>
-      	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="87">{{ j.description }}</textarea></td></tr>  
+      	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="87"></textarea></td></tr>  
       </table>  
       </br></br>
 

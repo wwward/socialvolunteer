@@ -21,25 +21,25 @@
          <div style="color:red">The field "name" is required</div>
       {% endif %} 
       </td><td>
-      Organization Name: </td><td><input type="text" name="name" value="{{ name }}" width="50"/></td></tr>
+      Organization Name: </td><td><input type="text" name="name" value="{{ name }}" size="100"/></td></tr>
       <tr><td>
       {% if missing and "phone" in missing %} 
          <div style="color:red">The field "phone" is required</div>
       {% endif %} 
       </td><td>
-      Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  width="50"/></td></tr>
+      Phone: </td><td><input type="text" name="phone" value="{{ phone }}"  size="100"/></td></tr>
       <tr><td>
       {% if missing and "location" in missing %} 
          <div style="color:red">The field "location" is required</div>
       {% endif %} 
       </td><td>
-      Location: </td><td><input type="text" name="location" value="{{ location }}" width="50"/></td></tr> 
+      Location: </td><td><input type="text" name="location" value="{{ location }}" size="100"/></td></tr> 
       <tr><td>
       {% if missing and "description" in missing %} 
          <div style="color:red">The field "description" is required</div>
       {% endif %} 
       </td><td>
-      Description of mission: </td><td> <input type="textarea" value="{{ description }}" name="description""/></td></tr> 
+      Description of mission: </td><td> <input type="textarea" value="{{ description }}" name="description" cols="100"/></td></tr> 
       </table>     
       </br></br>
       <table>

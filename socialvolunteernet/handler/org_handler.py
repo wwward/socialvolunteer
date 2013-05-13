@@ -69,7 +69,7 @@ class OrganizationHandler(webapp.RequestHandler):
                 job_data = {'jobs' : self.get_job_display(job_ids)}
                 job_data['organization_id'] = org_id
                 job_data['job_ids'] = job_ids
-                logging.info(repr(job_data))
+                logging.info("Job data: "+repr(job_data))
 
                 self.response.out.write(str(template.render("web/edit_job.html", job_data)))
 

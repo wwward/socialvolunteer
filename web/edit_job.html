@@ -24,7 +24,7 @@ Job <b>{{ j.id }}</b>
       <tr>
       	<td width="15%" class="column_header">Title: </td><td><input type="text" name="title" value="{{ j.title }}" size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time|date:'G:i' }}"  size="100"/></td></tr>
+      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="100"/></td></tr>
       <tr>
       	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date|date:'Y-m-d' }}" size="100"/></td></tr>  
       <tr>

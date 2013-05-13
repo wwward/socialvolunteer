@@ -22,14 +22,11 @@ class OrganizationHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
             
         if action.lower() == "complete_volunteers":
-            self.volunteer_complete(self.request.get_all('completed'))
-            logging.info("Complete: "+repr(self.request.get_all('completed')))
-            
+            self.volunteer_complete(self.request.get_all('completed'))            
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == 'modify_job' and self.request.get('kind') == 'delete':   
             job_ids = [int(i) for i in self.request.get_all('selected_jobs')]
-            logging.info("DELETE JOB: "+repr(job_ids))
             self.delete_job(job_ids, org_id)
             portal = self.get_organization_portal(org_id)
 
@@ -68,17 +65,12 @@ class OrganizationHandler(webapp.RequestHandler):
             job_ids = [int(i) for i in self.request.get_all('selected_jobs')]
 
             if not job_ids:
-                logging.info("EDIT JOB: (no job ids)")
                 portal = self.get_organization_portal(org_id)
                 self.response.out.write(str(template.render("web/organization.html", portal)))
             else:   
-                logging.info("EDIT JOB: "+repr(job_ids))
-
                 job_data = {'jobs' : self.get_job_display(job_ids)}
                 job_data['organization_id'] = org_id
                 job_data['job_ids'] = job_ids
-                logging.info("Job data: "+repr(job_data))
-
                 self.response.out.write(str(template.render("web/edit_job.html", job_data)))
 
         elif action.lower() == "edit_submit_job":
@@ -103,7 +95,6 @@ class OrganizationHandler(webapp.RequestHandler):
             params['keywords'] = [ t.strip() for t in self.request.get('keywords').split(',')]
             
 
-            logging.info("Params from page: "+repr(params))
             missing = self.edit_job(**params)
             #if missing:
             #    logging.info("MISSING: "+repr(missing))
@@ -112,7 +103,6 @@ class OrganizationHandler(webapp.RequestHandler):
             job_data = {'jobs' : self.get_job_display(job_ids)}
             job_data['organization_id'] = org_id
             job_data['job_ids'] = job_ids
-            logging.info("New display data: "+repr(job_data))
             self.response.out.write(str(template.render("web/edit_job.html", job_data)))
         elif action.lower() == "edit_organization":
             data = self.get_info(org_id)
@@ -152,7 +142,6 @@ class OrganizationHandler(webapp.RequestHandler):
             missing.append("email")
         if not missing:
             self.org.edit_organization_data(organization_id=org_id, name=name, location=location, description=description, email=email, phone=phone)
-            logging.info("EDIT ORGANIZATION "+name+" "+description+" "+str(org_id)+" "+location+" "+email)
         return missing  
     
     def get_organization_portal(self, organization_id):
@@ -173,7 +162,6 @@ class OrganizationHandler(webapp.RequestHandler):
         for job_id in job_ids:
             job_data = self.job.get_info(job_id)[0]
             jobs.append(job_data)
-            logging.info("Job display data: "+repr(job_data))
         return jobs
     
     def volunteer_complete(self, completed_list):
@@ -181,27 +169,22 @@ class OrganizationHandler(webapp.RequestHandler):
             completed = completed.split(',')                
             if len(completed) == 2:
                 self.job.volunteer_completed(int(completed[0]), int(completed[1]))
-                logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])
         
     def cancel_volunteer(self, volunteers):
-        logging.info("Cancelteer: "+repr(volunteers))
         for volunteer in volunteers:
             pieces = volunteer.split(",")
             if len(pieces) == 2:
                 self.job.delete_volunteer(int(pieces[1]), int(pieces[0]))
-                logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):
         for job_id in job_ids:
             self.job.delete_job(job_id)
-            logging.info("DELETED JOB organization_id:"+repr(organization_id)+" job_id:"+repr(job_id))
 
     def add_job(self, **kw):
         missing = self.check_job_values(kw)
         #if not missing:
         kw['score'] = self.calculate_score(kw['duration'], kw['difficulty'])
         self.job.create_new(**kw)
-        logging.info("CREATE JOB "+kw['title'])
         return missing        
     
     def edit_job(self, **kw):
@@ -209,7 +192,6 @@ class OrganizationHandler(webapp.RequestHandler):
         #if not missing:
         kw['score'] = self.calculate_score(kw['duration'], kw['difficulty'])
         self.job.edit_job(**kw)
-        logging.info("EDIT JOB "+repr(kw))
         return missing 
     
     def calculate_score(self, duration, difficulty):

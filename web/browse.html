@@ -1,11 +1,73 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/main.css">
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function getresult ( job_id )
+{
+  document.results.job_id.value = job_id ;
+  document.results.submit() ;
+}
+
+function buttonClick(theButton){
+    document.getElementById('kind').value = theButton.name;
+    return true;
+}
+-->
+</script> 
+
 </head>
 <!--  This is the page used for exploring open jobs -->
 <body>
 <div id="header"><div id="header_img"></div></div>
 
+
+
+<div class="center_content">
+<br><br>
+<div style="width=100%;margin:auto;">
+<form action="browse" method="post">
+<input type="text" name="keyword" value=""  size="50" />
+<input type="hidden" name="action" value="search" />
+<input type="hidden" name="kind" id="kind" value="" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="submit" name="keyword" onclick="buttonClick(this)" value="Search by keyword" class="button" /> 
+<input type="submit" name="category" onclick="buttonClick(this)" value="Browse by category" class="button" /> 
+</form>
+</div>
+<h3>Category Results for <b>{{ category }}</b></h3>
+<br>
+{% if results %} 
+<form name="results" method="post" action="browse">
+<input type="hidden" name="action" value="display" />
+<input type="hidden" name="kind" value="category" />
+<input type="hidden" name="cur_category" value="{{ category }}" />
+<input type="hidden" name="job_id" value="" />
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<table>
+<tr class="column_header"><td>ID</td><td>Title</td><td>Date</td><td>Time</td><td>Score</td></tr>
+{% for r in results %}
+<tr><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td><a href="javascript:getresult('{{ r.id }}')">{{ r.id }}</a></td><td>{{ r.title }}</td><td>{{ r.event_date }}</td><td>{{ r.event_time }}</td><td>{{ r.score_value }}</td></tr>		
+{% endfor %}
+
+</table>
+</form>
+
+{% else %}
+<i>No results found for <b>{{ keyword }}</b></i><br><br>
+{% endif %}
+
+
+</form>
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="Back to main page" class="button"  />
+</form>
+
+</div>
 
 
 

@@ -116,6 +116,15 @@ class Volunteer(object):
     def get_future_jobs(self, volunteer_id):
         return self.db.select(self.GET_COMMITTED_JOBS, {"volunteer_id": volunteer_id})
     
+    # Returns a job record, if it exists
+    GET_JOB_STATUS = """
+        SELECT job_id, committed, completed, checkedin FROM Job_volunteer 
+        WHERE Job_volunteer.volunteer_id = %(volunteer_id)s
+        AND Job_volunteer.job_id = %(job_id)s
+    """
+    def get_job_status(self, volunteer_id, job_id):
+        return self.db.select(self.GET_JOB_STATUS, {"volunteer_id": volunteer_id, 'job_id': job_id})
+    
     # Get volunteer information based on a volunteer_id
     GET_INFO = """
         SELECT * FROM Volunteer WHERE id = %(volunteer_id)s

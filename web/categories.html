@@ -1,0 +1,53 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+
+<script language="JavaScript" type="text/javascript">
+<!--
+function getresult ( category )
+{
+  document.results.cur_category.value = category ;
+  document.results.submit() ;
+}
+
+-->
+</script> 
+
+</head>
+<!--  This is the page used for exploring open jobs -->
+<body>
+<div id="header"><div id="header_img"></div></div>
+
+<div class="center_content">
+<h3>All Categories</h3>
+
+<form name="results" action="browse" method="post">
+	<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+	<input type="hidden" name="action" value="search" />
+	<input type="hidden" name="kind" value="category" />
+	<input type="hidden" name="cur_category" id="cur_category" value="" /><table>
+    <tr class="column_header"><td>Category</td><td>Count</td></tr>
+
+
+{% for c in categories %}
+   <tr>
+      <td> <a href="javascript:getresult('{{ c.category }}')">{{ c.category  }}</a> </td><td> {{ c.count  }} </td>
+   </tr>
+{% endfor %}
+</table>
+
+</form>
+
+</form>
+<form action="volunteer" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="portal" />
+<input type="submit" value="Back to main page" class="button"  />
+</form>
+
+</div>
+
+
+
+</body>
+</html>

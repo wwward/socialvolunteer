@@ -95,12 +95,11 @@ class Job(object):
     
     # Add a volunteer to the committed volunteers, corrected May 12 - www3
     ADD_VOLUNTEER = """
-        INSERT INTO Job_volunteer (volunteer_id, modified) 
-        VALUES (%(volunteer_id)s, NOW())
-        WHERE id=%(job_id)s
+        INSERT INTO Job_volunteer (job_id, volunteer_id, committed, completed, checkedin, checkedout, modified) 
+        VALUES (%(job_id)s, %(volunteer_id)s, 1, 0, 0, 0, NOW())
     """
-    def add_volunteer(self, job_id, volunteer_id):
-        self.db.update(self.ADD_VOLUNTEER, job_id, volunteer_id)
+    def add_volunteer(self, volunteer_id, job_id):
+        self.db.update(self.ADD_VOLUNTEER, {'job_id':job_id, 'volunteer_id':volunteer_id})
     
     # Move a volunteer status from committed to completed
     VOLUNTEER_COMPLETED = """

@@ -1,10 +1,11 @@
 <head><title>Social Volunteering - Volunteers</title>
 <script language="javascript" type="text/javascript">
-
+<!--
 function buttonClick(theButton){
     document.getElementById('kind').value = theButton.name;
     return true;
 }
+-->
 </script>
 <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
@@ -26,12 +27,12 @@ function buttonClick(theButton){
 </td><td></td><td align="right" valign="top">Score = {{ score }}</td></tr>
 <tr><td></td><td>
 <form action="browse" method="post">
-<input type="text" name="keyword" />
+<input type="text" name="keyword" size="50" />
 <input type="hidden" name="action" value="search" />
-<input type="hidden" name="kind" value="" />
+<input type="hidden" name="kind" id="kind" value="" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
-<input type="submit" name="keyword" value="Search by keyword" class="button" /> 
-<input type="submit" name="category" value="Browse by category" class="button" /> 
+<input type="submit" name="keyword" onclick="buttonClick(this)" value="Search by keyword" class="button" /> 
+<input type="submit" name="category" onclick="buttonClick(this)" value="Browse by category" class="button" /> 
 </form>
    </td><td></td></tr>
 <tr><td valign="top">
@@ -46,6 +47,7 @@ function buttonClick(theButton){
    <tr>
       <td> {{ f.username  }} </td><td> {{ f.name }} </td>
    </tr>
+
 {% endfor %}
 </table>
 {% else %} 

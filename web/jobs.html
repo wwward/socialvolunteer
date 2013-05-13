@@ -1,8 +1,73 @@
-<html>
-<head></head>
-<!-- This is the organization jobs page. It will allow an organization to
-view all of their current jobs, edit a current job, and add or delete a new job -->
-<body></body>
+<head>
+<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<div id="header"><div id="header_img"></div></div>
+</br>
 
-<!--  TBD: Maybe this is overused??  -->
-</html>
+
+<div class="center_content">
+<h3>Job {{ id }}</h3>
+   <table width="100%">
+      <tr>
+      	<td width="15%" class="column_header">Title: </td><td>&nbsp;{{ title }}</td></tr>
+      <tr>
+      	<td class="column_header">Time: </td><td>&nbsp;{{ event_time }}</td></tr>
+      <tr>
+      	<td class="column_header">Date: </td><td>&nbsp;{{ event_date|date:'Y-m-d' }}</td></tr>  
+      <tr>
+      	<td class="column_header">Duration (minutes): </td><td>&nbsp;{{ event_duration_minutes }}</td></tr>  
+      <tr>
+      	<td class="column_header">Difficulty: </td><td>&nbsp;
+      	{% if difficulty == 1 %} Easy {% endif %}
+      	{% if difficulty == 2 %} Average {% endif %}
+      	{% if difficulty == 3 %} Difficult {% endif %}
+      <tr>
+      	<td class="column_header">Score: </td><td>&nbsp;{{ score_value }}</td></tr> 
+      <tr>
+      	<td class="column_header">Location: </td><td>&nbsp;{{ location }}</td></tr>  
+      <tr>
+      	<td class="column_header">Category: </td><td>&nbsp;{{ category }}</td></tr>  
+      <tr>
+      	<td class="column_header">Keywords: </td><td>&nbsp;{{ keywords|join:', ' }}</td></tr>  
+
+      <tr>
+      	<td class="column_header">Description: </td><td>&nbsp;{{ description }}</td></tr>  
+      </table>
+<br>
+{% if volunteer_status.completed == 1 %} 
+	<i>You have completed this job!</i><br><br>
+{% endif %}
+
+{% if volunteer_status.completed == 0 and volunteer_status.checkedin == 1 %}
+	<i>You have started this job!</i><br><br>
+{% endif %}
+
+{% if volunteer_status.completed == 0 and volunteer_status.checkedin == 0 and volunteer_status.committed == 1 %}
+          <i>You have committed this job!</i><br><br>
+{% endif %}
+
+{% if not volunteer_status or volunteer_status.committed == 0  %}
+<form action="volunteer" method="post">
+	<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+	<input type="hidden" name="job_id" value="{{ id }}" />
+	<input type="hidden" name="action" value="signup" />
+	<input type="hidden" name="kind" value="{{ kind }}" />
+	<input type="hidden" name="category" value="{{ category }}" />
+	<input type="hidden" name="keyword" value="{{ keyword }}" />
+	<input type="submit" value="Sign up!" class="button"  />
+</form>
+{% endif %}
+
+
+<form action="browse" method="post">
+<input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
+<input type="hidden" name="action" value="search" />
+<input type="hidden" name="kind" value="{{ kind }}" />
+<input type="hidden" name="cur_category" value="{{ category }}" />
+<input type="hidden" name="keyword" value="{{ keyword }}" />
+<input type="submit" value="Return to previous page" class="button"  />
+</form>
+</div>
+
+</body>

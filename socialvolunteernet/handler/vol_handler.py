@@ -4,11 +4,15 @@ import wsgiref.handlers
 import logging
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
+
 from socialvolunteernet.model.volunteer import Volunteer
+from socialvolunteernet.model.job import Job
 
 class VolunteerHandler(webapp.RequestHandler):
         
-    vol = Volunteer()    
+    vol = Volunteer()  
+    job = Job({})
+    
     
     # Implemented by the parent class, but we don't want to support it....    
     def get(self):
@@ -36,11 +40,19 @@ class VolunteerHandler(webapp.RequestHandler):
         elif action.lower() == 'edit_jobs':
             data = self.get_job_display(volunteer_id)
             self.response.out.write(str(template.render("web/volunteer_jobs.html", data)))
+        elif action.lower() == 'signup':
+            job_id = self.request.get('job_id') 
+            self.job.add_volunteer(volunteer_id, job_id)
+            data = self.get_result_display(job_id, volunteer_id)
+            data['kind'] = self.request.get('kind')
+            data['keyword'] = self.request.get('keyword')
+            data['category'] = self.request.get('category')
+            data['volunteer_id'] = volunteer_id
+            self.response.out.write(str(template.render("web/jobs.html", data)))
         elif action.lower() == 'edit_friends':
             data = self.get_friend_display(volunteer_id)            
             self.response.out.write(str(template.render("web/friends.html", data)))
         elif action.lower() == 'delete_friends':
-            logging.info("DELETE FRIENDS...")
             friend_ids = [int(i) for i in self.request.get_all('friend_id')]
             self.delete_friends(volunteer_id, friend_ids)
             data = self.get_friend_display(volunteer_id)            
@@ -58,7 +70,6 @@ class VolunteerHandler(webapp.RequestHandler):
                 data["no_results"] = True
             else:
                 data["search_results"] = results
-            logging.info("Friend result! "+repr(data))          
             self.response.out.write(str(template.render("web/friends.html", data)))   
         elif action.lower() == 'add_friends':
             friend_ids = [int(i) for i in self.request.get_all('friend_id')]
@@ -90,7 +101,6 @@ class VolunteerHandler(webapp.RequestHandler):
         
     def get_volunteer_portal(self, volunteer_id):    
         data = self.vol.get_info(volunteer_id)[0]
-        logging.info(repr(data))
         data['friends'] =  self.vol.get_friends(volunteer_id)
         data['score'] = self.vol.get_score(volunteer_id)[0]['score']
         data['friend_scores'] = self.vol.get_friend_score(volunteer_id)
@@ -98,7 +108,6 @@ class VolunteerHandler(webapp.RequestHandler):
         data['friend_activity'] = self.vol.get_friend_activity(volunteer_id)
         data['current_jobs'] = self.vol.get_current_jobs(volunteer_id)
         data['future_jobs'] = self.vol.get_future_jobs(volunteer_id)
-        logging.info(repr(data['friend_activity']))
         return data
     
     def get_volunteer_info(self, volunteer_id):
@@ -116,33 +125,27 @@ class VolunteerHandler(webapp.RequestHandler):
             missing.append("email")
         if not missing:
             self.vol.edit_volunteer_data(volunteer_id=volunteer_id, name=name, phone=phone, location=location, email=email)
-            logging.info("EDIT VOLUNTEER "+str(volunteer_id)+" "+name+" "+phone+" "+location+" "+email)
         return missing 
         
     def cancel_jobs(self, volunteer_id, job_ids):
         for job_id in job_ids:
             if job_id: 
                 self.vol.delete_job(volunteer_id, job_id)
-                logging.info("DELETED JOBS "+str(volunteer_id)+" "+str(job_id))
                 
     def add_friends(self, volunteer_id, friend_ids):
         friends = [i['id'] for i in self.get_friend_display(volunteer_id)['friends']]
         for friend_id in friend_ids:
             if friend_id and friend_id not in friends:
                 self.vol.add_friend(volunteer_id, friend_id)
-                logging.info("ADDED FRIEND "+str(volunteer_id)+" "+str(friend_id))
 
     def search_friends(self, volunteer_id, query):
         results =self.vol.get_volunteer_by_username(query, volunteer_id)
-        logging.info("SEARCH FRIENDS "+repr(volunteer_id)+" "+query+" num results: "+str(len(results)))
         return results
                  
     def delete_friends(self, volunteer_id, friend_ids):
-        logging.info("About to delete ids "+repr(friend_ids))
         for friend_id in friend_ids:
             if friend_id:
                 self.vol.remove_friend(volunteer_id, friend_id)
-                logging.info("DELETED FRIEND "+str(volunteer_id)+" "+str(friend_id))
 
     def get_job_display(self, volunteer_id):
         data = {}
@@ -152,11 +155,20 @@ class VolunteerHandler(webapp.RequestHandler):
         data["past_jobs"] = self.vol.get_completed_jobs(volunteer_id)
         return data
     
+    def get_result_display(self, job_id, volunteer_id):
+        data = self.job.get_info(job_id)[0]
+        status = self.vol.get_job_status(volunteer_id, job_id)
+        if status:
+            status = status[0]
+        data['volunteer_status'] = status
+        data['volunteer_id'] = volunteer_id
+        logging.info(data)
+        return data
+    
     def get_friend_display(self,volunteer_id):
         data = {}
         data["volunteer_id"] = volunteer_id
         data["friends"] = self.vol.get_friends(volunteer_id)
-        logging.info(repr(data))
         return data
     
     def parse_param(self, name, value, params):

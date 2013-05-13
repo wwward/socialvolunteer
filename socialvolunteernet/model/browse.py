@@ -17,17 +17,24 @@ class Browse(object):
         
     #search a job from database by selecting the keyword
     SEARCH_BY_KEYWORD = """
-        SELECT Job.*
+        SELECT DISTINCT Job.*
         FROM Job, Keyword
-        WHERE Job.id = Keyword.reference_id AND Job.keyword = %(keyword)s
+        WHERE Job.id = Keyword.reference_id AND Keyword.keyword = %(keyword)s
     """    
     def search_by_keyword(self, keyword):
-        return self.db.select(self.SEARCH_BY_KEYWORD, keyword)
+        return self.db.select(self.SEARCH_BY_KEYWORD, {'keyword': keyword})
     
     #search a job from database by selecting the category
     SEARCH_BY_CATEGORY = """
-        SELECT Job.*
-        FROM Job
+        SELECT DISTINCT Job.*
+        FROM Job 
+        WHERE Job.category = %(category)s
     """
     def search_by_category(self, category):
-        return self.db.select(self.SEARCH_BY_CATEGORY, category)
+        return self.db.select(self.SEARCH_BY_CATEGORY, {"category": category})
+    
+    GET_CATEGORIES = """
+        SELECT category, count(*) as count FROM Job group by category order by category
+    """
+    def get_category_list(self):
+        return self.db.select(self.GET_CATEGORIES)

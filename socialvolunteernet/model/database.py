@@ -7,6 +7,7 @@ class GoogleCloudSQLStore(object):
         INSTANCE_NAME="groupwerk:groupwerk"
         DATABASE="groupwerk"
         self._conn = rdbms.connect(instance=INSTANCE_NAME, database=DATABASE)
+        self._conn.autocommit(True)
         
     def select(self, sql, params=None):
         cursor = self._conn.cursor()

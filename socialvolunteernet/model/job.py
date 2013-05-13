@@ -12,7 +12,7 @@ class Job(object):
         INSERT INTO Job (organization_id, event_date, event_time, duration,
         score_value, description, title, category, status, location) VALUES
         (%(organization_id)s, %(date)s, %(time)s, %(duration)s, %(scores)s, 
-        %(description)s, %(title)s, %(category)s, %(status)s, %(location)s)
+        %(description)s, %(title)s, %(category)s, 1, %(location)s)
     """
     INSERT_KEYWORD = """
         INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, %(job_id)s)        
@@ -57,10 +57,10 @@ class Job(object):
                 
     # Removes the job, or marks it inactive so that we can still return details about it
     DELETE_JOB = """
-        UPDATE Job SET status=6 WHERE job_id=%(job_id)s
+        UPDATE Job SET status=0 WHERE id=%(job_id)s
     """
     def delete_job(self, job_id):
-        self.db.update(self.DELETE_JOB, job_id)
+        self.db.update(self.DELETE_JOB, {'job_id': job_id})
     
     # Returns a list of volunteers who have committed to the job, but not completed it
     GET_COMMITTED_VOLUNTEERS = """

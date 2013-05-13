@@ -17,22 +17,13 @@ class Organization(object):
                 return False
         self.db.update(self.CREATE_ORGANIZATION, kw)
         return True;
-
-    #Returns the total count of all jobs completed through the site for this organization
-    # Status (0 = cancelled, 1 = incomplete, 2 = complete)
-    GET_COMPLETED_JOB_COUNT = """
-        select count(status) from groupwerk.Job 
-        where organization_id = %(organization_id)s and status = 1
-    """
-    def get_completed_job_count(self, organization_id):
-        return self.db.select(self.GET_COMPLETED_JOB_COUNT, 
-                              {"organization_id": organization_id})
     
     #Returns all currently open job listings
     GET_CURRENT_JOBS = """
         select Job.*
         from Job
         WHERE Job.organization_id = %(organization_id)s
+        AND Job.status = 1
     """
     def get_current_jobs(self, organization_id):
         return self.db.select(self.GET_CURRENT_JOBS, 
@@ -46,13 +37,13 @@ class Organization(object):
         AND Job_volunteer.volunteer_id = Volunteer.id
         AND Job.organization_id = %(organization_id)s
         AND Job_volunteer.checkedin = 0
+        AND Job.status = 1
     """
     def get_committed_jobs(self, organization_id):
         return self.db.select(self.GET_COMMITTED_JOBS, 
                               {"organization_id": organization_id})
     
     # Returns all jobs that users have completed but have yet to be reviewed
-    # Status 4 = reviewed
     GET_UNREVIEWED_JOBS = """
         select Job.title, Job.id, Job.event_date, Job.event_time, Job.location, Volunteer.name, Volunteer.username, 
         Volunteer.id as volunteer_id
@@ -90,39 +81,6 @@ class Organization(object):
     def get_info(self, organization_id):
         return self.db.select(self.GET_INFO,
                               {"organization_id": organization_id})
-    
-    # Delete a listed job
-    DELETE_JOB = """
-        delete from Job where organization_id = %(organization_id)s 
-        AND id = %(job_id)s
-    """
-    def delete_job(self, organization_id, job_id):
-        return self.db.update(self.DELETE_JOB,
-                              {"organization_id": organization_id, "job_id": job_id})
-    
-    # Edit a listed job. Modified fields are in the kw dictionary
-    EDIT_JOB = """
-        UPDATE Job SET  organization_id=%(organization_id)s, 
-                       event_date=%(event_date)s, event_time=%(event_time)s,
-                       event_duration_minutes=%(event_duration_minutes)s,
-                       score_value=%(score_value)s, description=%(description)s,
-                       category=%(category)s, status=%(status)s, title=%(title)s, 
-                       location=%(location)s WHERE id=%(job_id)s AND organization_id=%(organization_id)s
-    """
-    def edit_job(self, organization_id, job_id, **kw):
-        self.db.update(self.EDIT_JOB, kw)
-    
-    # Add a new job. The fields are in the kw dict - corrected May 12 - www3
-    ADD_JOB = """
-       INSERT INTO Job (organization_id, event_date, event_time, 
-       event_duration_minutes, title, score_value, description,
-       location, category, status)
-       VALUES (%(organization_id)s, %(event_date)s, %(event_time)s,
-               %(event_duration_minutes)s, %(title)s, %(score_value)s,
-               %(description)s, %(location)s, %(category)s, %(status)s)
-    """
-    def add_job(self, **kw):
-        self.db.update(self.ADD_JOB, kw)
         
     # Edit organization
     EDIT_ORGANIZATION = """

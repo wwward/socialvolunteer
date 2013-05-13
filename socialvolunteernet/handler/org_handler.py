@@ -22,17 +22,15 @@ class OrganizationHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
             
         if action.lower() == "complete_volunteers":
-            logging.info("Complete: "+repr(self.request.get_all('completed')))
             self.volunteer_complete(self.request.get_all('completed'))
+            logging.info("Complete: "+repr(self.request.get_all('completed')))
             
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == 'modify_job' and self.request.get('kind') == 'delete':   
-            # Some weird nested forms issue I don't feel like looking at.
-            # TODO: Perhaps we need to use named forms.
-            # TODO: Something funky is going on here. Too many ids are being deleted
-            logging.info("DELETE JOB: "+repr(self.request.get_all('job_id')))
-            self.delete_job(self.request.get_all('job_id'), org_id)
+            job_ids = [int(i) for i in self.request.get_all('selected_jobs')]
+            logging.info("DELETE JOB: "+repr(job_ids))
+            self.delete_job(job_ids, org_id)
             portal = self.get_organization_portal(org_id)
 
             self.response.out.write(str(template.render("web/organization.html", portal)))
@@ -173,7 +171,6 @@ class OrganizationHandler(webapp.RequestHandler):
         for completed in completed_list:
             completed = completed.split(',')                
             if len(completed) == 2:
-
                 self.job.volunteer_completed(int(completed[0]), int(completed[1]))
                 logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])
         
@@ -186,13 +183,9 @@ class OrganizationHandler(webapp.RequestHandler):
                 logging.info("DELETED VOLUNTEER volunteer_id:"+pieces[0]+" job_id:"+pieces[1])
         
     def delete_job(self, job_ids, organization_id):
-        logging.info('job'+repr(job_ids))
-
         for job_id in job_ids:
-            logging.info('job'+repr(job_id))
-            if len(job_id) > 0:
-                self.org.delete_job(organization_id, int(job_id))
-                logging.info("DELELTED JOB organization_id:"+repr(organization_id)+" job_id:"+repr(job_id))
+            self.job.delete_job(job_id)
+            logging.info("DELETED JOB organization_id:"+repr(organization_id)+" job_id:"+repr(job_id))
 
     def add_job(self, **kw):
         missing = self.check_job_values(kw)

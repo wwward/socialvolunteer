@@ -34,7 +34,6 @@ class GoogleCloudSQLStore(object):
         cursor = self._conn.cursor()
         logging.info("Executing: "+sql+" with "+repr(params))
         cursor.execute(sql,params)
-        rows = cursor.fetchall()
         self._conn.commit()
         cursor.close()
 

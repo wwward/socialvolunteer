@@ -111,6 +111,7 @@ class Volunteer(object):
         AND Job_volunteer.committed = 1
         AND Job_volunteer.checkedin = 0
         AND Job_volunteer.completed = 0
+        AND Job.status = 1
     """
     def get_future_jobs(self, volunteer_id):
         return self.db.select(self.GET_COMMITTED_JOBS, {"volunteer_id": volunteer_id})

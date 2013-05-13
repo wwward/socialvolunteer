@@ -7,14 +7,14 @@ INSERT INTO Organization VALUES (0,'Good Deeds & Co.', '(111)100-1000', 'somethi
 INSERT INTO Organization VALUES (0,'Kittens R\' US', '(222)200-2000', 'kittens@kittens.com',  'New York, NY', 1, 'All kittens are final sale!');
 INSERT INTO Organization VALUES (0,'ShamCo.', '(333)300-3000', 'blah@blah.com', 'Philadelphia, PA', 1, 'This is not a scam.');
 INSERT INTO Job VALUES (0, 5000, '2013-5-04', '18:00:00', 120, 1, 120, 'Crosswalk guard!', 'Help grandmothers cross the street after bingo. They might be drunk.', 'New York, NY', 'Elderly', 1);
-INSERT INTO Job VALUES (0, 5000, '2013-4-14', '01:00:00', 30, 3, 30, 'Feed Grandpa', 'I have no idea what I was thinking when I wrote that crap.', 'Mirialand', 'Elderly', 0);
+INSERT INTO Job VALUES (0, 5000, '2013-4-14', '01:00:00', 30, 3, 30, 'Feed Grandpa', 'I have no idea what I was thinking when I wrote that crap.', 'Mirialand', 'Elderly', 1);
 INSERT INTO Job VALUES (0, 5000, '2013-5-11', '12:00:00', 60, 2, 60, 'Kitteh Care', 'Change litter boxes at animal shelter. You will not be appreciated by the freeloader cats.', 'Philadelphia, PA' , 'Animals', 1);
 INSERT INTO Job VALUES (0, 5000, '2013-5-01', '00:00:00', 60, 2, 60, 'Race Volunteer', 'Hand out water at a race at the local park', 'Central Park', 'Fitness', 1);
 INSERT INTO Job VALUES (0, 5001, '2013-5-21', '07:30:00', 120, 1, 60, 'Pet the kittens', 'Spend time with the pets at a local animal shelter. Kittens are cute.', '52nd & Broadway','Animals', 1);
-INSERT INTO Job VALUES (0, 5001, '2013-4-13', '16:00:00', 60, 2, 60, 'Feed the kittens', 'Feed the kittens. Kittens are cute and also they like food.', '52nd & Broadway',  'Animals', 0);
+INSERT INTO Job VALUES (0, 5001, '2013-4-13', '16:00:00', 60, 2, 60, 'Feed the kittens', 'Feed the kittens. Kittens are cute and also they like food.', '52nd & Broadway',  'Animals', 1);
 INSERT INTO Job VALUES (0, 5001, '2013-5-03', '20:10:00', 30, 3, 60, 'Walk the kittens', 'That is kind of crap because kittens do not really need to be walked.', '52nd & Broadway', 'Animals', 1);
 INSERT INTO Job VALUES (0, 5002, '2013-5-07', '19:45:00', 60, 3, 60, 'Alley vendor', 'Sell kidneys on the street corner! These are legit kidneys. Seriously. Totally legit.', 'Dark alley',  'Elderly', 1);
-INSERT INTO Job VALUES (0, 5002, '2013-5-18', '02:00:00', 30, 2, 60, 'Accomplice', 'Borrow gems from the jewelry store. Then run like hell.', '5th Avenue', 'Fitness', 0);
+INSERT INTO Job VALUES (0, 5002, '2013-5-18', '02:00:00', 30, 2, 60, 'Accomplice', 'Borrow gems from the jewelry store. Then run like hell.', '5th Avenue', 'Fitness', 1);
 INSERT INTO Job VALUES (0, 5002, '2013-4-24', '06:00:00', 60, 2, 60, 'Sparring partner', 'Boxing match with local police force! Help keep our boys in blue in top shape!', 'Brooklyn', 'Fitness', 1);
 INSERT INTO Job VALUES (0, 5002, '2013-5-03', '19:00:00', 60, 2, 60, 'Collections agent', 'So this guy I know, he owes us some money. And like, we need you to convince him that we need our money back.', 'Joisey', 'Community', 1);
 INSERT INTO Friends VALUES (1000, 1001);

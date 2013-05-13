@@ -17,12 +17,13 @@ class Job(object):
                        location=%(location)s)
     """
     INSERT_KEYWORD = """
-        INSERT INTO Keyword VALUES (keyword=%(keyword)s, resource_id=%(resource_id)s)
+        INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, %(job_id)s)        
     """
     def create_new(self, **kw):
         job_id = self.db.select(self.CREATE_NEW, kw)
         if kw['keywords']:
             for keyword in kw['keywords']:
+                logging.info("Inserting "+str(job_id)+": "+keyword)
                 self.db.update(self.INSERT_KEYWORD, {'keyword': keyword, 'job_id': job_id})    
     
     # Allows modification of information about the job
@@ -37,19 +38,22 @@ class Job(object):
                        WHERE id=%(job_id)s AND organization_id=%(organization_id)s
     """
     DELETE_KEYWORD = """
-        DELETE FROM Keyword where keyword = %(keyword)s AND job_id = %(job_id)s
+        DELETE FROM Keyword where keyword = %(keyword)s AND reference_id = %(job_id)s
     """
     def edit_job(self, **kw):
         job_id = kw['job_id']
         self.db.update(self.EDIT_JOB, kw)
         keywords = set(kw['keywords'])
-        cur_keywords = set(self.GET_KEYWORDS({'job_id': job_id})[0]['keywords'])
+        word_list = self.db.select(self.GET_KEYWORDS, {'job_id': job_id})
+        cur_keywords = set([k['keyword'] for k in word_list])
         new_kws = keywords - cur_keywords
         old_kws = cur_keywords - keywords
         if new_kws:
+            logging.info("Adding keywords: "+repr(new_kws))
             for keyword in new_kws:
                 self.db.update(self.INSERT_KEYWORD, {'keyword': keyword, 'job_id': job_id})
         if old_kws:
+            logging.info("Removing keywords: "+repr(old_kws))
             for keyword in old_kws:
                 self.db.update(self.DELETE_KEYWORD, {'keyword': keyword, 'job_id': job_id})                
                 
@@ -85,6 +89,7 @@ class Job(object):
         logging.info("Getting job info for "+repr(job_id))
         info = self.db.select(self.GET_INFO, {'job_id': job_id})
         word_list = self.db.select(self.GET_KEYWORDS, {'job_id': job_id})
+        logging.info("Job keywords "+repr([k['keyword'] for k in word_list]))
         info[0]['keywords'] = [k['keyword'] for k in word_list]
         return info
     

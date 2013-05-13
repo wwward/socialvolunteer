@@ -1,4 +1,5 @@
 from google.appengine.api import rdbms
+import logging
 
 class GoogleCloudSQLStore(object):
 
@@ -31,7 +32,9 @@ class GoogleCloudSQLStore(object):
     
     def update(self, sql, params=None):
         cursor = self._conn.cursor()
+        logging.info("Executing: "+sql+" with "+repr(params))
         cursor.execute(sql,params)
+        rows = cursor.fetchall()
         self._conn.commit()
         cursor.close()
 

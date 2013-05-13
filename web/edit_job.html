@@ -5,13 +5,16 @@
 <body>
 <div id="header"><div id="header_img"></div></div>
 </br>
-<h3>Job edit</h3>
+
 </br></br>
 <div class="center_content">
+<h3>Job edit</h3>
+
 {% for j in jobs %}
 <form action="org" method="post">
 Job <b>{{ j.id }}</b>
 <input type="hidden" name="job_id" value="{{ j.id }}" />
+<input type="hidden" name="status" value="{{ j.status }}" />
 <input type="hidden" name="job_ids" value="{{ job_ids|join:','}}" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}"/>
 
@@ -19,11 +22,11 @@ Job <b>{{ j.id }}</b>
 
    <table width="100%">
       <tr>
-      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="name" value="{{ j.title }}" size="100"/></td></tr>
+      	<td width="15%" class="column_header">Title: </td><td><input type="text" name="title" value="{{ j.title }}" size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time }}"  size="100"/></td></tr>
+      	<td class="column_header">Time: </td><td><input type="text" name="time" value="{{ j.event_time|date:'G:i' }}"  size="100"/></td></tr>
       <tr>
-      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date }}" size="100"/></td></tr>  
+      	<td class="column_header">Date: </td><td><input type="text" name="date" value="{{ j.event_date|date:'Y-m-d' }}" size="100"/></td></tr>  
       <tr>
       	<td class="column_header">Duration (minutes): </td><td><input type="text" name="duration" value="{{ j.event_duration_minutes }}" size="100"/></td></tr>  
       <tr>
@@ -35,11 +38,11 @@ Job <b>{{ j.id }}</b>
 		</select>
 
       <tr>
-      	<td class="column_header">Location: </td><td><input type="text" name="date" value="{{ j.location }}" size="100"/></td></tr>  
+      	<td class="column_header">Location: </td><td><input type="text" name="location" value="{{ j.location }}" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Category: </td><td><input type="text" name="date" value="{{ j.category }}" size="100"/></td></tr>  
+      	<td class="column_header">Category: </td><td><input type="text" name="category" value="{{ j.category }}" size="100"/></td></tr>  
       <tr>
-      	<td class="column_header">Keywords: </td><td><input type="text" name="date" value="{{ j.keywords|join:',' }}" size="100"/></td></tr>  
+      	<td class="column_header">Keywords: </td><td><input type="text" name="keywords" value="{{ j.keywords|join:',' }}" size="100"/></td></tr>  
 
       <tr>
       	<td class="column_header">Description: </td><td><textarea rows="5" name="description" cols="87">{{ j.description }}</textarea></td></tr>  

@@ -59,8 +59,8 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `groupwerk`.`Keyword`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Keyword` (
-  `keyword` VARCHAR(30) NULL DEFAULT NULL ,
-  `reference_id` INTEGER )
+  `keyword` VARCHAR(30) NOT NULL ,
+  `reference_id` INTEGER NOT NULL)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 

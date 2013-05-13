@@ -6,6 +6,17 @@
 <body>
 <div id="header"><div id="header_img"></div></div>
 
+<div name="category">
+<h3>All Categories</h3>
+<table>
+<tr class="column_header"><td>Category</td></tr>
+{% for r in category %}
+   <tr>
+      <td> {{ r.category  }} </td>
+   </tr>
+{% endfor %}
+</table>
+</div>
 
 
 

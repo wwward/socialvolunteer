@@ -49,7 +49,7 @@ class BrowseHandler(webapp.RequestHandler):
     
     def search_by_category(self, category):
         results = self.brw.get_info()[0]
-        results['category'] = self.brw.search_by_category(category)
+        results["category"] = self.brw.search_by_category(category)
         return results
     
     def parse_param(self, name, value, params):

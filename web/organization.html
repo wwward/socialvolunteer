@@ -26,6 +26,7 @@ Welcome, <b>{{ name }}</b></br></br>
 </form>
 <div class="center_content">
 <h3>Jobs to review</h3>
+{% if current_commitments %}
 <table>
 <tr class="column_header"><td></td><td>Volunteer Name</td><td>Job ID</td><td>Job Title</td><td>Date</td><td>Location</td></tr>
 <form action="org" method="post">
@@ -41,8 +42,12 @@ Welcome, <b>{{ name }}</b></br></br>
 <input type="hidden" name="action" value="complete_volunteers" />
 <input type="submit" value="Mark the selected commitments as complete" class="button" />
 </form>
+{% else %} 
+<i>You have no volunteers awaiting completion</i>
+{% endif %}
 
 <h3>Currently posted jobs</h3>
+{% if current_jobs %}
 <form action="org" method="post">
 <table>
 <tr class="column_header"><td></td><td>Job ID</td><td>Name</td><td>Description</td><td>Date</td></tr>	
@@ -51,7 +56,6 @@ Welcome, <b>{{ name }}</b></br></br>
 <td><input type="checkbox" class="selected_jobs" name="selected_jobs" value="{{ j.id }}" /></td>
 <td>{{ j.id }}</td><td>{{ j.title }}</td><td>{{ j.description }}</td><td>{{ j.event_date }}, {{ j.event_time }}</td>
 </tr>
-
 {% endfor %}
 </table>
 
@@ -62,15 +66,21 @@ Welcome, <b>{{ name }}</b></br></br>
 <input type="submit" name="delete" value="Delete selected jobs" onclick="return buttonClick(this)" class="button" />
 <input type="submit" name="edit" value="Edit selected jobs" onclick="return buttonClick(this)"  class="button" />
 </form>
+{% else %}
+<i>You have no currently posted jobs</i>
+{% endif %}
 <form action="org" method="post" >
 <input type="hidden" name="action" value="new_job" />
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
 <input type="submit" value="Create new job" class="button" />
 </form>
 <h3>Upcoming commitments</h3>
+
+{% if upcoming_commitments %}
 <form action="org" method="post">
 <table>
 <tr class="column_header"><td></td><td>Volunteer Name</td><td>Job ID</td><td>Job Title</td><td>Date</td><td>Location</td></tr>		
+
 {% for j in upcoming_commitments %}
 <tr>
 <td><input type="checkbox" name="volunteer" value="{{ j.volunteer_id }},{{ j.id }}" /></td>
@@ -85,9 +95,12 @@ Welcome, <b>{{ name }}</b></br></br>
 <input type="submit" value="Cancel selected volunteers" class="button" />
 
 </form>
-
+{% else %}
+<i>You have no upcoming commitments</i>
+{% endif %}
 
 <h3>Completed jobs</h3>
+{% if completed_jobs %}
 <table>	
 <tr class="column_header"><td>Job ID</td><td>Job Title</td><td>Volunteer Name</td><td>Date</td><td>Location</td></tr>		
 
@@ -97,7 +110,9 @@ Welcome, <b>{{ name }}</b></br></br>
 </tr>
 {% endfor %}
 </table>
-
+{% else %} 
+<i>You have no completed jobs</i>
+{% endif %} 
 </div>
 
 </body>

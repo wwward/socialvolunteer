@@ -24,6 +24,7 @@ class OrganizationHandler(webapp.RequestHandler):
         if action.lower() == "complete_volunteers":
             logging.info("Complete: "+repr(self.request.get_all('completed')))
             self.volunteer_complete(self.request.get_all('completed'))
+            
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == 'modify_job' and self.request.get('kind') == 'delete':   
@@ -172,7 +173,6 @@ class OrganizationHandler(webapp.RequestHandler):
         for completed in completed_list:
             completed = completed.split(',')                
             if len(completed) == 2:
-                logging.info("about to process job_id:"+completed[0]+" volunteer_id:"+completed[1])
 
                 self.job.volunteer_completed(int(completed[0]), int(completed[1]))
                 logging.info("COMPLETED volunteer_id:"+completed[0]+" job_id:"+completed[1])

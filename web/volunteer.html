@@ -36,6 +36,7 @@
 
 <div name="friends">
 <h3>Your friends</h3>
+{% if friends %}
 <table>
 <tr class="column_header"><td>Username&nbsp;</td><td>Name</td></tr>
 {% for f in friends %}
@@ -44,6 +45,9 @@
    </tr>
 {% endfor %}
 </table>
+{% else %} 
+ <i>You have no friends</i>
+{% endif %}
 <form action="volunteer" method="post" >
 <input type="hidden" name="action" value="edit_friends" />
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
@@ -53,6 +57,7 @@
 
 <div name="upcoming">
 <h3>Upcoming jobs</h3>	
+{% if future_jobs %} 
 <table>
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Date</td></tr>
 {% for f in future_jobs %}
@@ -66,6 +71,9 @@
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="submit" value="Manage your jobs" class="button"  />
 </form>
+{% else %} 
+<i>You have no upcoming jobs</i>
+{% endif %}
 </div>
 
 </td><td width="60%" valign="top">
@@ -74,6 +82,7 @@
 
 <div name="feed">
 <h3>Friend Activity</h3>
+{% if friend_activity %}
 <table width="100%">
 <tr class="column_header"><td colspan="2">Friend Activity</td></tr>
 {% for u in friend_activity %}
@@ -84,11 +93,15 @@
    <tr><td></td><td><i>{{ u.modified }}</i> </td></tr>
 {% endfor %}
 </table>
+{% else %}
+<i>You have no friends</i>
+{% endif %}
 </div>
 
 </td><td width="20%" valign="top">
 <div name="fleader">
 <h3>Friend leaderboard</h3>
+{% if friend_scores %} 
 <table>
 <tr class="column_header"><td>Username</td><td>Name</td><td>Score</td></tr>
 {% for f in friend_scores %}
@@ -97,6 +110,9 @@
    </tr>
 {% endfor %}
 </table>
+{% else %} 
+<i>You have no friends</i>
+{% endif %}
 </div>
 
 <div name="gleader">

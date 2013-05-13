@@ -10,6 +10,7 @@
 <div class="center_content">
 <div name="upcoming_jobs">
 <h3>Upcoming jobs:</h3>
+{% if upcoming_jobs %}
 <form action="volunteer" method="post">
 <table>
 <tr class="column_header"><td></td><td>Job ID</td><td>Title</td><td>Description</td><td>Location</td><td>Date</td></tr>
@@ -23,10 +24,14 @@
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="submit" value="Delete selected jobs" class="button"  />
 </form>
+{% else %}
+<i>You have no upcoming jobs</i>
+{% endif %}
 </div>
 
 <div name="current_jobs">
 <h3>Current jobs:</h3>
+{% if current_jobs %}
 <table>
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Description</td><td>Location</td><td>Date</td></tr>
 
@@ -36,18 +41,26 @@
 </tr>
 {% endfor %}
 </table>
+{% else %}
+<i>You have no jobs awaiting completion</i>
+{% endif %}
 </div>
 
 <div name="past_jobs">
 <h3>Past jobs:</h3>
+{% if past_jobs %}
 <table>
 <tr class="column_header"><td>Job ID</td><td>Title</td><td>Description</td><td>Location</td><td>Date</td></tr>
 {% for p in past_jobs %}
 <tr>
 	<td>{{ p.job_id }}</td><td>{{ p.title }}</td><td>{{ p.description }}</td><td>{{ p.location }}</td><td>{{ p.event_date }}, {{ p.event_time}} </td>
 </tr>
+
 {% endfor %}
 </table>
+{% else %} 
+<i>You have no past jobs</i>
+{% endif %}
 </div>
 
 <form action="volunteer" method="post">

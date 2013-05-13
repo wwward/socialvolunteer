@@ -9,20 +9,19 @@ class Job(object):
         
     # Creates a new job row in the database, corrected May 12 - www3
     CREATE_NEW = """
-        INSERT INTO Job (organization_id, event_date, event_time, duration,
+        INSERT INTO Job (organization_id, event_date, event_time, event_duration_minutes,
         score_value, description, title, category, status, location) VALUES
-        (%(organization_id)s, %(date)s, %(time)s, %(duration)s, %(scores)s, 
+        (%(organization_id)s, %(date)s, %(time)s, %(duration)s, %(score)s, 
         %(description)s, %(title)s, %(category)s, 1, %(location)s)
     """
-    INSERT_KEYWORD = """
-        INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, %(job_id)s)        
+    INSERT_KEYWORD_CREATE = """
+        INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, LAST_INSERT_ID())        
     """
     def create_new(self, **kw):
-        job_id = self.db.select(self.CREATE_NEW, kw)
+        self.db.update(self.CREATE_NEW, kw)
         if kw['keywords']:
             for keyword in kw['keywords']:
-                logging.info("Inserting "+str(job_id)+": "+keyword)
-                self.db.update(self.INSERT_KEYWORD, {'keyword': keyword, 'job_id': job_id})    
+                self.db.update(self.INSERT_KEYWORD, {'keyword': keyword})    
     
     # Allows modification of information about the job
     # Edit a listed job. Modified fields are in the kw dictionary
@@ -37,6 +36,9 @@ class Job(object):
     """
     DELETE_KEYWORD = """
         DELETE FROM Keyword where keyword = %(keyword)s AND reference_id = %(job_id)s
+    """
+    INSERT_KEYWORD = """
+        INSERT INTO Keyword (keyword, reference_id) VALUES (%(keyword)s, LAST_INSERT_ID())        
     """
     def edit_job(self, **kw):
         job_id = kw['job_id']

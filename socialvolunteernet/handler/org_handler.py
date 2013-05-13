@@ -42,18 +42,27 @@ class OrganizationHandler(webapp.RequestHandler):
         elif action.lower() == "new_job":
             self.response.out.write(str(template.render("web/create_job.html", {"organization_id": org_id})))
         elif action.lower() == "create_submit_job":
-            name = self.request.get('name')
-            description = self.request.get('description')
-            date = self.request.get('date')
-            time = self.request.get('time')
-            location = self.request.get('location')
-            missing = self.add_job(name, description, time, location, date)
-            if missing:
-                logging.info("missing "+repr(missing))
-                self.response.out.write(str(template.render("web/create_job.html", {"organization_id": org_id, "missing": missing})))
-            else:
-                portal = self.get_organization_portal(org_id)
-                self.response.out.write(str(template.render("web/organization.html", portal)))
+            org_id = int(self.request.get('organization_id'))
+
+            params = {}
+            params['organization_id'] = org_id
+            params['title'] = self.request.get('title')
+            params['description'] = self.request.get('description')
+            params['time'] = self.request.get('time')
+            params['location'] = self.request.get('location')
+            params['date'] = self.request.get('date')
+            params['duration'] = self.request.get('duration')
+            params['difficulty'] = self.request.get('difficulty')
+            params['category'] = self.request.get('category')
+            params['status'] = self.request.get('status')
+            params['keywords'] = [ t.strip() for t in self.request.get('keywords').split(',')]
+            missing = self.add_job(**params)
+            #if missing:
+            #    logging.info("missing "+repr(missing))
+            #    self.response.out.write(str(template.render("web/create_job.html", {"organization_id": org_id, "missing": missing})))
+            #else:
+            portal = self.get_organization_portal(org_id)
+            self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == 'modify_job' and self.request.get('kind') == 'edit':
             # TODO: More weirdness.... this is actually doing a delete.
             job_ids = [int(i) for i in self.request.get_all('selected_jobs')]

@@ -17,7 +17,8 @@ SUCCESS! Your {{ type }} account for {{ name }} was created!<br>
 <input type="hidden" name="action" value="portal" />
 <input type="submit" value="View your homepage" class="button"  />
 </form>
-{% elif type == "volunteer" %}
+{% endif %}
+{% if type == "volunteer" %}
 <form action="volunteer" method="post">
 <input type="hidden" name="volunteer_id" value="{{ volunteer_id }}" />
 <input type="hidden" name="action" value="portal" />

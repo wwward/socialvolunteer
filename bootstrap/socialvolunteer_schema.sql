@@ -9,33 +9,32 @@ USE `groupwerk` ;
 -- Table `groupwerk`.`Friends`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Friends` (
-  `id` INTEGER,
-  `friend_id` INTEGER)
+  `id` VARCHAR(255) NULL DEFAULT NULL ,
+  `friend_id` VARCHAR(255) NULL DEFAULT NULL ,
+  INDEX `Idx_friends` (`id` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `Idx_friends` ON `groupwerk`.`Friends` (`id` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `groupwerk`.`Job`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Job` (
-  `id` INTEGER AUTO_INCREMENT,
-  `organization_id` INTEGER ,
+  `id` INT(11) NOT NULL AUTO_INCREMENT ,
+  `organization_id` VARCHAR(255) NULL DEFAULT NULL ,
   `event_date` DATE NULL DEFAULT NULL ,
   `event_time` TIME NULL DEFAULT NULL ,
   `event_duration_minutes` SMALLINT(6) NULL DEFAULT NULL ,
-  `difficulty` SMALLINT DEFAULT 0,  
+  `difficulty` SMALLINT(6) NULL DEFAULT '0' ,
   `score_value` SMALLINT(6) NULL DEFAULT NULL ,
   `title` VARCHAR(100) NULL DEFAULT NULL ,
   `description` TEXT NULL DEFAULT NULL ,
   `location` VARCHAR(100) NULL DEFAULT NULL ,
   `category` VARCHAR(255) NULL DEFAULT NULL ,
-  `status` SMALLINT(6) NULL DEFAULT NULL,
-  PRIMARY KEY(id)
-  ) AUTO_INCREMENT = 10000
+  `status` SMALLINT(6) NULL DEFAULT NULL ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 10011
 DEFAULT CHARACTER SET = latin1;
 
 
@@ -43,14 +42,13 @@ DEFAULT CHARACTER SET = latin1;
 -- Table `groupwerk`.`Job_volunteer`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Job_volunteer` (
-  `job_id` INTEGER ,
-  `volunteer_id` INTEGER ,
+  `job_id` INT NULL DEFAULT NULL ,
+  `volunteer_id` VARCHAR(255) NULL DEFAULT NULL ,
   `committed` SMALLINT(6) NULL DEFAULT NULL ,
   `completed` SMALLINT(6) NULL DEFAULT NULL ,
   `checkedin` SMALLINT(6) NULL DEFAULT NULL ,
-  `checkedout` SMALLINT(6) NULL DEFAULT NULL,
-  `modified` DATETIME NULL DEFAULT NULL  
-  )
+  `checkedout` SMALLINT(6) NULL DEFAULT NULL ,
+  `modified` DATETIME NULL DEFAULT NULL )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
@@ -60,62 +58,58 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Keyword` (
   `keyword` VARCHAR(30) NOT NULL ,
-  `reference_id` INTEGER NOT NULL)
+  `reference_id` INT(11) NOT NULL ,
+  INDEX `Idx_keyword` (`keyword` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `Idx_keyword` ON `groupwerk`.`Keyword` (`keyword` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `groupwerk`.`Organization`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Organization` (
-  `id` INTEGER AUTO_INCREMENT ,
+  `id` VARCHAR(255) NOT NULL ,
   `name` VARCHAR(60) NULL DEFAULT NULL ,
   `phone` VARCHAR(15) NULL DEFAULT NULL ,
   `email` VARCHAR(60) NULL DEFAULT NULL ,
   `location` VARCHAR(60) NULL DEFAULT NULL ,
   `reputation` SMALLINT(6) NULL DEFAULT NULL ,
-  `description` VARCHAR(100) NULL DEFAULT NULL,
-  PRIMARY KEY (id)
-  ) AUTO_INCREMENT=5000 
+  `description` VARCHAR(100) NULL DEFAULT NULL ,
+  INDEX `Idx_organization` (`location` ASC) ,
+  PRIMARY KEY (`id`) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 5003
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `Idx_organization` ON `groupwerk`.`Organization` (`location` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `groupwerk`.`Score`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Score` (
-  `id` INTEGER ,
-  `job_id` INTEGER ,
-  `score` SMALLINT(6) NULL DEFAULT NULL )
+  `id` VARCHAR(255) NULL DEFAULT NULL ,
+  `job_id` INT NULL DEFAULT NULL ,
+  `score` SMALLINT(6) NULL DEFAULT NULL ,
+  INDEX `Idx_score` (`id` ASC) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `Idx_score` ON `groupwerk`.`Score` (`id` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `groupwerk`.`Volunteer`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `groupwerk`.`Volunteer` (
-  `id` INTEGER AUTO_INCREMENT,
+  `id` VARCHAR(255) NOT NULL ,
   `name` VARCHAR(60) NULL DEFAULT NULL ,
   `email` VARCHAR(60) NULL DEFAULT NULL ,
   `phone` VARCHAR(15) NULL DEFAULT NULL ,
   `location` VARCHAR(60) NULL DEFAULT NULL ,
   `reputation` SMALLINT(6) NULL DEFAULT NULL ,
-  `username` VARCHAR(30) NULL DEFAULT NULL,
-  PRIMARY KEY(id)
-  ) AUTO_INCREMENT=1000
+  `username` VARCHAR(30) NULL DEFAULT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `Idx_volunteer` (`location` ASC) )
 ENGINE = InnoDB
+AUTO_INCREMENT = 1005
 DEFAULT CHARACTER SET = latin1;
-
-CREATE INDEX `Idx_volunteer` ON `groupwerk`.`Volunteer` (`location` ASC) ;
 
 
 

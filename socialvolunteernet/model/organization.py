@@ -8,7 +8,7 @@ class Organization(object):
     
     CREATE_ORGANIZATION = """
         INSERT INTO Organization VALUES 
-        (%(name)s, %(phone)s, %(email)s, %(location)s, 0, %(description)s )
+        (%(id)s, %(name)s, %(phone)s, %(email)s, %(location)s, 0, %(description)s )
     """
     def create_new(self, **kw):
         for key in ('id', 'name', 'phone', 'location', 'description'):

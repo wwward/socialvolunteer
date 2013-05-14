@@ -1,35 +1,67 @@
 import logging
 
 from google.appengine.ext import webapp
-import wsgiref.handlers
 from socialvolunteernet.model.organization import Organization
 from socialvolunteernet.model.volunteer import Volunteer
-
 from google.appengine.ext.webapp import template
 from google.appengine.api import users
-
+import wsgiref.handlers
 import time
 
 class AuthenticationHandler(webapp.RequestHandler):
     
-    # Need GET to support AUTH apparently - www3 - DEBUG
+    # Google Authentication uses the GET method when passing a user.
     def get(self):
         user = users.get_current_user()
         if user:
-            greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) or <form action=\"org\" method=\"post\">\
-                        <input type=\"hidden\" name=\"action\" value=\"edit_organization\" />\
-                        <input type=\"hidden\" name=\"organization_id\" value=\"5000\" />\
-                        <input type=\"submit\" value=\"Edit your profile\" class=\"button\" />\
-                        </form> or <a href=\"/org\">Organization Portal</a>\
+            volunteer = Volunteer()
+            org = Organization()
+            if volunteer.get_info(user.user_id()):
+                logging.info("FOUND VOLUNTEER")
+                greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) or \
                         <form action=\"volunteer\" method=\"post\">\
                         <input type=\"hidden\" name=\"action\" value=\"portal\" />\
                         <input type=\"hidden\" name=\"volunteer_id\" value=\"%s\" />\
                         <input type=\"Submit\" value=\"View volunteer portal\" class=\"button\" />\
                         </form>" % 
                         (user.nickname(), users.create_logout_url("/login"), user.user_id()))
+            else:
+                logging.info("DID NOT FIND VOLUNTEER")
+                if org.get_info(user.user_id()):
+                    logging.info("FOUND ORG")
+                    greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>)\
+                            <form action=\"org\" method=\"post\">\
+                            <input type=\"hidden\" name=\"action\" value=\"portal\"> \
+                            <input type=\"hidden\" name=\"organization_id\" value=\"%s\" /> \
+                            <input type=\"Submit\" value=\"View Organization portal\" class=\"button\" />\
+                            </form>" % 
+                            (user.nickname(), users.create_logout_url("/login"), user.user_id()))
+                else:
+                    logging.info("DID NOT FIND ORG")
+                    greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) Couldn't find you in the system!\
+                                <form action=\"login\" method=\"post\">\
+                                <input type=\"hidden\" name=\"action\" value=\"new_volunteer\" />\
+                                <input type=\"hidden\" name=\"name\" value=\"%s\" />\
+                                <input type=\"hidden\" name=\"location\" value=\"none\" />\
+                                <input type=\"hidden\" name=\"phone\" value=\"none\" />\
+                                <input type=\"hidden\" name=\"username\" value=\"%s\" />\
+                                <input type=\"Submit\" value=\"Create New Volunteer\" class=\"button\" /> \
+                                </form> or \
+                                <form action=\"login\" method=\"post\">\
+                                <input type=\"hidden\" name=\"action\" value=\"new_organization\" /> \
+                                <input type=\"hidden\" name=\"name\" value=\"%s\" /> \
+                                <input type=\"hidden\" name=\"location\" value=\"none\" /> \
+                                <input type=\"hidden\" name=\"phone\" value=\"none\" /> \
+                                <input type=\"hidden\" name=\"description\" value=\"%s\" /> \
+                                <input type=\"Submit\" value=\"Create New Organization\" class=\"button\" /> \
+                                </form>" % 
+                            (user.nickname(), users.create_logout_url("/login"), user.nickname(), user.nickname(), user.nickname(),
+                             user.nickname()))
+            logging.info("Userid = " + user.user_id())
+            
         else:
             greeting = ("<a href=\"%s\">Sign in or register</a>." %
-                        users.create_login_url("/test"))
+                        users.create_login_url("/login"))
 
         self.response.out.write("<html><body>%s</body></html>" % greeting)
   
@@ -54,16 +86,18 @@ class AuthenticationHandler(webapp.RequestHandler):
             self.response.out.write(str(template.render("web/login.html", {})))
 
     def create_organization(self):
+        user = users.get_current_user()
         params = {'error' : False,
                   'missing': [],
-                  'id': str(int(time.time()))}
-        self.parse_param('name', self.request.get('name'), params)
+                  'id': user.user_id()}
+        self.parse_param('name', user.nickname(), params)
         self.parse_param('phone', self.request.get('phone'), params)
         self.parse_param('location', self.request.get('location'), params)
-        self.parse_param('description', self.request.get('description'), params)
-        
-        ## This is junk
-        #password = self.request.get('password1')
+        self.parse_param('description', user.nickname(), params)
+        self.parse_param('email', user.email(), params)
+        self.parse_param('reputation', 1, params)
+        self.parse_param('id', user.user_id(), params)
+        self.parse_param('organization_id', user.user_id(), params)
         
         if params['error']:
             logging.debug("Could not add new organization: the following fields were missing: "+repr(params['missing']))
@@ -79,16 +113,18 @@ class AuthenticationHandler(webapp.RequestHandler):
         return (success, params)
     
     def create_volunteer(self):
+        user = users.get_current_user()
         params = {'error' : False,
                   'missing': [],
-                  'id': str(int(time.time()))}
-        self.parse_param('name', self.request.get('name'), params)
+                  'id': user.user_id()}
+        self.parse_param('name', user.nickname(), params)
         self.parse_param('phone', self.request.get('phone'), params)
         self.parse_param('location', self.request.get('location'), params)
-        self.parse_param('username', self.request.get('username'), params)
-        
-        ## This is junk
-        #password = self.request.get('password1')
+        self.parse_param('username', user.nickname(), params)
+        self.parse_param('email', user.email(), params)
+        self.parse_param('reputation', 1, params)
+        self.parse_param('id', user.user_id(), params)
+        self.parse_param('volunteer_id', user.user_id(), params)
         
         if params['error']:
             logging.debug("Could not add new volunteer: the following fields were missing: "+repr(params['missing']))

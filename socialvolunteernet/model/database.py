@@ -4,7 +4,7 @@ import logging
 class GoogleCloudSQLStore(object):
 
     def __init__(self):
-        INSTANCE_NAME="groupwerk:groupwerk"
+        INSTANCE_NAME="groupwerk:volunteerdb"
         DATABASE="groupwerk"
         self._conn = rdbms.connect(instance=INSTANCE_NAME, database=DATABASE)
         self._conn.autocommit(True)

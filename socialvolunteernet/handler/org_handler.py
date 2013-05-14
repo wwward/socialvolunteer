@@ -16,6 +16,7 @@ class OrganizationHandler(webapp.RequestHandler):
     def post(self):
         actions = self.request.get_all('action')
         action = actions[-1]
+        logging.info("OrgID = " + self.request.get('organization_id'))
         org_id = int(self.request.get('organization_id'))
         logging.info("Received POST request, action="+repr(actions)+" chose="+action+" kind="+self.request.get('kind'))
         if not action:

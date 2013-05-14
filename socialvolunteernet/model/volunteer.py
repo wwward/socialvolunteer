@@ -11,7 +11,7 @@ class Volunteer(object):
     
     CREATE_VOLUNTEER = """
         INSERT INTO Volunteer VALUES 
-        (%(name)s, %(email)s, %(phone)s, %(location)s, '', 0, 0, %(username)s )
+        (%(id)s, %(name)s, %(email)s, %(phone)s, %(location)s, 0, %(username)s )
     """
     def create_new(self, **kw):
         for key in ('id', 'name', 'phone', 'location', 'username'):
@@ -75,10 +75,10 @@ class Volunteer(object):
     # Returns the top activity across the site
     GET_FRIEND_ACTIVITY = """
     SELECT Job_volunteer.*, Job.*, Volunteer.* FROM Job_volunteer, Job, Volunteer
-    WHERE Job_Volunteer.volunteer_id IN (SELECT Friend_id FROM Friends WHERE Friends.id = %(volunteer_id)s)
-    AND Job_Volunteer.volunteer_id = Volunteer.id
-    AND Job_Volunteer.job_id = Job.id
-    ORDER BY Job_Volunteer.modified DESC
+    WHERE Job_volunteer.volunteer_id IN (SELECT Friend_id FROM Friends WHERE Friends.id = %(volunteer_id)s)
+    AND Job_volunteer.volunteer_id = Volunteer.id
+    AND Job_volunteer.job_id = Job.id
+    ORDER BY Job_volunteer.modified DESC
     """
     def get_friend_activity(self, volunteer_id):
         return self.db.select(self.GET_FRIEND_ACTIVITY, {"volunteer_id": volunteer_id})

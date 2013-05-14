@@ -18,7 +18,13 @@ class AuthenticationHandler(webapp.RequestHandler):
             org = Organization()
             if volunteer.get_info(user.user_id()):
                 logging.info("FOUND VOLUNTEER")
-                greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) or \
+                greeting = ("<head><title>volunti - Welcome!</title>\
+                        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"></head> \
+                        <div id=\"header\"><div id=\"header_img\"></div></div> \
+                        <div class=\"container\"> \
+                        <div class=\"banner\">&nbsp;</div> \
+                        <div class=\"center_content\"> \
+                        Welcome, %s! (<a href=\"%s\">sign out</a>) or \
                         <form action=\"volunteer\" method=\"post\">\
                         <input type=\"hidden\" name=\"action\" value=\"portal\" />\
                         <input type=\"hidden\" name=\"volunteer_id\" value=\"%s\" />\
@@ -29,7 +35,12 @@ class AuthenticationHandler(webapp.RequestHandler):
                 logging.info("DID NOT FIND VOLUNTEER")
                 if org.get_info(user.user_id()):
                     logging.info("FOUND ORG")
-                    greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>)\
+                    greeting = ("<head><title>volunti - Welcome!</title>\
+                            <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"></head> \
+                            <div id=\"header\"><div id=\"header_img\"></div></div> \
+                            <div class=\"container\"> \
+                            <div class=\"banner\">&nbsp;</div> \
+                            <div class=\"center_content\"> \Welcome, %s! (<a href=\"%s\">sign out</a>)\
                             <form action=\"org\" method=\"post\">\
                             <input type=\"hidden\" name=\"action\" value=\"portal\"> \
                             <input type=\"hidden\" name=\"organization_id\" value=\"%s\" /> \
@@ -38,7 +49,13 @@ class AuthenticationHandler(webapp.RequestHandler):
                             (user.nickname(), users.create_logout_url("/login"), user.user_id()))
                 else:
                     logging.info("DID NOT FIND ORG")
-                    greeting = ("Welcome, %s! (<a href=\"%s\">sign out</a>) Couldn't find you in the system!\
+                    greeting = ("<head><title>volunti - success!</title>\
+                                <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"></head> \
+                                <div id=\"header\"><div id=\"header_img\"></div></div> \
+                                <div class=\"container\"> \
+                                <div class=\"banner\">&nbsp;</div> \
+                                <div class=\"center_content\"> \
+                                Welcome, %s! (<a href=\"%s\">sign out</a>) Couldn't find you in the system!\
                                 <form action=\"login\" method=\"post\">\
                                 <input type=\"hidden\" name=\"action\" value=\"new_volunteer\" />\
                                 <input type=\"hidden\" name=\"name\" value=\"%s\" />\
@@ -60,7 +77,13 @@ class AuthenticationHandler(webapp.RequestHandler):
             logging.info("Userid = " + user.user_id())
             
         else:
-            greeting = ("<a href=\"%s\">Sign in or register</a>." %
+            greeting = ("<head><title>volunti - Login to begin!</title>\
+                        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"></head> \
+                        <div id=\"header\"><div id=\"header_img\"></div></div> \
+                        <div class=\"container\"> \
+                        <div class=\"banner\">&nbsp;</div> \
+                        <div class=\"center_content\"> \
+                        <a href=\"%s\">Click here to get started!</a>" %
                         users.create_login_url("/login"))
 
         self.response.out.write("<html><body>%s</body></html>" % greeting)

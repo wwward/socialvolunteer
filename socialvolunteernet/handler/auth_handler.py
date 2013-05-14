@@ -40,7 +40,7 @@ class AuthenticationHandler(webapp.RequestHandler):
                             <div id=\"header\"><div id=\"header_img\"></div></div> \
                             <div class=\"container\"> \
                             <div class=\"banner\">&nbsp;</div> \
-                            <div class=\"center_content\"> \Welcome, %s! (<a href=\"%s\">sign out</a>)\
+                            <div class=\"center_content\"> Welcome, %s! (<a href=\"%s\">sign out</a>)\
                             <form action=\"org\" method=\"post\">\
                             <input type=\"hidden\" name=\"action\" value=\"portal\"> \
                             <input type=\"hidden\" name=\"organization_id\" value=\"%s\" /> \

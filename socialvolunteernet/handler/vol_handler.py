@@ -8,11 +8,13 @@ from google.appengine.ext.webapp import template
 from socialvolunteernet.model.volunteer import Volunteer
 from socialvolunteernet.model.job import Job
 
+from google.appengine.api import users
+
 class VolunteerHandler(webapp.RequestHandler):
         
     vol = Volunteer()  
     job = Job({})
-    
+
     
     # Implemented by the parent class, but we don't want to support it....    
     def get(self):
@@ -22,6 +24,7 @@ class VolunteerHandler(webapp.RequestHandler):
     def post(self):
         action = self.request.get('action')
         logging.debug("Received POST request, action="+action)
+        logout = users.create_logout_url('/')
         
         if not action:
             self.response.out.write(str(template.render("web/signup_volunteer.html", {})))
@@ -97,6 +100,7 @@ class VolunteerHandler(webapp.RequestHandler):
         elif action.lower() == 'portal':
             data = self.get_volunteer_portal(volunteer_id)
             data['volunteer_id'] = volunteer_id
+            data['logout'] = logout
             self.response.out.write(str(template.render("web/volunteer.html", data)))
         
     def get_volunteer_portal(self, volunteer_id):    

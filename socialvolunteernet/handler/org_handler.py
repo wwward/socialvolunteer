@@ -2,6 +2,7 @@ import logging
 
 from socialvolunteernet.model.organization import Organization
 from socialvolunteernet.model.job import Job
+from google.appengine.api import users
 
 from google.appengine.ext.webapp import template
 from google.appengine.ext import webapp
@@ -14,6 +15,7 @@ class OrganizationHandler(webapp.RequestHandler):
     job = Job({})        
         
     def post(self):
+        logout = users.create_logout_url('/')
         actions = self.request.get_all('action')
         action = actions[-1]
         logging.info("OrgID = " + self.request.get('organization_id'))
@@ -122,6 +124,7 @@ class OrganizationHandler(webapp.RequestHandler):
 
         elif action.lower() == "portal":
             portal = self.get_organization_portal(org_id)
+            portal['logout'] = logout
             self.response.out.write(str(template.render("web/organization.html", portal)))
     
     # Implemented by parent class, but we don't want to allow gets            

@@ -20,7 +20,7 @@ class OrganizationHandler(webapp.RequestHandler):
         action = actions[-1]
         logging.info("OrgID = " + self.request.get('organization_id'))
         org_id = int(self.request.get('organization_id'))
-        logging.info("Received POST request, action="+repr(actions)+" chose="+action+" kind="+self.request.get('kind'))
+        logging.info("Received POST request, action="+repr(actions)+" chose="+action+" kind="+self.request.get('kind')+" type="+self.request.get('type'))
         if not action:
             self.response.out.write(str(template.render("web/signup_organization.html", {})))
             
@@ -34,9 +34,14 @@ class OrganizationHandler(webapp.RequestHandler):
             portal = self.get_organization_portal(org_id)
 
             self.response.out.write(str(template.render("web/organization.html", portal)))
-        elif action.lower() == "cancel_volunteer":
+        elif action.lower() == "edit_volunteer" and self.request.get('type') == 'delete':
             volunteers = self.request.get_all('volunteer')
             self.cancel_volunteer(volunteers)
+            portal = self.get_organization_portal(org_id)
+            self.response.out.write(str(template.render("web/organization.html", portal)))
+        elif action.lower() == "edit_volunteer" and self.request.get('type') == 'checkin':
+            volunteers = self.request.get_all('volunteer')
+            self.checkin_volunteer(volunteers)
             portal = self.get_organization_portal(org_id)
             self.response.out.write(str(template.render("web/organization.html", portal)))
         elif action.lower() == "new_job":
@@ -179,6 +184,12 @@ class OrganizationHandler(webapp.RequestHandler):
             pieces = volunteer.split(",")
             if len(pieces) == 2:
                 self.job.delete_volunteer(int(pieces[1]), int(pieces[0]))
+
+    def checkin_volunteer(self, volunteers):
+        for volunteer in volunteers:
+            pieces = volunteer.split(",")
+            if len(pieces) == 2:
+                self.job.volunteer_checkin(int(pieces[1]), int(pieces[0]))
         
     def delete_job(self, job_ids, organization_id):
         for job_id in job_ids:

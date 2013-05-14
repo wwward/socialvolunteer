@@ -10,6 +10,11 @@ function buttonClick(theButton){
     document.getElementById('kind').value = theButton.name;
     return true;
 }
+
+function buttonClickType(theButton){
+    document.getElementById('type').value = theButton.name;
+    return true;
+}
 </script>
 </head>
 <!--  This is the organization portal view. It will display:
@@ -97,8 +102,10 @@ Welcome, <b>{{ name }}</b><br><br>
 </table>
 
 <input type="hidden" name="organization_id" value="{{ organization_id }}" />
-<input type="hidden" name="action" value="cancel_volunteer" />
-<input type="submit" value="Cancel selected volunteers" class="button" />
+<input type="hidden" name="action" value="edit_volunteer" />
+<input type="hidden" name="type" id="type" value="" />
+<input type="submit" name="checkin" value="Check in selected volunteers" onclick="return buttonClickType(this)" class="button" />
+<input type="submit" name="delete" value="Cancel selected volunteers" onclick="return buttonClickType(this)" class="button" />
 
 </form>
 {% else %}

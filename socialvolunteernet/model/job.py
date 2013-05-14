@@ -117,6 +117,15 @@ class Job(object):
         job_info = self.get_info(job_id)
         logging.info('info: '+repr(job_info))
         self.db.update(self.UPDATE_SCORE, {'job_id':job_id, 'volunteer_id':volunteer_id, 'score':job_info[0]["score_value"]})
+
+    # Move a volunteer status from committed to completed
+    VOLUNTEER_CHECKIN = """
+        UPDATE Job_volunteer SET checkedin=1, modified=NOW()  WHERE volunteer_id=%(volunteer_id)s
+        AND job_id=%(job_id)s
+    """  
+    def volunteer_checkin(self, job_id, volunteer_id):
+        self.db.update(self.VOLUNTEER_CHECKIN, {'job_id':job_id, 'volunteer_id':volunteer_id})
+
           
     # Remove the volunteer from the job
     DELETE_VOLUNTEER = """

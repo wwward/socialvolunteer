@@ -172,7 +172,7 @@ class AuthenticationHandler(webapp.RequestHandler):
 
         
 def main():
-    app = webapp.WSGIApplication([('/login', AuthenticationHandler)], debug=True)
+    app = webapp.WSGIApplication([('/login', AuthenticationHandler), ('/', AuthenticationHandler)], debug=True)
     wsgiref.handlers.CGIHandler().run(app) 
     
 if __name__ == "__main__":

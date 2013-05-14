@@ -5,6 +5,8 @@ runtime: python27
 threadsafe: no
 
 handlers:
+- url: /
+  script: socialvolunteernet/handler/auth_handler.py
 - url: /browse
   script: socialvolunteernet/handler/browse_handler.py
 - url: /org
